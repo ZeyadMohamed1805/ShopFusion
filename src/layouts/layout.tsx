@@ -1,9 +1,15 @@
 "use client";
 
+import Header from "./header";
 import { ChildrenType } from "@/types/types";
 
 const Layout = ({ children }: ChildrenType) => {
-	return <>{children}</>;
+	return (
+		<>
+			<Header />
+			{children}
+		</>
+	);
 };
 
 export default Layout;
