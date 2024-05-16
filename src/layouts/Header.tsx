@@ -10,48 +10,42 @@ import {
 } from "@/components/ui/navigation-menu";
 
 const Header = () => {
+	const navLinks: string[] = ["Home", "Products", "Cart"];
+	const navButtons: string[] = ["Login", "Register"];
+
 	return (
 		<NavigationMenu className="w-100 max-w-none shadow flex items-center justify-between p-4">
 			<Image src={"/logo.svg"} width={160} height={30.24} alt="Logo" />
 			<NavigationMenuList>
-				<NavigationMenuItem>
-					<Link href="/home" legacyBehavior passHref>
-						<NavigationMenuLink
-							className={navigationMenuTriggerStyle()}
+				{navLinks.map((link, index) => (
+					<NavigationMenuItem key={index}>
+						<Link
+							href={`/${link.toLowerCase()}`}
+							legacyBehavior
+							passHref
 						>
-							Home
-						</NavigationMenuLink>
-					</Link>
-				</NavigationMenuItem>
-				<NavigationMenuItem>
-					<Link href="/home" legacyBehavior passHref>
-						<NavigationMenuLink
-							className={navigationMenuTriggerStyle()}
+							<NavigationMenuLink
+								className={navigationMenuTriggerStyle()}
+							>
+								{link}
+							</NavigationMenuLink>
+						</Link>
+					</NavigationMenuItem>
+				))}
+				{navButtons.map((button, index) => (
+					<NavigationMenuItem key={index}>
+						<Button
+							variant={button === "Login" ? "outline" : "default"}
+							className={
+								button === "Login"
+									? navigationMenuTriggerStyle()
+									: ""
+							}
 						>
-							Products
-						</NavigationMenuLink>
-					</Link>
-				</NavigationMenuItem>
-				<NavigationMenuItem>
-					<Link href="/home" legacyBehavior passHref>
-						<NavigationMenuLink
-							className={navigationMenuTriggerStyle()}
-						>
-							Cart
-						</NavigationMenuLink>
-					</Link>
-				</NavigationMenuItem>
-				<NavigationMenuItem>
-					<Button
-						variant={"outline"}
-						className={navigationMenuTriggerStyle()}
-					>
-						Login
-					</Button>
-				</NavigationMenuItem>
-				<NavigationMenuItem>
-					<Button>Register</Button>
-				</NavigationMenuItem>
+							{button}
+						</Button>
+					</NavigationMenuItem>
+				))}
 			</NavigationMenuList>
 		</NavigationMenu>
 	);
