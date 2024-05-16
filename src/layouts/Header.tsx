@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import Sidebar from "./sidebar";
 import { Button } from "@/components/ui/button";
 import {
 	NavigationMenu,
@@ -52,16 +53,18 @@ const Header = () => {
 						</Button>
 					</NavigationMenuItem>
 				))}
-				<Image
-					src={"/menu.svg"}
-					width={36}
-					height={36}
-					alt="Menu"
-					className={
-						navigationMenuTriggerStyle() +
-						"flex md:hidden cursor-pointer"
-					}
-				/>
+				<Sidebar>
+					<Image
+						src={"/menu.svg"}
+						width={36}
+						height={36}
+						alt="Menu"
+						className={
+							navigationMenuTriggerStyle() +
+							"flex md:hidden cursor-pointer"
+						}
+					/>
+				</Sidebar>
 			</NavigationMenuList>
 		</NavigationMenu>
 	);
