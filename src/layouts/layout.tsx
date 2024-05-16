@@ -1,6 +1,7 @@
 "use client";
 
 import Header from "./header";
+import Footer from "./footer";
 import { ChildrenType } from "@/types/types";
 
 const Layout = ({ children }: ChildrenType) => {
@@ -8,6 +9,7 @@ const Layout = ({ children }: ChildrenType) => {
 		<>
 			<Header />
 			{children}
+			<Footer />
 		</>
 	);
 };
