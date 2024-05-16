@@ -1,3 +1,4 @@
+import Image from "next/image";
 import {
 	Sheet,
 	SheetContent,
@@ -16,11 +17,13 @@ const Sidebar = ({ children }: ChildrenType) => {
 			<SheetTrigger asChild>{children}</SheetTrigger>
 			<SheetContent side={"right"}>
 				<SheetHeader>
-					<SheetTitle>Edit profile</SheetTitle>
-					<SheetDescription>
-						Make changes to your profile here. Click save when you
-						are done.
-					</SheetDescription>
+					<Image
+						src={"/logo.svg"}
+						width={160}
+						height={30.24}
+						priority
+						alt="Logo"
+					/>
 				</SheetHeader>
 				<div className="grid gap-4 py-4">
 					<div className="grid grid-cols-4 items-center gap-4">

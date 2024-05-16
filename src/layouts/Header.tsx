@@ -9,11 +9,9 @@ import {
 	NavigationMenuList,
 	navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import { navLinks, navButtons } from "@/constants/constants";
 
 const Header = () => {
-	const navLinks: string[] = ["Home", "Products", "Cart"];
-	const navButtons: string[] = ["Login", "Register"];
-
 	return (
 		<NavigationMenu className="w-100 max-w-none shadow flex items-center justify-between p-4">
 			<Image
