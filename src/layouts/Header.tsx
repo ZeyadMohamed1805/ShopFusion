@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import Sidebar from "./sidebar";
-import { Moon, Sun } from "lucide-react";
+import { MenuIcon, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,7 +17,7 @@ const Header = () => {
 	const { setTheme } = useTheme();
 
 	return (
-		<NavigationMenu className="w-100 max-w-none shadow flex items-center justify-between p-4">
+		<NavigationMenu className="w-100 max-w-none shadow flex items-center justify-between p-4 border-b-2">
 			<Image
 				src={"/logo.svg"}
 				width={160}
@@ -25,7 +25,7 @@ const Header = () => {
 				priority
 				alt="Logo"
 			/>
-			<NavigationMenuList>
+			<NavigationMenuList className="flex items-center gap-2">
 				{navLinks.map((link, index) => (
 					<NavigationMenuItem key={index} className="hidden md:flex">
 						<Link
@@ -42,7 +42,10 @@ const Header = () => {
 					</NavigationMenuItem>
 				))}
 				{navButtons.map((button, index) => (
-					<NavigationMenuItem key={index} className="hidden md:flex">
+					<NavigationMenuItem
+						key={index}
+						className="hidden md:flex ml-4"
+					>
 						<Button
 							variant={button === "Login" ? "outline" : "default"}
 							className={
@@ -56,11 +59,7 @@ const Header = () => {
 					</NavigationMenuItem>
 				))}
 				<Sidebar>
-					<Image
-						src={"/menu.svg"}
-						width={36}
-						height={36}
-						alt="Menu"
+					<MenuIcon
 						className={
 							navigationMenuTriggerStyle() +
 							"flex md:hidden cursor-pointer"

@@ -1,6 +1,6 @@
 const Products = () => (
 	<main className="w-full min-h-screen flex items-center justify-center">
-		<h1 className="text-3xl">Products</h1>
+		<h1 className="text-3xl fw-bolder">Products</h1>
 	</main>
 );
 
