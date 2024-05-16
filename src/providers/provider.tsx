@@ -1,7 +1,7 @@
 "use client";
 
 import { ChildrenType } from "@/types/types";
-import { ThemeProvider } from "./theme";
+import { ThemeProvider } from "@/providers/theme";
 
 const Provider = ({ children }: ChildrenType) => {
 	return (

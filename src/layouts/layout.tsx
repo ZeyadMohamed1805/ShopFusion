@@ -1,7 +1,7 @@
 "use client";
 
-import Header from "./header";
-import Footer from "./footer";
+import Header from "@/layouts/header";
+import Footer from "@/layouts/footer";
 import { ChildrenType } from "@/types/types";
 
 const Layout = ({ children }: ChildrenType) => {

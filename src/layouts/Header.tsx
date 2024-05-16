@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import Sidebar from "./sidebar";
+import Sidebar from "@/layouts/sidebar";
 import { Switch } from "@/components/ui/switch";
 import { MenuIcon } from "lucide-react";
 import { useTheme } from "next-themes";
