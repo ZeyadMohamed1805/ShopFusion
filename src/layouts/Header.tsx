@@ -1,7 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import Sidebar from "./sidebar";
-import { MenuIcon, Moon, Sun } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { MenuIcon } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,7 +15,11 @@ import {
 import { navLinks, navButtons } from "@/constants/constants";
 
 const Header = () => {
-	const { setTheme } = useTheme();
+	const { setTheme, theme } = useTheme();
+
+	const toggleMode = () => {
+		setTheme(theme === "dark" ? "light" : "dark");
+	};
 
 	return (
 		<NavigationMenu className="w-100 max-w-none shadow flex items-center justify-between p-4 border-b-2">
@@ -58,6 +63,11 @@ const Header = () => {
 						</Button>
 					</NavigationMenuItem>
 				))}
+				<Switch
+					id="header-mode"
+					checked={theme === "light" ? false : true}
+					onCheckedChange={toggleMode}
+				/>
 				<Sidebar>
 					<MenuIcon
 						className={
