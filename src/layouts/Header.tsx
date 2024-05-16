@@ -1,6 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import Sidebar from "./sidebar";
+import { Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import {
 	NavigationMenu,
@@ -12,6 +14,8 @@ import {
 import { navLinks, navButtons } from "@/constants/constants";
 
 const Header = () => {
+	const { setTheme } = useTheme();
+
 	return (
 		<NavigationMenu className="w-100 max-w-none shadow flex items-center justify-between p-4">
 			<Image
