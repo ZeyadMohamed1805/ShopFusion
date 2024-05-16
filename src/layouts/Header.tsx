@@ -17,7 +17,7 @@ import { navLinks, navButtons } from "@/constants/constants";
 const Header = () => {
 	const { setTheme, theme } = useTheme();
 
-	const toggleMode = () => {
+	const toggleMode = (): void => {
 		setTheme(theme === "dark" ? "light" : "dark");
 	};
 
