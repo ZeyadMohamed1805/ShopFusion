@@ -3,19 +3,17 @@ import {
 	Carousel,
 	CarouselContent,
 	CarouselItem,
-	CarouselNext,
-	CarouselPrevious,
 } from "@/components/ui/carousel";
 
 const carousel = () => {
 	return (
-		<Carousel className="w-full max-w-xl">
+		<Carousel className="w-full min-[1120px]:max-w-xl">
 			<CarouselContent>
 				{Array.from({ length: 5 }).map((_, index) => (
 					<CarouselItem key={index}>
 						<div className="p-1">
 							<Card>
-								<CardContent className="flex aspect-square items-center justify-center p-6">
+								<CardContent className="flex aspect-video min-[1120px]:aspect-square items-center justify-center p-6">
 									<span className="text-4xl font-semibold">
 										{index + 1}
 									</span>
@@ -25,8 +23,6 @@ const carousel = () => {
 					</CarouselItem>
 				))}
 			</CarouselContent>
-			<CarouselPrevious />
-			<CarouselNext />
 		</Carousel>
 	);
 };
