@@ -8,7 +8,7 @@ import { Separator } from "@/components/ui/separator";
 const Footer = () => {
 	return (
 		<footer className="w-full flex flex-col items-center gap-4 p-4 shadow border-t-2">
-			<div className="w-full flex items-center justify-between flex-col md:flex-row gap-4">
+			<div className="max-w-[1400px] w-full flex items-center justify-between flex-col md:flex-row gap-4">
 				<Image
 					src={"/logo.svg"}
 					width={160}

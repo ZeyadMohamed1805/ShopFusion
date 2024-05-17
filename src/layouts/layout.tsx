@@ -1,6 +1,6 @@
 "use client";
 
-import Header from "./Header";
+import Header from "./header";
 import Footer from "./footer";
 import { ChildrenType } from "@/types/types";
 
