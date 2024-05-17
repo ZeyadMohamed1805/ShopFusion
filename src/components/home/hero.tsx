@@ -1,7 +1,11 @@
+"use client";
+
 import Carousel from "./carousel";
 import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
 
 const Hero = () => {
+	const { push } = useRouter();
 	return (
 		<div className="w-full flex items-center justify-between gap-4 flex-wrap-reverse">
 			<div className="flex flex-col gap-4">
@@ -12,7 +16,9 @@ const Hero = () => {
 					Explore a curated collection of unique and trending products
 					from around the world. Shop with confidence and ease.
 				</p>
-				<Button className={"w-fit"}>Start Shopping Now</Button>
+				<Button onClick={() => push("products")} className={"w-fit"}>
+					Start Shopping Now
+				</Button>
 			</div>
 			<Carousel />
 		</div>
