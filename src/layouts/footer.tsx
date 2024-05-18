@@ -6,6 +6,7 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { navLinks, navButtons } from "@/constants/constants";
 import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 import { Separator } from "@/components/ui/separator";
+import Register from "@/components/auth/register";
 
 const Footer = () => {
 	return (
@@ -50,7 +51,7 @@ const Footer = () => {
 								</li>
 							</DialogTrigger>
 							<DialogContent className="sm:max-w-[425px]">
-								<Login />
+								{button === "Login" ? <Login /> : <Register />}
 							</DialogContent>
 						</Dialog>
 					))}

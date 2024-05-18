@@ -15,6 +15,7 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 import { navLinks, navButtons } from "@/constants/constants";
 import { ChildrenType } from "@/types/types";
+import Register from "@/components/auth/register";
 
 const Sidebar = ({ children }: ChildrenType) => {
 	return (
@@ -76,7 +77,7 @@ const Sidebar = ({ children }: ChildrenType) => {
 								</li>
 							</DialogTrigger>
 							<DialogContent className="sm:max-w-[425px]">
-								<Login />
+								{button === "Login" ? <Login /> : <Register />}
 							</DialogContent>
 						</Dialog>
 					))}

@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import Login from "@/components/auth/login";
+import Register from "@/components/auth/register";
 import { navLinks, navButtons } from "@/constants/constants";
 
 const Header = () => {
@@ -75,7 +76,11 @@ const Header = () => {
 									</Button>
 								</DialogTrigger>
 								<DialogContent className="sm:max-w-[425px]">
-									<Login />
+									{button === "Login" ? (
+										<Login />
+									) : (
+										<Register />
+									)}
 								</DialogContent>
 							</Dialog>
 						</NavigationMenuItem>
