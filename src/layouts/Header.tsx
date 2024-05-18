@@ -25,8 +25,8 @@ const Header = () => {
 	};
 
 	return (
-		<header className="w-full border-b-2 flex justify-center">
-			<NavigationMenu className="max-w-[1400px] w-full shadow flex items-center justify-between p-4">
+		<header className="w-full border-b-2 shadow flex justify-center">
+			<NavigationMenu className="max-w-[1400px] w-full flex items-center justify-between p-4">
 				<Image
 					src={"/logo.svg"}
 					width={160}

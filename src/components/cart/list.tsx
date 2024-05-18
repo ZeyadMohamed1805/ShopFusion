@@ -84,7 +84,7 @@ const List = () => {
 	return (
 		<>
 			{!cartItems.length ? (
-				<div className="w-full h-full text-center flex flex-col items-center justify-center gap-2">
+				<div className="w-full h-full text-center flex flex-col items-center justify-center gap-4">
 					<h1 className="text-3xl fw-bolder">Your Cart Is Empty.</h1>
 					<Button onClick={() => push("products")}>
 						Browse Products.
