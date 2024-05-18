@@ -50,7 +50,13 @@ const Footer = () => {
 									</Button>
 								</li>
 							</DialogTrigger>
-							<DialogContent className="sm:max-w-[425px]">
+							<DialogContent
+								className={
+									button === "Login"
+										? "sm:max-w-[425px]"
+										: "sm:max-w-[425px] md:max-w-[800px]"
+								}
+							>
 								{button === "Login" ? <Login /> : <Register />}
 							</DialogContent>
 						</Dialog>

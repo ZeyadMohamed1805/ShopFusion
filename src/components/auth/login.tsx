@@ -14,34 +14,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Separator } from "@radix-ui/react-separator";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { loginFormSchema } from "@/schemas/login";
 
 const Login = () => {
-	const formSchema = z.object({
-		email: z
-			.string()
-			.regex(
-				new RegExp(/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/),
-				{
-					message: "Invalid email",
-				}
-			),
-		password: z
-			.string()
-			.min(8, { message: "Password must be at least 8 characters." })
-			.regex(new RegExp(/^((?=.*[a-z])(?=.*[A-Z])(?=.*\d)).+$/), {
-				message: "Invalid password",
-			}),
-	});
-
-	const form = useForm<z.infer<typeof formSchema>>({
-		resolver: zodResolver(formSchema),
+	const form = useForm<z.infer<typeof loginFormSchema>>({
+		resolver: zodResolver(loginFormSchema),
 		defaultValues: {
-			email: "",
-			password: "",
+			Email: "",
+			Password: "",
 		},
 	});
 
-	const onSubmit = (values: z.infer<typeof formSchema>) => {
+	const onSubmit = (values: z.infer<typeof loginFormSchema>) => {
 		console.log(values);
 	};
 
@@ -54,13 +38,13 @@ const Login = () => {
 				<h1 className="text-3xl text-center fw-bolder">Login</h1>
 				<FormField
 					control={form.control}
-					name="email"
+					name="Email"
 					render={({ field }) => (
 						<FormItem className="w-full">
 							<FormLabel>Email</FormLabel>
 							<FormControl>
 								<Input
-									placeholder="email"
+									placeholder="Email"
 									type="email"
 									{...field}
 								/>
@@ -71,13 +55,13 @@ const Login = () => {
 				/>
 				<FormField
 					control={form.control}
-					name="password"
+					name="Password"
 					render={({ field }) => (
 						<FormItem className="w-full">
 							<FormLabel>Password</FormLabel>
 							<FormControl>
 								<Input
-									placeholder="password"
+									placeholder="Password"
 									type="password"
 									{...field}
 								/>
