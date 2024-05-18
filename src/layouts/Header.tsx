@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Sidebar from "@/layouts/sidebar";
 import { Switch } from "@/components/ui/switch";
-import { MenuIcon } from "lucide-react";
+import { Menu } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import {
@@ -75,12 +75,12 @@ const Header = () => {
 						onCheckedChange={toggleMode}
 					/>
 					<Sidebar>
-						<MenuIcon
-							className={
-								navigationMenuTriggerStyle() +
-								" max-w-fit w-fit flex md:hidden cursor-pointer"
-							}
-						/>
+						<Button
+							variant="ghost"
+							className="h-12 max-h-12 w-12 max-w-12 p-0 flex md:hidden"
+						>
+							<Menu className="h-6 w-6 max-h-6 max-w-6" />
+						</Button>
 					</Sidebar>
 				</NavigationMenuList>
 			</NavigationMenu>

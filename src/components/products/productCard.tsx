@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/card";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "../ui/button";
-import { ShoppingCartIcon } from "lucide-react";
+import { ShoppingCart, ShoppingCartIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
@@ -67,13 +67,15 @@ const ProductCard = ({ data }: TProductCardProps) => {
 							{data.ProductDescription}
 						</CardDescription>
 					</div>
-					<ShoppingCartIcon
-						className={
-							navigationMenuTriggerStyle() +
-							" max-w-fit w-fit cursor-pointer"
-						}
-						onClick={onCartClick}
-					/>
+					<Button
+						variant="ghost"
+						className="h-12 max-h-12 w-12 max-w-12 p-0"
+					>
+						<ShoppingCart
+							className="h-6 w-6 max-h-6 max-w-6"
+							onClick={onCartClick}
+						/>
+					</Button>
 				</div>
 			</CardHeader>
 			<CardContent>
