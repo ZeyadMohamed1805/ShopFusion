@@ -11,6 +11,7 @@ import {
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "../ui/button";
 import { ShoppingCartIcon } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import { navigationMenuTriggerStyle } from "../ui/navigation-menu";
 
 const ProductCard = () => {
@@ -40,8 +41,10 @@ const ProductCard = () => {
 			</CardHeader>
 			<CardContent>
 				<div className="w-full flex items-center justify-between gap-4">
-					<p className="text-xl fw-bolder">Category</p>
-					<p className="text-xl fw-bolder">$199.99</p>
+					<Badge variant="secondary" className="text-md fw-bolder">
+						Category
+					</Badge>
+					<p className="text-lg fw-bolder">$199.99</p>
 				</div>
 			</CardContent>
 			<CardFooter className="flex justify-between">
