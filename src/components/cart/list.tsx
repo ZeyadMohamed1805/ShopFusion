@@ -1,3 +1,5 @@
+"use client";
+
 import {
 	Table,
 	TableBody,
@@ -16,9 +18,18 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "../ui/separator";
 import { Button } from "../ui/button";
-import { cartItems } from "@/constants/constants";
+import { useEffect, useState } from "react";
+import { getLocalStorageItem } from "@/utils/storage";
 
 const List = () => {
+	const [cartItems, setCartItem] = useState<any[]>([]);
+
+	useEffect(() => {
+		const cartLocalStorageItems: any[] | null =
+			getLocalStorageItem("shop-fusion-cart");
+		setCartItem(cartLocalStorageItems || []);
+	}, []);
+
 	return (
 		<>
 			<Table>
@@ -32,25 +43,32 @@ const List = () => {
 				</TableHeader>
 				<TableBody>
 					{cartItems.map((item) => (
-						<TableRow key={item.id}>
+						<TableRow key={item.ProductId}>
 							<TableCell className="font-medium">
-								{item.name}
+								{item.ProductName}
 							</TableCell>
-							<TableCell>{item.price}</TableCell>
+							<TableCell>${item.ProductPrice}</TableCell>
 							<TableCell>
 								<Select>
 									<SelectTrigger>
 										<SelectValue placeholder="1" />
 									</SelectTrigger>
 									<SelectContent>
-										<SelectItem value="1">1</SelectItem>
-										<SelectItem value="2">2</SelectItem>
-										<SelectItem value="3">3</SelectItem>
+										{Array.from({
+											length: item.ProductQuantityInStock,
+										}).map((_, index) => (
+											<SelectItem
+												key={index}
+												value={(index + 1).toString()}
+											>
+												{index + 1}
+											</SelectItem>
+										))}
 									</SelectContent>
 								</Select>
 							</TableCell>
 							<TableCell className="text-right">
-								{item.total}
+								{item.ProductPrice * item.ProductAmount}
 							</TableCell>
 						</TableRow>
 					))}
@@ -58,7 +76,13 @@ const List = () => {
 				<TableFooter>
 					<TableRow>
 						<TableCell colSpan={3}>Total</TableCell>
-						<TableCell className="text-right">$1,199.94</TableCell>
+						<TableCell className="text-right">
+							{!cartItems.length
+								? "Loading..."
+								: cartItems
+										.map((item) => item.ProductPrice)
+										.reduce((one, two) => one + two)}
+						</TableCell>
 					</TableRow>
 				</TableFooter>
 			</Table>
