@@ -70,7 +70,7 @@ const ProductCard = ({ data }: TProductCardProps) => {
 					<ShoppingCartIcon
 						className={
 							navigationMenuTriggerStyle() +
-							" w-fit cursor-pointer"
+							" max-w-fit w-fit cursor-pointer"
 						}
 						onClick={onCartClick}
 					/>

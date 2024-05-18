@@ -78,7 +78,7 @@ const Header = () => {
 						<MenuIcon
 							className={
 								navigationMenuTriggerStyle() +
-								" w-fit flex md:hidden cursor-pointer"
+								" max-w-fit w-fit flex md:hidden cursor-pointer"
 							}
 						/>
 					</Sidebar>
