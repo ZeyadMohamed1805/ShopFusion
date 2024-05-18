@@ -1,5 +1,11 @@
+import Main from "@/components/dashboard/main";
+
 const Dashboard = () => {
-	return <div>Dashboard</div>;
+	return (
+		<>
+			<Main />
+		</>
+	);
 };
 
 export default Dashboard;
