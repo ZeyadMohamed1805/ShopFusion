@@ -1,22 +1,27 @@
+import { TCartItemType } from "@/types/types";
 import { getLocalStorageItem, setLocalStorageItem } from "./storage";
 
-export const addCartItem = (product: any): boolean => {
-	const cartItems: any[] | null = getLocalStorageItem("shop-fusion-cart");
+export const addCartItem = (cartItem: TCartItemType): boolean => {
+	const cartItems: TCartItemType[] | null =
+		getLocalStorageItem<TCartItemType[]>("shop-fusion-cart");
 
 	if (cartItems) {
 		const productIndex = cartItems.findIndex(
-			(item) => item.ProductId === product.ProductId
+			(item) => item.ProductId === cartItem.ProductId
 		);
 
 		if (productIndex === -1) {
-			const newCartItems = [...cartItems, product];
-			setLocalStorageItem("shop-fusion-cart", newCartItems);
+			const newCartItems: TCartItemType[] = [...cartItems, cartItem];
+			setLocalStorageItem<TCartItemType[]>(
+				"shop-fusion-cart",
+				newCartItems
+			);
 			return true;
 		}
 
 		return false;
 	} else {
-		setLocalStorageItem("shop-fusion-cart", [product]);
+		setLocalStorageItem<TCartItemType[]>("shop-fusion-cart", [cartItem]);
 		return true;
 	}
 };
@@ -25,17 +30,18 @@ export const updateCartItemAmount = (
 	productId: number,
 	amount: number
 ): boolean => {
-	const cartItems: any[] | null = getLocalStorageItem("shop-fusion-cart");
+	const cartItems: TCartItemType[] | null =
+		getLocalStorageItem<TCartItemType[]>("shop-fusion-cart");
 
 	if (cartItems) {
-		const newCartItems = cartItems.map((item) => {
+		const newCartItems: TCartItemType[] = cartItems.map((item) => {
 			if (item.ProductId === productId) {
 				item.ProductAmount = amount;
 				return item;
 			}
 			return item;
 		});
-		setLocalStorageItem("shop-fusion-cart", newCartItems);
+		setLocalStorageItem<TCartItemType[]>("shop-fusion-cart", newCartItems);
 		return true;
 	}
 
@@ -43,14 +49,15 @@ export const updateCartItemAmount = (
 };
 
 export const removeCartItem = (productId: number): boolean => {
-	const cartItems: any[] | null = getLocalStorageItem("shop-fusion-cart");
+	const cartItems: TCartItemType[] | null =
+		getLocalStorageItem<TCartItemType[]>("shop-fusion-cart");
 
 	if (cartItems) {
 		const productIndex: number = cartItems.findIndex(
 			(item) => item.ProductId === productId
 		);
 		cartItems.splice(productIndex, 1);
-		setLocalStorageItem("shop-fusion-cart", cartItems);
+		setLocalStorageItem<TCartItemType[]>("shop-fusion-cart", cartItems);
 		return true;
 	}
 

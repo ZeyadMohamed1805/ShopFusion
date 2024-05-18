@@ -16,12 +16,13 @@ import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
 import { addCartItem } from "@/utils/cart";
 import { navigationMenuTriggerStyle } from "../ui/navigation-menu";
+import { TProductCardProps } from "@/types/types";
 
-const ProductCard = ({ data }: any) => {
+const ProductCard = ({ data }: TProductCardProps) => {
 	const { toast } = useToast();
 
 	const showToast = (
-		title: any,
+		title: string,
 		description: string,
 		action: string,
 		destructive: boolean = false
@@ -38,20 +39,20 @@ const ProductCard = ({ data }: any) => {
 		const isItemAdded = addCartItem({ ...data, ProductAmount: 1 });
 		isItemAdded
 			? showToast(
-					"Product Added!",
-					"Item Added To Cart Successfully!",
+					`${data.ProductName} Added!`,
+					`${data.ProductName} Added To Cart Successfully!`,
 					"Awesome!"
 			  )
 			: showToast(
-					"Item Exists",
-					"Item is already in your cart!",
+					`${data.ProductName} Exists`,
+					`${data.ProductName} is already in your cart!`,
 					"Got it!",
 					true
 			  );
 	};
 
 	return (
-		<Card id={data.ProductId}>
+		<Card key={data.ProductId}>
 			<AspectRatio
 				ratio={16 / 9}
 				className="flex items-center justify-center text-center"

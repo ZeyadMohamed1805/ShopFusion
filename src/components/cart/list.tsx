@@ -36,14 +36,15 @@ import { Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
+import { TCartItemType } from "@/types/types";
 
 const List = () => {
-	const [cartItems, setCartItem] = useState<any[]>([]);
+	const [cartItems, setCartItem] = useState<TCartItemType[]>([]);
 	const { push } = useRouter();
 	const { toast } = useToast();
 
 	const showToast = (
-		title: any,
+		title: string,
 		description: string,
 		action: string,
 		destructive: boolean = false
@@ -75,7 +76,7 @@ const List = () => {
 	};
 
 	const bindCartItems = () => {
-		const cartLocalStorageItems: any[] | null =
+		const cartLocalStorageItems: TCartItemType[] | null =
 			getLocalStorageItem("shop-fusion-cart");
 		setCartItem(cartLocalStorageItems || []);
 	};
@@ -117,7 +118,7 @@ const List = () => {
 											<Button
 												onClick={() => push("products")}
 											>
-												Browse Products.
+												Browse Products
 											</Button>
 										</div>
 									</TableCell>
@@ -180,7 +181,11 @@ const List = () => {
 												}
 											>
 												<SelectTrigger>
-													<SelectValue placeholder="1" />
+													<SelectValue
+														placeholder={
+															item.ProductAmount
+														}
+													/>
 												</SelectTrigger>
 												<SelectContent>
 													{Array.from({

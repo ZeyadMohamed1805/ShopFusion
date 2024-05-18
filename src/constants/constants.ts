@@ -1,11 +1,13 @@
+import { TProductType } from "@/types/types";
+
 export const navLinks: string[] = ["Home", "Products", "Cart"];
 export const navButtons: string[] = ["Login", "Register"];
-export const productItems: any[] = [
+export const productItems: TProductType[] = [
 	{
 		ProductId: 0,
 		ProductImage: "Product Image",
-		ProductName: "Product Name",
-		ProductPrice: 199.99,
+		ProductName: "Product One",
+		ProductPrice: 149.99,
 		ProductSlug: "Product Slug",
 		ProductDescription: "This is the product's description",
 		ProductQuantityInStock: 2,
@@ -15,8 +17,8 @@ export const productItems: any[] = [
 	{
 		ProductId: 1,
 		ProductImage: "Product Image",
-		ProductName: "Product Name",
-		ProductPrice: 199.99,
+		ProductName: "Product Two",
+		ProductPrice: 349.99,
 		ProductSlug: "Product Slug",
 		ProductDescription: "This is the product's description",
 		ProductQuantityInStock: 2,
@@ -26,8 +28,8 @@ export const productItems: any[] = [
 	{
 		ProductId: 2,
 		ProductImage: "Product Image",
-		ProductName: "Product Name",
-		ProductPrice: 199.99,
+		ProductName: "Product Three",
+		ProductPrice: 249.99,
 		ProductSlug: "Product Slug",
 		ProductDescription: "This is the product's description",
 		ProductQuantityInStock: 2,
@@ -37,8 +39,8 @@ export const productItems: any[] = [
 	{
 		ProductId: 3,
 		ProductImage: "Product Image",
-		ProductName: "Product Name",
-		ProductPrice: 199.99,
+		ProductName: "Product Four",
+		ProductPrice: 749.99,
 		ProductSlug: "Product Slug",
 		ProductDescription: "This is the product's description",
 		ProductQuantityInStock: 2,
@@ -48,8 +50,8 @@ export const productItems: any[] = [
 	{
 		ProductId: 4,
 		ProductImage: "Product Image",
-		ProductName: "Product Name",
-		ProductPrice: 199.99,
+		ProductName: "Product Five",
+		ProductPrice: 999.99,
 		ProductSlug: "Product Slug",
 		ProductDescription: "This is the product's description",
 		ProductQuantityInStock: 2,
@@ -59,57 +61,12 @@ export const productItems: any[] = [
 	{
 		ProductId: 5,
 		ProductImage: "Product Image",
-		ProductName: "Product Name",
-		ProductPrice: 199.99,
+		ProductName: "Product Six",
+		ProductPrice: 49.99,
 		ProductSlug: "Product Slug",
 		ProductDescription: "This is the product's description",
 		ProductQuantityInStock: 2,
 		CategoryId: 5,
 		CreatedAt: new Date(),
-	},
-];
-
-export const cartItems: any[] = [
-	{
-		id: 0,
-		name: "Product Name",
-		price: "$199.99",
-		total: "$199.99",
-	},
-	{
-		id: 1,
-		name: "Product Name",
-		price: "$199.99",
-		total: "$199.99",
-	},
-	{
-		id: 2,
-		name: "Product Name",
-		price: "$199.99",
-		total: "$199.99",
-	},
-	{
-		id: 3,
-		name: "Product Name",
-		price: "$199.99",
-		total: "$199.99",
-	},
-	{
-		id: 4,
-		name: "Product Name",
-		price: "$199.99",
-		total: "$199.99",
-	},
-	{
-		id: 5,
-		name: "Product Name",
-		price: "$199.99",
-		total: "$199.99",
-	},
-	{
-		id: 6,
-		name: "Product Name",
-		price: "$199.99",
-		total: "$199.99",
 	},
 ];
