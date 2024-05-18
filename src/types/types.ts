@@ -11,6 +11,10 @@ export type TProductType = {
 	ProductDescription: string;
 	ProductQuantityInStock: number;
 	CategoryId: number;
+	Category?: {
+		CategoryId: number;
+		CategoryName: string;
+	};
 	CreatedAt: Date;
 };
 

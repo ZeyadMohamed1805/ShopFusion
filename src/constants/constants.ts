@@ -12,6 +12,10 @@ export const productItems: TProductType[] = [
 		ProductDescription: "This is the product's description",
 		ProductQuantityInStock: 2,
 		CategoryId: 0,
+		Category: {
+			CategoryId: 0,
+			CategoryName: "Category One",
+		},
 		CreatedAt: new Date(),
 	},
 	{
@@ -23,6 +27,10 @@ export const productItems: TProductType[] = [
 		ProductDescription: "This is the product's description",
 		ProductQuantityInStock: 3,
 		CategoryId: 1,
+		Category: {
+			CategoryId: 1,
+			CategoryName: "Category Two",
+		},
 		CreatedAt: new Date(),
 	},
 	{
@@ -34,6 +42,10 @@ export const productItems: TProductType[] = [
 		ProductDescription: "This is the product's description",
 		ProductQuantityInStock: 5,
 		CategoryId: 2,
+		Category: {
+			CategoryId: 2,
+			CategoryName: "Category Three",
+		},
 		CreatedAt: new Date(),
 	},
 	{
@@ -45,6 +57,10 @@ export const productItems: TProductType[] = [
 		ProductDescription: "This is the product's description",
 		ProductQuantityInStock: 4,
 		CategoryId: 3,
+		Category: {
+			CategoryId: 3,
+			CategoryName: "Category Four",
+		},
 		CreatedAt: new Date(),
 	},
 	{
@@ -56,6 +72,10 @@ export const productItems: TProductType[] = [
 		ProductDescription: "This is the product's description",
 		ProductQuantityInStock: 6,
 		CategoryId: 4,
+		Category: {
+			CategoryId: 4,
+			CategoryName: "Category Five",
+		},
 		CreatedAt: new Date(),
 	},
 	{
@@ -67,6 +87,10 @@ export const productItems: TProductType[] = [
 		ProductDescription: "This is the product's description",
 		ProductQuantityInStock: 1,
 		CategoryId: 5,
+		Category: {
+			CategoryId: 5,
+			CategoryName: "Category Six",
+		},
 		CreatedAt: new Date(),
 	},
 ];
