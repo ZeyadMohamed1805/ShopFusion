@@ -12,6 +12,8 @@ import {
 	NavigationMenuList,
 	navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import Login from "@/components/auth/login";
 import { navLinks, navButtons } from "@/constants/constants";
 
 const Header = () => {
@@ -55,18 +57,27 @@ const Header = () => {
 							key={index}
 							className="hidden md:flex ml-4"
 						>
-							<Button
-								variant={
-									button === "Login" ? "outline" : "default"
-								}
-								className={
-									button === "Login"
-										? navigationMenuTriggerStyle()
-										: ""
-								}
-							>
-								{button}
-							</Button>
+							<Dialog>
+								<DialogTrigger asChild>
+									<Button
+										variant={
+											button === "Login"
+												? "outline"
+												: "default"
+										}
+										className={
+											button === "Login"
+												? navigationMenuTriggerStyle()
+												: ""
+										}
+									>
+										{button}
+									</Button>
+								</DialogTrigger>
+								<DialogContent className="sm:max-w-[425px]">
+									<Login />
+								</DialogContent>
+							</Dialog>
 						</NavigationMenuItem>
 					))}
 					<Switch
