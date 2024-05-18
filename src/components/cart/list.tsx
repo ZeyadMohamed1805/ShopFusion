@@ -21,6 +21,7 @@ import { Button } from "../ui/button";
 import { useEffect, useState } from "react";
 import { getLocalStorageItem } from "@/utils/storage";
 import { updateCartItemAmount } from "@/utils/cart";
+import { Trash } from "lucide-react";
 
 const List = () => {
 	const [cartItems, setCartItem] = useState<any[]>([]);
@@ -47,6 +48,7 @@ const List = () => {
 			<Table>
 				<TableHeader>
 					<TableRow>
+						<TableHead>{""}</TableHead>
 						<TableHead>Name</TableHead>
 						<TableHead>Price</TableHead>
 						<TableHead>Amount</TableHead>
@@ -56,7 +58,15 @@ const List = () => {
 				<TableBody>
 					{cartItems.map((item) => (
 						<TableRow key={item.ProductId}>
-							<TableCell className="font-medium">
+							<TableCell className="text-right w-8">
+								<Button
+									variant="destructive"
+									className="h-8 w-8 p-0"
+								>
+									<Trash className="h-4 w-4" />
+								</Button>
+							</TableCell>
+							<TableCell className="font-medium whitespace-nowrap">
 								{item.ProductName}
 							</TableCell>
 							<TableCell>${item.ProductPrice}</TableCell>
@@ -94,6 +104,7 @@ const List = () => {
 				</TableBody>
 				<TableFooter>
 					<TableRow>
+						<TableCell />
 						<TableCell colSpan={3}>Total</TableCell>
 						<TableCell className="text-right">
 							{!cartItems.length
