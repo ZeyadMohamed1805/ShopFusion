@@ -29,8 +29,8 @@ export const updateCartItemAmount = (
 
 	if (cartItems) {
 		const newCartItems = cartItems.map((item) => {
-			if (item.id === productId) {
-				item.amount = amount;
+			if (item.ProductId === productId) {
+				item.ProductAmount = amount;
 				return item;
 			}
 			return item;
@@ -47,7 +47,7 @@ export const removeCartItem = (productId: number): boolean => {
 
 	if (cartItems) {
 		const productIndex: number = cartItems.findIndex(
-			(item) => item.id === productId
+			(item) => item.ProductId === productId
 		);
 		cartItems.splice(productIndex, 1);
 		setLocalStorageItem("shop-fusion-cart", cartItems);

@@ -20,15 +20,27 @@ import { Separator } from "../ui/separator";
 import { Button } from "../ui/button";
 import { useEffect, useState } from "react";
 import { getLocalStorageItem } from "@/utils/storage";
+import { updateCartItemAmount } from "@/utils/cart";
 
 const List = () => {
 	const [cartItems, setCartItem] = useState<any[]>([]);
 
 	useEffect(() => {
+		bindCartItems();
+	}, []);
+
+	const onSelectAmount = (productId: number, amount: number) => {
+		const isCartUpdated = updateCartItemAmount(productId, amount);
+		if (isCartUpdated) {
+			bindCartItems();
+		}
+	};
+
+	const bindCartItems = () => {
 		const cartLocalStorageItems: any[] | null =
 			getLocalStorageItem("shop-fusion-cart");
 		setCartItem(cartLocalStorageItems || []);
-	}, []);
+	};
 
 	return (
 		<>
@@ -49,7 +61,14 @@ const List = () => {
 							</TableCell>
 							<TableCell>${item.ProductPrice}</TableCell>
 							<TableCell>
-								<Select>
+								<Select
+									onValueChange={(value) =>
+										onSelectAmount(
+											item.ProductId,
+											parseInt(value)
+										)
+									}
+								>
 									<SelectTrigger>
 										<SelectValue placeholder="1" />
 									</SelectTrigger>
@@ -80,7 +99,11 @@ const List = () => {
 							{!cartItems.length
 								? "Loading..."
 								: cartItems
-										.map((item) => item.ProductPrice)
+										.map(
+											(item) =>
+												item.ProductPrice *
+												item.ProductAmount
+										)
 										.reduce((one, two) => one + two)}
 						</TableCell>
 					</TableRow>
