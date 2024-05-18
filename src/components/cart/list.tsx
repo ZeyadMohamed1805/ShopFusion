@@ -204,8 +204,10 @@ const List = () => {
 											</Select>
 										</TableCell>
 										<TableCell className="text-right">
-											{item.ProductPrice *
-												item.ProductAmount}
+											{(
+												item.ProductPrice *
+												item.ProductAmount
+											).toFixed(2)}
 										</TableCell>
 									</TableRow>
 								))
@@ -224,9 +226,8 @@ const List = () => {
 														item.ProductPrice *
 														item.ProductAmount
 												)
-												.reduce(
-													(one, two) => one + two
-												)}
+												.reduce((one, two) => one + two)
+												.toFixed(2)}
 								</TableCell>
 							</TableRow>
 						</TableFooter>
