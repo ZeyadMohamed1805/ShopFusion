@@ -237,9 +237,10 @@ const List = () => {
 						className="w-full"
 						onClick={() =>
 							showToast(
-								"Checkout Items",
-								"Feature will be added soon...",
-								"Can't wait!"
+								"Login required",
+								"You must login to checkout you products...",
+								"Got it!",
+								true
 							)
 						}
 					>
