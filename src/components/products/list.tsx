@@ -10,17 +10,23 @@ import {
 } from "@/components/ui/pagination";
 import { productItems } from "@/constants/constants";
 
-const List = () => {
+const List = ({ filter }: any) => {
 	return (
 		<div className="w-full flex flex-col gap-8">
 			<div
-				className="w-full grid gap-4"
+				className="w-full grid gap-4 items-start transition-all"
 				style={{
 					gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))",
 				}}
 			>
 				{productItems.map((item) => (
-					<ProductCard key={item.ProductId} data={item} />
+					<ProductCard
+						key={item.ProductId}
+						data={item}
+						visible={item.ProductName.toLowerCase().includes(
+							filter
+						)}
+					/>
 				))}
 			</div>
 			<div>

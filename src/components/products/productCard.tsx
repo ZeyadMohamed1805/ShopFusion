@@ -10,15 +10,14 @@ import {
 } from "@/components/ui/card";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "../ui/button";
-import { ShoppingCart, ShoppingCartIcon } from "lucide-react";
+import { ShoppingCart } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
 import { addCartItem } from "@/utils/cart";
-import { navigationMenuTriggerStyle } from "../ui/navigation-menu";
 import { TProductCardProps } from "@/types/types";
 
-const ProductCard = ({ data }: TProductCardProps) => {
+const ProductCard = ({ data, visible }: TProductCardProps & any) => {
 	const { toast } = useToast();
 
 	const showToast = (
@@ -52,7 +51,14 @@ const ProductCard = ({ data }: TProductCardProps) => {
 	};
 
 	return (
-		<Card key={data.ProductId}>
+		<Card
+			key={data.ProductId}
+			className={`transition transform duration-300 max-w-[688px] ${
+				visible
+					? "opacity-100 scale-100 block"
+					: "opacity-0 scale-90 pointer-events-none hidden"
+			}`}
+		>
 			<AspectRatio
 				ratio={16 / 9}
 				className="flex items-center justify-center text-center"

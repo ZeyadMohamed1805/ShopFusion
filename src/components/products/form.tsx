@@ -9,11 +9,15 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 
-const Form = () => {
+const Form = ({ setFilter }: any) => {
 	return (
 		<form className="w-full flex max-md:flex-col items-center justify-between gap-4">
 			<div className="w-full flex items-center gap-4">
-				<Input placeholder="Product Name" type="text" />
+				<Input
+					placeholder="Product Name"
+					type="text"
+					onChange={setFilter}
+				/>
 				<Input placeholder="Product Price" type="number" />
 			</div>
 			<Select>
