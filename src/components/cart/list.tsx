@@ -20,7 +20,7 @@ import { Separator } from "../ui/separator";
 import { Button } from "../ui/button";
 import { useEffect, useState } from "react";
 import { getLocalStorageItem } from "@/utils/storage";
-import { updateCartItemAmount } from "@/utils/cart";
+import { removeCartItem, updateCartItemAmount } from "@/utils/cart";
 import { Trash } from "lucide-react";
 
 const List = () => {
@@ -33,6 +33,13 @@ const List = () => {
 	const onSelectAmount = (productId: number, amount: number) => {
 		const isCartUpdated = updateCartItemAmount(productId, amount);
 		if (isCartUpdated) {
+			bindCartItems();
+		}
+	};
+
+	const onDeleteCartItem = (productId: number) => {
+		const isCartRemoved = removeCartItem(productId);
+		if (isCartRemoved) {
 			bindCartItems();
 		}
 	};
@@ -62,6 +69,9 @@ const List = () => {
 								<Button
 									variant="destructive"
 									className="h-8 w-8 p-0"
+									onClick={() =>
+										onDeleteCartItem(item.ProductId)
+									}
 								>
 									<Trash className="h-4 w-4" />
 								</Button>
