@@ -8,6 +8,7 @@ import {
 	PaginationNext,
 	PaginationPrevious,
 } from "@/components/ui/pagination";
+import { productItems } from "@/constants/constants";
 
 const List = () => {
 	return (
@@ -18,8 +19,8 @@ const List = () => {
 					gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))",
 				}}
 			>
-				{Array.from({ length: 6 }).map((_, index) => (
-					<ProductCard key={index} />
+				{productItems.map((item) => (
+					<ProductCard key={item.id} data={item} />
 				))}
 			</div>
 			<div>

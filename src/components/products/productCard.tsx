@@ -16,12 +16,10 @@ import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
 import { navigationMenuTriggerStyle } from "../ui/navigation-menu";
 
-const ProductCard = () => {
+const ProductCard = ({ data }: any) => {
 	const { toast } = useToast();
 
-	const showToast = (title: string) => {
-		console.log("Toast");
-
+	const showToast = (title: any) => {
 		toast({
 			title: title,
 			description: "Feature coming soon...",
@@ -32,20 +30,25 @@ const ProductCard = () => {
 			),
 		});
 	};
+
+	const onCartClick = () => {
+		showToast(data.ProductId);
+	};
+
 	return (
-		<Card>
+		<Card id={data.ProductId}>
 			<AspectRatio
 				ratio={16 / 9}
 				className="flex items-center justify-center text-center"
 			>
-				<h3 className="text-3xl fw-bolder">Product Image</h3>
+				<h3 className="text-3xl fw-bolder">{data.ProductImage}</h3>
 			</AspectRatio>
 			<CardHeader>
 				<div className="flex justify-between gap-4">
 					<div className="flex flex-col gap-2">
-						<CardTitle>Product Name</CardTitle>
+						<CardTitle>{data.ProductName}</CardTitle>
 						<CardDescription>
-							This is the product&apos;s description
+							{data.ProductDescription}
 						</CardDescription>
 					</div>
 					<ShoppingCartIcon
@@ -53,7 +56,7 @@ const ProductCard = () => {
 							navigationMenuTriggerStyle() +
 							" w-fit cursor-pointer"
 						}
-						onClick={() => showToast("Add To Cart")}
+						onClick={onCartClick}
 					/>
 				</div>
 			</CardHeader>
@@ -62,7 +65,7 @@ const ProductCard = () => {
 					<Badge variant="secondary" className="text-md fw-bolder">
 						Category
 					</Badge>
-					<p className="text-lg fw-bolder">$199.99</p>
+					<p className="text-lg fw-bolder">{`$${data.ProductPrice}`}</p>
 				</div>
 			</CardContent>
 			<CardFooter className="flex justify-between">
