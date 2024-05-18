@@ -7,7 +7,7 @@ import List from "./list";
 const Container = () => {
 	const [filter, setFilter] = useState("");
 
-	const handleFilterChange = (event: any) => {
+	const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setFilter(event.target.value.toLowerCase());
 	};
 

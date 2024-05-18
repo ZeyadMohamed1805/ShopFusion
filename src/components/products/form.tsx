@@ -1,3 +1,4 @@
+import { TProductFormProps } from "@/types/types";
 import { Input } from "../ui/input";
 import {
 	Select,
@@ -9,7 +10,7 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 
-const Form = ({ setFilter }: any) => {
+const Form = ({ setFilter }: TProductFormProps) => {
 	return (
 		<form className="w-full flex max-md:flex-col items-center justify-between gap-4">
 			<div className="w-full flex items-center gap-4">

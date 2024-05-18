@@ -17,7 +17,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { addCartItem } from "@/utils/cart";
 import { TProductCardProps } from "@/types/types";
 
-const ProductCard = ({ data, visible }: TProductCardProps & any) => {
+const ProductCard = ({ data, visible }: TProductCardProps) => {
 	const { toast } = useToast();
 
 	const showToast = (

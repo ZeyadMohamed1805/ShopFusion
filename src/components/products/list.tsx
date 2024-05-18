@@ -9,8 +9,9 @@ import {
 	PaginationPrevious,
 } from "@/components/ui/pagination";
 import { productItems } from "@/constants/constants";
+import { TProductListProps } from "@/types/types";
 
-const List = ({ filter }: any) => {
+const List = ({ filter }: TProductListProps) => {
 	return (
 		<div className="w-full flex flex-col gap-8">
 			<div

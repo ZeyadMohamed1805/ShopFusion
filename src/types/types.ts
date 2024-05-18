@@ -16,6 +16,15 @@ export type TProductType = {
 
 export type TProductCardProps = {
 	data: TProductType;
+	visible: boolean;
+};
+
+export type TProductFormProps = {
+	setFilter: (event: React.ChangeEvent<HTMLInputElement>) => void;
+};
+
+export type TProductListProps = {
+	filter: string;
 };
 
 export type TCartItemType = TProductType & {
