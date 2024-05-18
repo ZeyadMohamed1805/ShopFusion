@@ -14,7 +14,7 @@ const carousel = () => {
 			className="w-full min-[1120px]:max-w-xl"
 			plugins={[
 				Autoplay({
-					delay: 4000,
+					delay: 3000,
 				}),
 			]}
 		>

@@ -12,9 +12,26 @@ import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "../ui/button";
 import { ShoppingCartIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { ToastAction } from "@/components/ui/toast";
+import { useToast } from "@/components/ui/use-toast";
 import { navigationMenuTriggerStyle } from "../ui/navigation-menu";
 
 const ProductCard = () => {
+	const { toast } = useToast();
+
+	const showToast = (title: string) => {
+		console.log("Toast");
+
+		toast({
+			title: title,
+			description: "Feature coming soon...",
+			action: (
+				<ToastAction altText="Can't wait!">
+					Can&apos;t wait!
+				</ToastAction>
+			),
+		});
+	};
 	return (
 		<Card>
 			<AspectRatio
@@ -36,6 +53,7 @@ const ProductCard = () => {
 							navigationMenuTriggerStyle() +
 							" w-fit cursor-pointer"
 						}
+						onClick={() => showToast("Add To Cart")}
 					/>
 				</div>
 			</CardHeader>
@@ -48,7 +66,12 @@ const ProductCard = () => {
 				</div>
 			</CardContent>
 			<CardFooter className="flex justify-between">
-				<Button className="w-full">View Details</Button>
+				<Button
+					className="w-full"
+					onClick={() => showToast("View Details")}
+				>
+					View Details
+				</Button>
 			</CardFooter>
 		</Card>
 	);
