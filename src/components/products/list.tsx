@@ -1,5 +1,13 @@
+import ProductCard from "./productCard";
+
 const List = () => {
-	return <div>List</div>;
+	return (
+		<div>
+			<ProductCard />
+			<ProductCard />
+			<ProductCard />
+		</div>
+	);
 };
 
 export default List;
