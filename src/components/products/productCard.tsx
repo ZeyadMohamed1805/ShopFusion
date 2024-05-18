@@ -14,25 +14,40 @@ import { ShoppingCartIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
+import { addCartItem } from "@/utils/cart";
 import { navigationMenuTriggerStyle } from "../ui/navigation-menu";
 
 const ProductCard = ({ data }: any) => {
 	const { toast } = useToast();
 
-	const showToast = (title: any) => {
+	const showToast = (
+		title: any,
+		description: string,
+		action: string,
+		destructive: boolean = false
+	) => {
 		toast({
 			title: title,
-			description: "Feature coming soon...",
-			action: (
-				<ToastAction altText="Can't wait!">
-					Can&apos;t wait!
-				</ToastAction>
-			),
+			description: description,
+			variant: destructive ? "destructive" : "default",
+			action: <ToastAction altText="Can't wait!">{action}</ToastAction>,
 		});
 	};
 
 	const onCartClick = () => {
-		showToast(data.ProductId);
+		const isItemAdded = addCartItem({ ...data, ProductAmount: 1 });
+		isItemAdded
+			? showToast(
+					"Product Added!",
+					"Item Added To Cart Successfully!",
+					"Awesome!"
+			  )
+			: showToast(
+					"Item Exists",
+					"Item is already in your cart!",
+					"Got it!",
+					true
+			  );
 	};
 
 	return (
@@ -71,7 +86,13 @@ const ProductCard = ({ data }: any) => {
 			<CardFooter className="flex justify-between">
 				<Button
 					className="w-full"
-					onClick={() => showToast("View Details")}
+					onClick={() =>
+						showToast(
+							"View Details",
+							"Feature will be added soon...",
+							"Can't wait!"
+						)
+					}
 				>
 					View Details
 				</Button>

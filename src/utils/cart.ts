@@ -5,7 +5,7 @@ export const addCartItem = (product: any): boolean => {
 
 	if (cartItems) {
 		const productIndex = cartItems.findIndex(
-			(item) => item.id === product.id
+			(item) => item.ProductId === product.ProductId
 		);
 
 		if (productIndex === -1) {
