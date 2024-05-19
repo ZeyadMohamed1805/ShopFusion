@@ -1,4 +1,9 @@
-import { TProductType } from "@/types/types";
+import Categories from "@/components/dashboard/categories";
+import Orders from "@/components/dashboard/orders";
+import Products from "@/components/dashboard/products";
+import Users from "@/components/dashboard/users";
+import { ShoppingBag, ListOrdered, User, Type } from "lucide-react";
+import { TProductType, TSideNavItem } from "@/types/types";
 
 export const navLinks: string[] = ["Home", "Products", "Cart"];
 export const navButtons: string[] = ["Login", "Register"];
@@ -93,4 +98,18 @@ export const productItems: TProductType[] = [
 		},
 		CreatedAt: new Date(),
 	},
+];
+
+export const dashboardSections: Array<() => JSX.Element> = [
+	Products,
+	Orders,
+	Categories,
+	Users,
+];
+
+export const sideNavItems: TSideNavItem[] = [
+	{ Icon: ShoppingBag, page: "Products", translate: 0 },
+	{ Icon: ListOrdered, page: "Orders", translate: 100 },
+	{ Icon: Type, page: "Categories", translate: 200 },
+	{ Icon: User, page: "Users", translate: 300 },
 ];

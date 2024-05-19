@@ -1,3 +1,6 @@
+import { LucideProps } from "lucide-react";
+import { Dispatch, SetStateAction } from "react";
+
 export type ChildrenType = {
 	children: React.ReactNode;
 };
@@ -33,4 +36,16 @@ export type TProductListProps = {
 
 export type TCartItemType = TProductType & {
 	ProductAmount: number;
+};
+
+export type TSideNavProps = {
+	setTranslate: Dispatch<SetStateAction<number>>;
+};
+
+export type TSideNavItem = {
+	Icon: React.ForwardRefExoticComponent<
+		Omit<LucideProps, "ref"> & React.RefAttributes<SVGSVGElement>
+	>;
+	page: string;
+	translate: number;
 };
