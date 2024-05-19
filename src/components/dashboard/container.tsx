@@ -3,6 +3,7 @@
 import { Carousel, CarouselContent, CarouselItem } from "../ui/carousel";
 import { useState } from "react";
 import Sidenav from "./sidenav";
+import CRUD from "./crud";
 import { dashboardSections } from "@/constants/constants";
 
 const Container = () => {
@@ -31,8 +32,8 @@ const Container = () => {
 							key={index}
 							className={`p-4 md:basis-1/2 min-h-screen grid place-items-center`}
 						>
-							<div className="p-1 w-full h-full">
-								<Section />
+							<div className="p-1 w-full h-full grid place-items-center">
+								<CRUD />
 							</div>
 						</CarouselItem>
 					))}
