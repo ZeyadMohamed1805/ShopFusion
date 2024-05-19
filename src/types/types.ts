@@ -21,6 +21,61 @@ export type TProductType = {
 	CreatedAt: Date;
 };
 
+export type TOrderType = {
+	OrderId: number;
+	OrderDate: Date;
+	OrderStatus: string;
+	Payment: string;
+	UserId?: number;
+	User?: {
+		UserId: number;
+		FirstName: string;
+		LastName: string;
+		Email: string;
+		Mobile: string;
+		CreatedAt: Date;
+	};
+	OrderProducts?: [
+		{
+			Quantity?: number;
+			Product?: {
+				ProductId: number;
+				ProductName: string;
+				ProductPrice: number;
+				CategoryId: number;
+			};
+		}
+	];
+};
+
+export type TCategoryType = {
+	CategoryId: number;
+	CategoryName?: string;
+	CategorySlug?: string;
+	CategoryDescription?: string;
+	Products: [
+		{
+			ProductId: number;
+			ProductName?: string;
+			ProductSlug?: string;
+			ProductPrice?: number;
+			ProductDescription?: string;
+			ProductImage?: string;
+			ProductQuantityInStock: number;
+		}
+	];
+};
+
+export type TUserType = {
+	UserId: number;
+	FirstName: string;
+	LastName: string;
+	Email: string;
+	Mobile?: string;
+	IsAdmin?: boolean;
+	IsBanned?: boolean;
+};
+
 export type TProductCardProps = {
 	data: TProductType;
 	visible: boolean;
