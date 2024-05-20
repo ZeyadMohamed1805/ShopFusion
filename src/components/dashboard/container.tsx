@@ -3,7 +3,6 @@
 import { Carousel, CarouselContent, CarouselItem } from "../ui/carousel";
 import { useState } from "react";
 import Sidenav from "./sidenav";
-import CRUD from "./crud";
 import { dashboardSections } from "@/constants/constants";
 
 const Container = () => {

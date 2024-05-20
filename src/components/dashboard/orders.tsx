@@ -40,9 +40,7 @@ export const columns: ColumnDef<TOrderType>[] = [
 		accessorKey: "OrderId",
 		header: "Id",
 		cell: ({ row }) => (
-			<div className="capitalize text-left">
-				{row.getValue("OrderId")}
-			</div>
+			<div className="text-left">{row.getValue("OrderId")}</div>
 		),
 	},
 	// {

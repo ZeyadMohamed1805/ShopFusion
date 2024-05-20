@@ -54,9 +54,7 @@ export const columns: ColumnDef<TProductType>[] = [
 			);
 		},
 		cell: ({ row }) => (
-			<div className="lowercase text-left">
-				{row.getValue("ProductName")}
-			</div>
+			<div className="text-left">{row.getValue("ProductName")}</div>
 		),
 	},
 	{

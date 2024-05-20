@@ -52,7 +52,7 @@ export const columns: ColumnDef<TUserType>[] = [
 			);
 		},
 		cell: ({ row }) => (
-			<div className="lowercase text-left">{row.getValue("Email")}</div>
+			<div className="text-left">{row.getValue("Email")}</div>
 		),
 	},
 	{
