@@ -33,7 +33,7 @@ const Container = () => {
 							className={`p-4 md:basis-1/2 min-h-screen grid place-items-center`}
 						>
 							<div className="p-1 w-full h-full grid place-items-center">
-								<CRUD />
+								<Section />
 							</div>
 						</CarouselItem>
 					))}

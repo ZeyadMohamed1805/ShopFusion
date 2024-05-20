@@ -10,6 +10,7 @@ import {
 	TSideNavItem,
 	TUserType,
 } from "@/types/types";
+import CRUD from "@/components/dashboard/crud";
 
 export const navLinks: string[] = ["Home", "Products", "Cart"];
 export const navButtons: string[] = ["Login", "Register"];
@@ -108,9 +109,9 @@ export const productItems: TProductType[] = [
 
 export const dashboardSections: Array<() => JSX.Element> = [
 	Products,
-	Orders,
-	Categories,
-	Users,
+	CRUD,
+	CRUD,
+	CRUD,
 ];
 
 export const sideNavItems: TSideNavItem[] = [
