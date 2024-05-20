@@ -54,161 +54,12 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { dashboardCategories as data } from "@/constants/constants";
+import {
+	dashboardCategories,
+	dashboardCategories as data,
+} from "@/constants/constants";
 import { TCategoryType } from "@/types/types";
-
-export const columns: ColumnDef<TCategoryType>[] = [
-	{
-		accessorKey: "CategoryName",
-		header: ({ column }) => {
-			return (
-				<Button
-					variant="ghost"
-					onClick={() =>
-						column.toggleSorting(column.getIsSorted() === "asc")
-					}
-				>
-					Name
-					<ArrowUpDown className="ml-2 h-4 w-4" />
-				</Button>
-			);
-		},
-		cell: ({ row }) => (
-			<div className="text-left">{row.getValue("CategoryName")}</div>
-		),
-	},
-	{
-		accessorKey: "CategorySlug",
-		header: "Slug",
-		cell: ({ row }) => (
-			<div className="capitalize text-left">
-				{row.getValue("CategorySlug")}
-			</div>
-		),
-	},
-	{
-		accessorKey: "CategoryDescription",
-		header: "Description",
-		cell: ({ row }) => (
-			<div className="capitalize text-left">
-				{row.getValue("CategoryDescription")}
-			</div>
-		),
-	},
-	{
-		id: "actions",
-		enableHiding: false,
-		cell: ({ row }) => {
-			return (
-				<>
-					<AlertDialog>
-						<Sheet>
-							<DropdownMenu>
-								<DropdownMenuTrigger asChild>
-									<Button
-										variant="ghost"
-										className="h-8 w-8 p-0"
-									>
-										<span className="sr-only">
-											Open menu
-										</span>
-										<MoreHorizontal className="h-4 w-4" />
-									</Button>
-								</DropdownMenuTrigger>
-								<DropdownMenuContent align="end">
-									<DropdownMenuLabel>
-										Actions
-									</DropdownMenuLabel>
-									<DropdownMenuSeparator />
-									<SheetTrigger asChild>
-										<DropdownMenuItem>
-											Update Category
-										</DropdownMenuItem>
-									</SheetTrigger>
-									<AlertDialogTrigger asChild>
-										<DropdownMenuItem>
-											Delete Category
-										</DropdownMenuItem>
-									</AlertDialogTrigger>
-								</DropdownMenuContent>
-							</DropdownMenu>
-							<AlertDialogContent>
-								<AlertDialogHeader>
-									<AlertDialogTitle>
-										Are you sure?
-									</AlertDialogTitle>
-									<AlertDialogDescription>
-										This action cannot be undone. This will
-										permanently delete your date and remove
-										it from our servers.
-									</AlertDialogDescription>
-								</AlertDialogHeader>
-								<AlertDialogFooter>
-									<AlertDialogCancel>
-										Cancel
-									</AlertDialogCancel>
-									<AlertDialogAction
-										onClick={() =>
-											console.log(
-												row.getValue("ProductName")
-											)
-										}
-									>
-										Confirm
-									</AlertDialogAction>
-								</AlertDialogFooter>
-							</AlertDialogContent>
-							<SheetContent side={"bottom"}>
-								<SheetHeader>
-									<SheetTitle>Edit profile</SheetTitle>
-									<SheetDescription>
-										Make changes to your profile here. Click
-										save when you&apos;re done.
-									</SheetDescription>
-								</SheetHeader>
-								<form className="grid gap-4 py-4">
-									<div className="grid grid-cols-4 items-center gap-4">
-										<Label
-											htmlFor="name"
-											className="text-right"
-										>
-											Name
-										</Label>
-										<Input
-											id="name"
-											defaultValue="Pedro Duarte"
-											className="col-span-3"
-										/>
-									</div>
-									<div className="grid grid-cols-4 items-center gap-4">
-										<Label
-											htmlFor="username"
-											className="text-right"
-										>
-											Username
-										</Label>
-										<Input
-											id="username"
-											defaultValue="@peduarte"
-											className="col-span-3"
-										/>
-									</div>
-								</form>
-								<SheetFooter>
-									<SheetClose asChild>
-										<Button type="submit">
-											Save changes
-										</Button>
-									</SheetClose>
-								</SheetFooter>
-							</SheetContent>
-						</Sheet>
-					</AlertDialog>
-				</>
-			);
-		},
-	},
-];
+import UpdateCategory from "./updateCategory";
 
 const Categories = () => {
 	const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -217,6 +68,124 @@ const Categories = () => {
 	const [columnVisibility, setColumnVisibility] =
 		React.useState<VisibilityState>({});
 	const [rowSelection, setRowSelection] = React.useState({});
+
+	const columns: ColumnDef<TCategoryType>[] = [
+		{
+			accessorKey: "CategoryName",
+			header: ({ column }) => {
+				return (
+					<Button
+						variant="ghost"
+						onClick={() =>
+							column.toggleSorting(column.getIsSorted() === "asc")
+						}
+					>
+						Name
+						<ArrowUpDown className="ml-2 h-4 w-4" />
+					</Button>
+				);
+			},
+			cell: ({ row }) => (
+				<div className="text-left">{row.getValue("CategoryName")}</div>
+			),
+		},
+		{
+			accessorKey: "CategorySlug",
+			header: "Slug",
+			cell: ({ row }) => (
+				<div className="capitalize text-left">
+					{row.getValue("CategorySlug")}
+				</div>
+			),
+		},
+		{
+			accessorKey: "CategoryDescription",
+			header: "Description",
+			cell: ({ row }) => (
+				<div className="capitalize text-left">
+					{row.getValue("CategoryDescription")}
+				</div>
+			),
+		},
+		{
+			id: "actions",
+			enableHiding: false,
+			cell: ({ row }) => {
+				return (
+					<>
+						<AlertDialog>
+							<Sheet>
+								<DropdownMenu>
+									<DropdownMenuTrigger asChild>
+										<Button
+											variant="ghost"
+											className="h-8 w-8 p-0"
+										>
+											<span className="sr-only">
+												Open menu
+											</span>
+											<MoreHorizontal className="h-4 w-4" />
+										</Button>
+									</DropdownMenuTrigger>
+									<DropdownMenuContent align="end">
+										<DropdownMenuLabel>
+											Actions
+										</DropdownMenuLabel>
+										<DropdownMenuSeparator />
+										<SheetTrigger asChild>
+											<DropdownMenuItem>
+												Update Category
+											</DropdownMenuItem>
+										</SheetTrigger>
+										<AlertDialogTrigger asChild>
+											<DropdownMenuItem>
+												Delete Category
+											</DropdownMenuItem>
+										</AlertDialogTrigger>
+									</DropdownMenuContent>
+								</DropdownMenu>
+								<AlertDialogContent>
+									<AlertDialogHeader>
+										<AlertDialogTitle>
+											Are you sure?
+										</AlertDialogTitle>
+										<AlertDialogDescription>
+											This action cannot be undone. This
+											will permanently delete your date
+											and remove it from our servers.
+										</AlertDialogDescription>
+									</AlertDialogHeader>
+									<AlertDialogFooter>
+										<AlertDialogCancel>
+											Cancel
+										</AlertDialogCancel>
+										<AlertDialogAction
+											onClick={() =>
+												console.log(
+													row.getValue("ProductName")
+												)
+											}
+										>
+											Confirm
+										</AlertDialogAction>
+									</AlertDialogFooter>
+								</AlertDialogContent>
+								<SheetContent side={"bottom"}>
+									<UpdateCategory
+										category={
+											dashboardCategories[
+												parseInt(row.id)
+											]
+										}
+									/>
+								</SheetContent>
+							</Sheet>
+						</AlertDialog>
+					</>
+				);
+			},
+		},
+	];
 
 	const table = useReactTable({
 		data,

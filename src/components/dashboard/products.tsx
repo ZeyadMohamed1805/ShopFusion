@@ -24,16 +24,7 @@ import {
 	getSortedRowModel,
 	useReactTable,
 } from "@tanstack/react-table";
-import {
-	Sheet,
-	SheetClose,
-	SheetContent,
-	SheetDescription,
-	SheetFooter,
-	SheetHeader,
-	SheetTitle,
-	SheetTrigger,
-} from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -57,7 +48,6 @@ import {
 } from "@/components/ui/table";
 import { productItems as data, productItems } from "@/constants/constants";
 import { TProductType } from "@/types/types";
-import { Label } from "../ui/label";
 import UpdateProduct from "./updateProduct";
 
 const Products = () => {

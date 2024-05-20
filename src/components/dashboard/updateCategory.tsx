@@ -15,7 +15,7 @@ import { Separator } from "@radix-ui/react-separator";
 import { TCategoryType } from "@/types/types";
 import { categoryFormSchema } from "@/schemas/category";
 
-const UpdateProduct = ({ category }: { category: TCategoryType }) => {
+const UpdateCategory = ({ category }: { category: TCategoryType }) => {
 	const form = useForm<z.infer<typeof categoryFormSchema>>({
 		resolver: zodResolver(categoryFormSchema),
 		defaultValues: {
@@ -93,4 +93,4 @@ const UpdateProduct = ({ category }: { category: TCategoryType }) => {
 	);
 };
 
-export default UpdateProduct;
+export default UpdateCategory;
