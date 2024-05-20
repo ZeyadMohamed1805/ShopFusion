@@ -41,10 +41,7 @@ const Sidenav = ({ setTranslate }: TSideNavProps) => {
 					</li>
 				))}
 			</ul>
-			<Button
-				variant={"destructive"}
-				className="w-full text-lg flex items-center gap-8 text-center cursor-pointer"
-			>
+			<Button className="w-full text-lg flex items-center gap-8 text-center cursor-pointer">
 				<LogOut className="w-6 h-6 max-w-6 max-h-6 md:w-8 md:h-8 md:max-w-8 md:max-h-8" />
 				<span className="w-full text-left text-lg hidden md:inline-block">
 					Logout
