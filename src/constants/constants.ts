@@ -3,7 +3,13 @@ import Orders from "@/components/dashboard/orders";
 import Products from "@/components/dashboard/products";
 import Users from "@/components/dashboard/users";
 import { ShoppingBag, ListOrdered, User, Type } from "lucide-react";
-import { TProductType, TSideNavItem } from "@/types/types";
+import {
+	TCategoryType,
+	TOrderType,
+	TProductType,
+	TSideNavItem,
+	TUserType,
+} from "@/types/types";
 
 export const navLinks: string[] = ["Home", "Products", "Cart"];
 export const navButtons: string[] = ["Login", "Register"];
@@ -112,4 +118,173 @@ export const sideNavItems: TSideNavItem[] = [
 	{ Icon: ListOrdered, page: "Orders", translate: 100 },
 	{ Icon: Type, page: "Categories", translate: 200 },
 	{ Icon: User, page: "Users", translate: 300 },
+];
+
+export const dashboardOrders: TOrderType[] = [
+	{
+		OrderId: 0,
+		OrderDate: new Date(),
+		OrderStatus: "Order Status",
+		Payment: "Cash",
+		UserId: 0,
+		User: {
+			UserId: 0,
+			Email: "User Email",
+			FirstName: "User First Name",
+			LastName: "User Last Name",
+			Mobile: "User Mobile",
+			CreatedAt: new Date(),
+		},
+		OrderProducts: [{}],
+	},
+	{
+		OrderId: 0,
+		OrderDate: new Date(),
+		OrderStatus: "Order Status",
+		Payment: "Cash",
+		UserId: 0,
+		User: {
+			UserId: 0,
+			Email: "User Email",
+			FirstName: "User First Name",
+			LastName: "User Last Name",
+			Mobile: "User Mobile",
+			CreatedAt: new Date(),
+		},
+		OrderProducts: [{}],
+	},
+	{
+		OrderId: 0,
+		OrderDate: new Date(),
+		OrderStatus: "Order Status",
+		Payment: "Cash",
+		UserId: 0,
+		User: {
+			UserId: 0,
+			Email: "User Email",
+			FirstName: "User First Name",
+			LastName: "User Last Name",
+			Mobile: "User Mobile",
+			CreatedAt: new Date(),
+		},
+		OrderProducts: [{}],
+	},
+	{
+		OrderId: 0,
+		OrderDate: new Date(),
+		OrderStatus: "Order Status",
+		Payment: "Cash",
+		UserId: 0,
+		User: {
+			UserId: 0,
+			Email: "User Email",
+			FirstName: "User First Name",
+			LastName: "User Last Name",
+			Mobile: "User Mobile",
+			CreatedAt: new Date(),
+		},
+		OrderProducts: [{}],
+	},
+	{
+		OrderId: 0,
+		OrderDate: new Date(),
+		OrderStatus: "Order Status",
+		Payment: "Cash",
+		UserId: 0,
+		User: {
+			UserId: 0,
+			Email: "User Email",
+			FirstName: "User First Name",
+			LastName: "User Last Name",
+			Mobile: "User Mobile",
+			CreatedAt: new Date(),
+		},
+		OrderProducts: [{}],
+	},
+];
+
+export const dashboardCategories: TCategoryType[] = [
+	{
+		CategoryId: 0,
+		CategoryName: "Category Name",
+		CategorySlug: "Category Slug",
+		CategoryDescription: "Category Description",
+		Products: [{ ProductId: 0, ProductQuantityInStock: 5 }],
+	},
+	{
+		CategoryId: 0,
+		CategoryName: "Category Name",
+		CategorySlug: "Category Slug",
+		CategoryDescription: "Category Description",
+		Products: [{ ProductId: 0, ProductQuantityInStock: 5 }],
+	},
+	{
+		CategoryId: 0,
+		CategoryName: "Category Name",
+		CategorySlug: "Category Slug",
+		CategoryDescription: "Category Description",
+		Products: [{ ProductId: 0, ProductQuantityInStock: 5 }],
+	},
+	{
+		CategoryId: 0,
+		CategoryName: "Category Name",
+		CategorySlug: "Category Slug",
+		CategoryDescription: "Category Description",
+		Products: [{ ProductId: 0, ProductQuantityInStock: 5 }],
+	},
+	{
+		CategoryId: 0,
+		CategoryName: "Category Name",
+		CategorySlug: "Category Slug",
+		CategoryDescription: "Category Description",
+		Products: [{ ProductId: 0, ProductQuantityInStock: 5 }],
+	},
+];
+
+export const dashboardUsers: TUserType[] = [
+	{
+		UserId: 0,
+		Email: "User Email",
+		FirstName: "User First Name",
+		LastName: "User Last Name",
+		Mobile: "User Mobile",
+		IsAdmin: false,
+		IsBanned: false,
+	},
+	{
+		UserId: 0,
+		Email: "User Email",
+		FirstName: "User First Name",
+		LastName: "User Last Name",
+		Mobile: "User Mobile",
+		IsAdmin: false,
+		IsBanned: false,
+	},
+	{
+		UserId: 0,
+		Email: "User Email",
+		FirstName: "User First Name",
+		LastName: "User Last Name",
+		Mobile: "User Mobile",
+		IsAdmin: false,
+		IsBanned: false,
+	},
+	{
+		UserId: 0,
+		Email: "User Email",
+		FirstName: "User First Name",
+		LastName: "User Last Name",
+		Mobile: "User Mobile",
+		IsAdmin: false,
+		IsBanned: false,
+	},
+	{
+		UserId: 0,
+		Email: "User Email",
+		FirstName: "User First Name",
+		LastName: "User Last Name",
+		Mobile: "User Mobile",
+		IsAdmin: false,
+		IsBanned: false,
+	},
 ];
