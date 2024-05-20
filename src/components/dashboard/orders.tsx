@@ -89,28 +89,6 @@ export const columns: ColumnDef<TOrderType>[] = [
 			<div className="capitalize text-left">{row.getValue("UserId")}</div>
 		),
 	},
-	{
-		id: "actions",
-		enableHiding: false,
-		cell: ({ row }) => {
-			return (
-				<DropdownMenu>
-					<DropdownMenuTrigger asChild>
-						<Button variant="ghost" className="h-8 w-8 p-0">
-							<span className="sr-only">Open menu</span>
-							<MoreHorizontal className="h-4 w-4" />
-						</Button>
-					</DropdownMenuTrigger>
-					<DropdownMenuContent align="end">
-						<DropdownMenuLabel>Actions</DropdownMenuLabel>
-						<DropdownMenuSeparator />
-						<DropdownMenuItem>Update Order</DropdownMenuItem>
-						<DropdownMenuItem>Delete Order</DropdownMenuItem>
-					</DropdownMenuContent>
-				</DropdownMenu>
-			);
-		},
-	},
 ];
 
 const Orders = () => {

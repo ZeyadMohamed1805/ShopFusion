@@ -1,14 +1,12 @@
 import { z } from "zod";
 
 export const productFormSchema = z.object({
-	ProductId: z.number().min(1, { message: "ProductId is required." }),
+	ProductId: z.number(),
 	ProductName: z.string().min(1, { message: "ProductName is required." }),
-	ProductSlug: z
-		.string()
-		.regex(new RegExp(/^[a-z0-9-]+$/), {
-			message:
-				"Product slug can only contain lowercase letters, numbers, and hyphens.",
-		}),
+	ProductSlug: z.string().regex(new RegExp(/^[a-z0-9-]+$/), {
+		message:
+			"Product slug can only contain lowercase letters, numbers, and hyphens.",
+	}),
 	ProductDescription: z
 		.string()
 		.min(1, { message: "ProductDescription is required." }),

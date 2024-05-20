@@ -201,7 +201,7 @@ export const columns: ColumnDef<TProductType>[] = [
 										save when you&apos;re done.
 									</SheetDescription>
 								</SheetHeader>
-								<div className="grid gap-4 py-4">
+								<form className="grid gap-4 py-4">
 									<div className="grid grid-cols-4 items-center gap-4">
 										<Label
 											htmlFor="name"
@@ -228,7 +228,7 @@ export const columns: ColumnDef<TProductType>[] = [
 											className="col-span-3"
 										/>
 									</div>
-								</div>
+								</form>
 								<SheetFooter>
 									<SheetClose asChild>
 										<Button type="submit">

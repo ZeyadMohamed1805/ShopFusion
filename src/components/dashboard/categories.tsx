@@ -11,6 +11,29 @@ import {
 	getSortedRowModel,
 	useReactTable,
 } from "@tanstack/react-table";
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+	AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import {
+	Sheet,
+	SheetClose,
+	SheetContent,
+	SheetDescription,
+	SheetFooter,
+	SheetHeader,
+	SheetTitle,
+	SheetTrigger,
+} from "@/components/ui/sheet";
+import { Label } from "../ui/label";
+import { Input } from "@/components/ui/input";
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -23,7 +46,6 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
 import {
 	Table,
 	TableBody,
@@ -78,20 +100,111 @@ export const columns: ColumnDef<TCategoryType>[] = [
 		enableHiding: false,
 		cell: ({ row }) => {
 			return (
-				<DropdownMenu>
-					<DropdownMenuTrigger asChild>
-						<Button variant="ghost" className="h-8 w-8 p-0">
-							<span className="sr-only">Open menu</span>
-							<MoreHorizontal className="h-4 w-4" />
-						</Button>
-					</DropdownMenuTrigger>
-					<DropdownMenuContent align="end">
-						<DropdownMenuLabel>Actions</DropdownMenuLabel>
-						<DropdownMenuSeparator />
-						<DropdownMenuItem>Update Order</DropdownMenuItem>
-						<DropdownMenuItem>Delete Order</DropdownMenuItem>
-					</DropdownMenuContent>
-				</DropdownMenu>
+				<>
+					<AlertDialog>
+						<Sheet>
+							<DropdownMenu>
+								<DropdownMenuTrigger asChild>
+									<Button
+										variant="ghost"
+										className="h-8 w-8 p-0"
+									>
+										<span className="sr-only">
+											Open menu
+										</span>
+										<MoreHorizontal className="h-4 w-4" />
+									</Button>
+								</DropdownMenuTrigger>
+								<DropdownMenuContent align="end">
+									<DropdownMenuLabel>
+										Actions
+									</DropdownMenuLabel>
+									<DropdownMenuSeparator />
+									<SheetTrigger asChild>
+										<DropdownMenuItem>
+											Update Category
+										</DropdownMenuItem>
+									</SheetTrigger>
+									<AlertDialogTrigger asChild>
+										<DropdownMenuItem>
+											Delete Category
+										</DropdownMenuItem>
+									</AlertDialogTrigger>
+								</DropdownMenuContent>
+							</DropdownMenu>
+							<AlertDialogContent>
+								<AlertDialogHeader>
+									<AlertDialogTitle>
+										Are you sure?
+									</AlertDialogTitle>
+									<AlertDialogDescription>
+										This action cannot be undone. This will
+										permanently delete your date and remove
+										it from our servers.
+									</AlertDialogDescription>
+								</AlertDialogHeader>
+								<AlertDialogFooter>
+									<AlertDialogCancel>
+										Cancel
+									</AlertDialogCancel>
+									<AlertDialogAction
+										onClick={() =>
+											console.log(
+												row.getValue("ProductName")
+											)
+										}
+									>
+										Confirm
+									</AlertDialogAction>
+								</AlertDialogFooter>
+							</AlertDialogContent>
+							<SheetContent side={"bottom"}>
+								<SheetHeader>
+									<SheetTitle>Edit profile</SheetTitle>
+									<SheetDescription>
+										Make changes to your profile here. Click
+										save when you&apos;re done.
+									</SheetDescription>
+								</SheetHeader>
+								<form className="grid gap-4 py-4">
+									<div className="grid grid-cols-4 items-center gap-4">
+										<Label
+											htmlFor="name"
+											className="text-right"
+										>
+											Name
+										</Label>
+										<Input
+											id="name"
+											defaultValue="Pedro Duarte"
+											className="col-span-3"
+										/>
+									</div>
+									<div className="grid grid-cols-4 items-center gap-4">
+										<Label
+											htmlFor="username"
+											className="text-right"
+										>
+											Username
+										</Label>
+										<Input
+											id="username"
+											defaultValue="@peduarte"
+											className="col-span-3"
+										/>
+									</div>
+								</form>
+								<SheetFooter>
+									<SheetClose asChild>
+										<Button type="submit">
+											Save changes
+										</Button>
+									</SheetClose>
+								</SheetFooter>
+							</SheetContent>
+						</Sheet>
+					</AlertDialog>
+				</>
 			);
 		},
 	},
