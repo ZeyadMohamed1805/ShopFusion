@@ -4,10 +4,13 @@ import { Button } from "../ui/button";
 import { LogOut } from "lucide-react";
 import { sideNavItems } from "@/constants/constants";
 import { TSideNavProps } from "@/types/types";
+import { useRouter } from "next/navigation";
 
 const Sidenav = ({ setTranslate }: TSideNavProps) => {
+	const { push } = useRouter();
+
 	return (
-		<div className="w-full h-screen justify-between max-w-[240px] flex flex-col px-4 py-16 items-center border-r-2 gap-8">
+		<div className="w-full h-screen justify-between max-w-[80px] md:max-w-[240px] flex flex-col px-4 py-16 items-center border-r-2 gap-8">
 			<Image
 				src={"/logo.svg"}
 				className="hidden md:block mt-2"
@@ -41,7 +44,10 @@ const Sidenav = ({ setTranslate }: TSideNavProps) => {
 					</li>
 				))}
 			</ul>
-			<Button className="w-full text-lg flex items-center gap-8 text-center cursor-pointer">
+			<Button
+				onClick={() => push("/home")}
+				className="w-full text-lg flex items-center gap-8 text-center cursor-pointer"
+			>
 				<LogOut className="w-6 h-6 max-w-6 max-h-6 md:w-8 md:h-8 md:max-w-8 md:max-h-8" />
 				<span className="w-full text-left text-lg hidden md:inline-block">
 					Logout

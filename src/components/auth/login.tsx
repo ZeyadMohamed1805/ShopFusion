@@ -15,8 +15,10 @@ import { Separator } from "@radix-ui/react-separator";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { loginFormSchema } from "@/schemas/login";
+import { useRouter } from "next/navigation";
 
 const Login = () => {
+	const { push } = useRouter();
 	const form = useForm<z.infer<typeof loginFormSchema>>({
 		resolver: zodResolver(loginFormSchema),
 		defaultValues: {
@@ -27,6 +29,7 @@ const Login = () => {
 
 	const onSubmit = (values: z.infer<typeof loginFormSchema>) => {
 		console.log(values);
+		push("/dashboard");
 	};
 
 	return (

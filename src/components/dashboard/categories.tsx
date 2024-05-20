@@ -212,7 +212,7 @@ const Categories = () => {
 				Categories
 			</h1>
 			<div className="w-full">
-				<div className="flex items-center py-4">
+				<div className="flex items-center flex-wrap gap-4 py-4">
 					<Input
 						placeholder="Filter Categories..."
 						value={
@@ -225,11 +225,14 @@ const Categories = () => {
 								.getColumn("CategoryName")
 								?.setFilterValue(event.target.value)
 						}
-						className="max-w-sm"
+						className="max-w-none w-full lg:max-w-sm"
 					/>
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
-							<Button variant="outline" className="ml-auto">
+							<Button
+								variant="outline"
+								className="ml-auto flex items-center justify-between w-full lg:w-fit"
+							>
 								Columns <ChevronDown className="ml-2 h-4 w-4" />
 							</Button>
 						</DropdownMenuTrigger>
@@ -292,7 +295,10 @@ const Categories = () => {
 											{row
 												.getVisibleCells()
 												.map((cell) => (
-													<TableCell key={cell.id}>
+													<TableCell
+														key={cell.id}
+														className="whitespace-nowrap"
+													>
 														{flexRender(
 															cell.column
 																.columnDef.cell,

@@ -9,7 +9,7 @@ const Container = () => {
 	const [translate, setTranslate] = useState<number>(0);
 
 	return (
-		<div className="w-full min-h-screen flex">
+		<div className="w-full min-h-screen flex overflow-x-hidden">
 			<Sidenav setTranslate={setTranslate} />
 			<Carousel
 				opts={{
@@ -31,7 +31,7 @@ const Container = () => {
 							key={index}
 							className={`p-4 md:basis-1/2 min-h-screen grid place-items-center`}
 						>
-							<div className="w-full h-full py-16 px-4">
+							<div className="w-full h-full py-16 px-4 overflow-x-scroll">
 								<Section />
 							</div>
 						</CarouselItem>
