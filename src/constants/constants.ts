@@ -110,7 +110,7 @@ export const productItems: TProductType[] = [
 export const dashboardSections: Array<() => JSX.Element> = [
 	Products,
 	Orders,
-	CRUD,
+	Categories,
 	CRUD,
 ];
 
@@ -207,38 +207,38 @@ export const dashboardOrders: TOrderType[] = [
 export const dashboardCategories: TCategoryType[] = [
 	{
 		CategoryId: 0,
-		CategoryName: "Category Name",
+		CategoryName: "Category One",
 		CategorySlug: "Category Slug",
 		CategoryDescription: "Category Description",
 		Products: [{ ProductId: 0, ProductQuantityInStock: 5 }],
 	},
 	{
-		CategoryId: 0,
-		CategoryName: "Category Name",
+		CategoryId: 1,
+		CategoryName: "Category Two",
 		CategorySlug: "Category Slug",
 		CategoryDescription: "Category Description",
-		Products: [{ ProductId: 0, ProductQuantityInStock: 5 }],
+		Products: [{ ProductId: 1, ProductQuantityInStock: 5 }],
 	},
 	{
-		CategoryId: 0,
-		CategoryName: "Category Name",
+		CategoryId: 2,
+		CategoryName: "Category Three",
 		CategorySlug: "Category Slug",
 		CategoryDescription: "Category Description",
-		Products: [{ ProductId: 0, ProductQuantityInStock: 5 }],
+		Products: [{ ProductId: 2, ProductQuantityInStock: 5 }],
 	},
 	{
-		CategoryId: 0,
-		CategoryName: "Category Name",
+		CategoryId: 3,
+		CategoryName: "Category Four",
 		CategorySlug: "Category Slug",
 		CategoryDescription: "Category Description",
-		Products: [{ ProductId: 0, ProductQuantityInStock: 5 }],
+		Products: [{ ProductId: 3, ProductQuantityInStock: 5 }],
 	},
 	{
-		CategoryId: 0,
-		CategoryName: "Category Name",
+		CategoryId: 4,
+		CategoryName: "Category Five",
 		CategorySlug: "Category Slug",
 		CategoryDescription: "Category Description",
-		Products: [{ ProductId: 0, ProductQuantityInStock: 5 }],
+		Products: [{ ProductId: 4, ProductQuantityInStock: 5 }],
 	},
 ];
 
