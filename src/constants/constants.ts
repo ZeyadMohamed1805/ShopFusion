@@ -109,7 +109,7 @@ export const productItems: TProductType[] = [
 
 export const dashboardSections: Array<() => JSX.Element> = [
 	Products,
-	CRUD,
+	Orders,
 	CRUD,
 	CRUD,
 ];
@@ -139,13 +139,13 @@ export const dashboardOrders: TOrderType[] = [
 		OrderProducts: [{}],
 	},
 	{
-		OrderId: 0,
+		OrderId: 1,
 		OrderDate: new Date(),
 		OrderStatus: "Order Status",
 		Payment: "Cash",
-		UserId: 0,
+		UserId: 1,
 		User: {
-			UserId: 0,
+			UserId: 1,
 			Email: "User Email",
 			FirstName: "User First Name",
 			LastName: "User Last Name",
@@ -155,13 +155,13 @@ export const dashboardOrders: TOrderType[] = [
 		OrderProducts: [{}],
 	},
 	{
-		OrderId: 0,
+		OrderId: 2,
 		OrderDate: new Date(),
 		OrderStatus: "Order Status",
 		Payment: "Cash",
-		UserId: 0,
+		UserId: 2,
 		User: {
-			UserId: 0,
+			UserId: 2,
 			Email: "User Email",
 			FirstName: "User First Name",
 			LastName: "User Last Name",
@@ -171,13 +171,13 @@ export const dashboardOrders: TOrderType[] = [
 		OrderProducts: [{}],
 	},
 	{
-		OrderId: 0,
+		OrderId: 3,
 		OrderDate: new Date(),
 		OrderStatus: "Order Status",
 		Payment: "Cash",
-		UserId: 0,
+		UserId: 3,
 		User: {
-			UserId: 0,
+			UserId: 3,
 			Email: "User Email",
 			FirstName: "User First Name",
 			LastName: "User Last Name",
@@ -187,13 +187,13 @@ export const dashboardOrders: TOrderType[] = [
 		OrderProducts: [{}],
 	},
 	{
-		OrderId: 0,
+		OrderId: 4,
 		OrderDate: new Date(),
 		OrderStatus: "Order Status",
 		Payment: "Cash",
-		UserId: 0,
+		UserId: 4,
 		User: {
-			UserId: 0,
+			UserId: 4,
 			Email: "User Email",
 			FirstName: "User First Name",
 			LastName: "User Last Name",
