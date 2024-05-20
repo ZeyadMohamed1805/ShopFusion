@@ -10,7 +10,6 @@ import {
 	TSideNavItem,
 	TUserType,
 } from "@/types/types";
-import CRUD from "@/components/dashboard/crud";
 
 export const navLinks: string[] = ["Home", "Products", "Cart"];
 export const navButtons: string[] = ["Login", "Register"];

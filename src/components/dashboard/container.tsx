@@ -31,7 +31,7 @@ const Container = () => {
 							key={index}
 							className={`p-4 md:basis-1/2 min-h-screen grid place-items-center`}
 						>
-							<div className="p-1 w-full h-full grid place-items-center">
+							<div className="w-full h-full py-16 px-4">
 								<Section />
 							</div>
 						</CarouselItem>
