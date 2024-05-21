@@ -86,8 +86,8 @@ const ProductCard = ({ data, visible }: TProductCardProps) => {
 			</CardHeader>
 			<CardContent>
 				<div className="w-full flex items-center justify-between gap-4">
-					<Badge variant="secondary" className="text-md fw-bolder">
-						{data.Category?.CategoryName || "Category"}
+					<Badge variant="secondary" className="text-sm fw-semibold">
+						{data.category?.categoryName || "Category"}
 					</Badge>
 					<p className="text-lg fw-bolder">{`$${data.productPrice}`}</p>
 				</div>

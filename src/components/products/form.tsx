@@ -21,24 +21,28 @@ const Form = ({
 					id="name"
 					placeholder="Product Name"
 					type="text"
-					onChange={setFilter}
+					onChange={(event) => setFilter("name", event.target.value)}
 				/>
 				<div className="w-full flex items-center gap-4">
 					<Input
 						placeholder="Min Price"
-						onChange={setFilter}
+						onChange={(event) =>
+							setFilter("min", event.target.value)
+						}
 						type="number"
 						id="min"
 					/>
 					<Input
 						placeholder="Max Price"
-						onChange={setFilter}
+						onChange={(event) =>
+							setFilter("max", event.target.value)
+						}
 						type="number"
 						id="max"
 					/>
 				</div>
 			</div>
-			<Select>
+			<Select onValueChange={(value) => setFilter("category", value)}>
 				<SelectTrigger className="w-full max-w-[180px] max-md:max-w-none">
 					<SelectValue placeholder="Select Category" />
 				</SelectTrigger>
@@ -49,6 +53,7 @@ const Form = ({
 						) : isSuccess ? (
 							<>
 								<SelectLabel>Categories</SelectLabel>
+								<SelectItem value={"All"}>All</SelectItem>
 								{data.data.map((category) => (
 									<SelectItem
 										key={category.categoryId}
@@ -61,15 +66,15 @@ const Form = ({
 						) : (
 							<>
 								<SelectLabel>Categories</SelectLabel>
-								<SelectItem value="Category One">
-									Category One
-								</SelectItem>
-								<SelectItem value="Category Two">
-									Category Two
-								</SelectItem>
-								<SelectItem value="Category Three">
+								<SelectItem value="All">All</SelectItem>
+								<SelectItem value="1">Category One</SelectItem>
+								<SelectItem value="2">Category Two</SelectItem>
+								<SelectItem value="3">
 									Category Three
 								</SelectItem>
+								<SelectItem value="4">Category Four</SelectItem>
+								<SelectItem value="5">Category Five</SelectItem>
+								<SelectItem value="6">Category Six</SelectItem>
 							</>
 						)}
 					</SelectGroup>

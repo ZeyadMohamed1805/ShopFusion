@@ -18,31 +18,21 @@ const Container = () => {
 		max: Infinity,
 	});
 	const products = useApi<TProductResponse>(
-		"/products?pageNumber=1&pageSize=6",
+		"/proucts?pageNumber=1&pageSize=6",
 		EApiMethod.GET
 	);
-	const categories = useApi<TCategoryResponse>("/categories", EApiMethod.GET);
+	const categories = useApi<TCategoryResponse>("/caegories", EApiMethod.GET);
 
-	const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const input = event.currentTarget.id;
-		console.log(input);
+	const handleFilterChange = (type: string, value: string) => {
+		console.log(value);
 
 		setFilter((previous) => ({
-			name:
-				input === "name"
-					? event.target.value.toLowerCase() || ""
-					: previous.name,
-			min:
-				input === "min"
-					? parseInt(event.target.value) || 0
-					: previous.min,
-			max:
-				input === "max"
-					? parseInt(event.target.value) || Infinity
-					: previous.max,
+			name: type === "name" ? value.toLowerCase() || "" : previous.name,
+			min: type === "min" ? parseFloat(value) || 1 : previous.min,
+			max: type === "max" ? parseFloat(value) || Infinity : previous.max,
 			category:
-				input === "category"
-					? parseInt(event.target.value)
+				type === "category"
+					? parseInt(value) || undefined
 					: previous?.category,
 		}));
 	};
@@ -50,7 +40,7 @@ const Container = () => {
 	return (
 		<div className="w-full max-w-[1400px] flex flex-col items-center gap-8">
 			<Form setFilter={handleFilterChange} categories={categories} />
-			<List filter={filter} products={products} />
+			<List filter={filter} products={products} categories={categories} />
 		</div>
 	);
 };

@@ -15,11 +15,11 @@ export type TProductType = {
 	productDescription: string;
 	productQuantityInStock: number;
 	categoryId: number;
-	Category?: {
-		CategoryId: number;
-		CategoryName: string;
+	category?: {
+		categoryId: number;
+		categoryName: string;
 	};
-	CreatedAt?: Date;
+	createdAt?: Date;
 };
 
 export type TOrderType = {
@@ -90,13 +90,14 @@ export type TProductCardProps = {
 };
 
 export type TProductFormProps = {
-	setFilter: (event: React.ChangeEvent<HTMLInputElement>) => void;
+	setFilter: (type: string, value: string) => void;
 	categories: TUseReactQuery<TCategoryResponse>;
 };
 
 export type TProductListProps = {
 	filter: TFilterType;
 	products: TUseReactQuery<TProductResponse>;
+	categories: TUseReactQuery<TCategoryResponse>;
 };
 
 export type TCartItemType = TProductType & {

@@ -11,13 +11,10 @@ import {
 import { productItems } from "@/constants/constants";
 import { TProductListProps } from "@/types/types";
 
-const List = ({
-	filter,
-	products: { isLoading, isSuccess, data },
-}: TProductListProps) => {
+const List = ({ filter, products, categories }: TProductListProps) => {
 	return (
 		<div className="w-full flex flex-col gap-8">
-			{isLoading ? (
+			{products.isLoading && categories.isLoading ? (
 				<div className="w-full h-screen grid place-items-center">
 					<h1 className="text-center text-4xl font-bold">
 						Loading...
@@ -32,20 +29,40 @@ const List = ({
 								"repeat(auto-fit, minmax(340px, 1fr))",
 						}}
 					>
-						{isSuccess
-							? data.data.items
+						{products.isSuccess && categories.isSuccess
+							? products.data.data.items
 									.filter(
 										(item) =>
 											item.productName
 												.toLowerCase()
 												.includes(filter.name || "") &&
 											item.productPrice >= filter.min &&
-											item.productPrice <= filter.max
+											item.productPrice <= filter.max &&
+											(filter.category
+												? item.categoryId ===
+												  filter.category
+												: true)
 									)
 									.map((item) => (
 										<ProductCard
 											key={item.productId}
-											data={item}
+											data={{
+												...item,
+												category: {
+													categoryId:
+														categories.data.data.find(
+															(category) =>
+																category.categoryId ===
+																item.categoryId
+														)!.categoryId,
+													categoryName:
+														categories.data.data.find(
+															(category) =>
+																category.categoryId ===
+																item.categoryId
+														)!.categoryName!,
+												},
+											}}
 											visible={item.productName
 												.toLowerCase()
 												.includes(filter.name || "")}
@@ -58,7 +75,11 @@ const List = ({
 												.toLowerCase()
 												.includes(filter.name || "") &&
 											item.productPrice >= filter.min &&
-											item.productPrice <= filter.max
+											item.productPrice <= filter.max &&
+											(filter.category
+												? item.categoryId ===
+												  filter.category
+												: true)
 									)
 									.map((item) => (
 										<ProductCard
