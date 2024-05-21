@@ -14,22 +14,60 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Separator } from "@radix-ui/react-separator";
 import { registerFormSchema } from "@/schemas/register";
 import { useForm } from "react-hook-form";
+import useApi from "@/apis/useApi";
 import { z } from "zod";
+import { EApiMethod } from "@/types/enums";
+import UseMutation from "@/apis/useMutation";
+import { useToast } from "../ui/use-toast";
+import { ToastAction } from "../ui/toast";
 
 const Register = () => {
+	const { toast } = useToast();
+
+	const showToast = (
+		title: string,
+		description: string,
+		action: string,
+		destructive: boolean = false
+	) => {
+		toast({
+			title: title,
+			description: description,
+			variant: destructive ? "destructive" : "default",
+			action: <ToastAction altText="Can't wait!">{action}</ToastAction>,
+		});
+	};
+	const { mutate, isSuccess, isLoading, isError, data, error } = UseMutation(
+		"/users/register",
+		() =>
+			showToast(
+				"Registration Successful",
+				"Your account has been created successfully.",
+				"Awesome!"
+			),
+		() =>
+			showToast(
+				"Registration Failed",
+				"Something went wrong during registration. Please try again later.",
+				"Got It!",
+				true
+			)
+	);
+
 	const form = useForm<z.infer<typeof registerFormSchema>>({
 		resolver: zodResolver(registerFormSchema),
 		defaultValues: {
-			FirstName: "",
-			LastName: "",
-			Email: "",
-			Password: "",
-			Mobile: "",
+			firstName: "",
+			lastName: "",
+			email: "",
+			password: "",
+			mobile: "",
 		},
 	});
 
-	const onSubmit = (values: z.infer<typeof registerFormSchema>) => {
+	const onSubmit = async (values: z.infer<typeof registerFormSchema>) => {
 		console.log(values);
+		mutate(values);
 	};
 
 	return (
@@ -42,7 +80,7 @@ const Register = () => {
 				<div className="w-full flex items-stretch flex-col md:flex-row gap-4">
 					<FormField
 						control={form.control}
-						name="FirstName"
+						name="firstName"
 						render={({ field }) => (
 							<FormItem className="w-full">
 								<FormLabel>First Name</FormLabel>
@@ -58,7 +96,7 @@ const Register = () => {
 					/>
 					<FormField
 						control={form.control}
-						name="LastName"
+						name="lastName"
 						render={({ field }) => (
 							<FormItem className="w-full">
 								<FormLabel>Last Name</FormLabel>
@@ -72,7 +110,7 @@ const Register = () => {
 				</div>
 				<FormField
 					control={form.control}
-					name="Email"
+					name="email"
 					render={({ field }) => (
 						<FormItem className="w-full">
 							<FormLabel>Email</FormLabel>
@@ -89,7 +127,7 @@ const Register = () => {
 				/>
 				<FormField
 					control={form.control}
-					name="Password"
+					name="password"
 					render={({ field }) => (
 						<FormItem className="w-full">
 							<FormLabel>Password</FormLabel>
@@ -106,7 +144,7 @@ const Register = () => {
 				/>
 				<FormField
 					control={form.control}
-					name="Mobile"
+					name="mobile"
 					render={({ field }) => (
 						<FormItem className="w-full">
 							<FormLabel>Mobile</FormLabel>
@@ -118,8 +156,8 @@ const Register = () => {
 					)}
 				/>
 				<Separator />
-				<Button className="w-full" type="submit">
-					Submit
+				<Button className={`w-full`} disabled={isLoading} type="submit">
+					{isLoading ? "Loading..." : "Submit"}
 				</Button>
 			</form>
 		</Form>

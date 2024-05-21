@@ -1,6 +1,8 @@
 import { LucideProps } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 import { EApiMethod } from "./enums";
+import { UseMutateFunction } from "react-query";
+import { AxiosResponse } from "axios";
 
 export type ChildrenType = {
 	children: React.ReactNode;
@@ -123,6 +125,21 @@ export type TUseReactQuery<T> = {
 	status: "idle" | "error" | "loading" | "success";
 	error: unknown;
 	data: T;
+};
+
+export type TUseReactQueryPost = {
+	isLoading: boolean;
+	isError: boolean;
+	isSuccess: boolean;
+	status: "idle" | "error" | "loading" | "success";
+	error: unknown;
+	data: unknown;
+	mutate: UseMutateFunction<
+		AxiosResponse<any, any>,
+		unknown,
+		unknown,
+		unknown
+	>;
 };
 
 export type TUseAPI = <T>(
