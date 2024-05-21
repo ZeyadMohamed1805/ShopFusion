@@ -16,20 +16,50 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { loginFormSchema } from "@/schemas/login";
 import { useRouter } from "next/navigation";
+import { useToast } from "../ui/use-toast";
+import { ToastAction } from "../ui/toast";
+import UseMutation from "@/apis/useMutation";
 
 const Login = () => {
 	const { push } = useRouter();
+	const { toast } = useToast();
+
+	const showToast = (
+		title: string,
+		description: string,
+		action: string,
+		destructive: boolean = false
+	) => {
+		toast({
+			title: title,
+			description: description,
+			variant: destructive ? "destructive" : "default",
+			action: <ToastAction altText="Can't wait!">{action}</ToastAction>,
+		});
+	};
+	const { mutate, isLoading } = UseMutation(
+		"/users/login",
+		() => push("/dashboard"),
+		() =>
+			showToast(
+				"Login Failed",
+				"Something went wrong during login. Please try again later.",
+				"Got It!",
+				true
+			)
+	);
+
 	const form = useForm<z.infer<typeof loginFormSchema>>({
 		resolver: zodResolver(loginFormSchema),
 		defaultValues: {
-			Email: "",
-			Password: "",
+			email: "",
+			password: "",
 		},
 	});
 
 	const onSubmit = (values: z.infer<typeof loginFormSchema>) => {
 		console.log(values);
-		push("/dashboard");
+		mutate(values);
 	};
 
 	return (
@@ -41,7 +71,7 @@ const Login = () => {
 				<h1 className="text-3xl text-center fw-bolder">Login</h1>
 				<FormField
 					control={form.control}
-					name="Email"
+					name="email"
 					render={({ field }) => (
 						<FormItem className="w-full">
 							<FormLabel>Email</FormLabel>
@@ -58,7 +88,7 @@ const Login = () => {
 				/>
 				<FormField
 					control={form.control}
-					name="Password"
+					name="password"
 					render={({ field }) => (
 						<FormItem className="w-full">
 							<FormLabel>Password</FormLabel>
@@ -74,8 +104,8 @@ const Login = () => {
 					)}
 				/>
 				<Separator />
-				<Button className="w-full" type="submit">
-					Submit
+				<Button className="w-full" disabled={isLoading} type="submit">
+					{isLoading ? "Loading..." : "Submit"}
 				</Button>
 			</form>
 		</Form>
