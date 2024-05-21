@@ -1,5 +1,6 @@
 import { LucideProps } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
+import { EApiMethod } from "./enums";
 
 export type ChildrenType = {
 	children: React.ReactNode;
@@ -104,3 +105,18 @@ export type TSideNavItem = {
 	page: string;
 	translate: number;
 };
+
+export type TUseReactQuery<T> = {
+	isLoading: boolean;
+	isError: boolean;
+	isSuccess: boolean;
+	status: "idle" | "error" | "loading" | "success";
+	error: unknown;
+	data: T;
+};
+
+export type TUseAPI = <T>(
+	endpoint: string,
+	method: EApiMethod,
+	body?: T
+) => TUseReactQuery<T>;
