@@ -4,11 +4,19 @@ import { useState } from "react";
 import Form from "./form";
 import List from "./list";
 import useApi from "@/apis/useApi";
-import { TCategoryResponse, TProductResponse } from "@/types/types";
+import {
+	TCategoryResponse,
+	TFilterType,
+	TProductResponse,
+} from "@/types/types";
 import { EApiMethod } from "@/types/enums";
 
 const Container = () => {
-	const [filter, setFilter] = useState("");
+	const [filter, setFilter] = useState<TFilterType>({
+		name: "",
+		min: 1,
+		max: Infinity,
+	});
 	const products = useApi<TProductResponse>(
 		"/products?pageNumber=1&pageSize=6",
 		EApiMethod.GET
@@ -16,7 +24,27 @@ const Container = () => {
 	const categories = useApi<TCategoryResponse>("/categories", EApiMethod.GET);
 
 	const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setFilter(event.target.value.toLowerCase());
+		const input = event.currentTarget.id;
+		console.log(input);
+
+		setFilter((previous) => ({
+			name:
+				input === "name"
+					? event.target.value.toLowerCase() || ""
+					: previous.name,
+			min:
+				input === "min"
+					? parseInt(event.target.value) || 0
+					: previous.min,
+			max:
+				input === "max"
+					? parseInt(event.target.value) || Infinity
+					: previous.max,
+			category:
+				input === "category"
+					? parseInt(event.target.value)
+					: previous?.category,
+		}));
 	};
 
 	return (

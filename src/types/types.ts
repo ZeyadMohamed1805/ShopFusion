@@ -77,6 +77,13 @@ export type TUserType = {
 	IsBanned?: boolean;
 };
 
+export type TFilterType = {
+	name: string;
+	min: number;
+	max: number;
+	category?: number;
+};
+
 export type TProductCardProps = {
 	data: TProductType;
 	visible: boolean;
@@ -88,7 +95,7 @@ export type TProductFormProps = {
 };
 
 export type TProductListProps = {
-	filter: string;
+	filter: TFilterType;
 	products: TUseReactQuery<TProductResponse>;
 };
 

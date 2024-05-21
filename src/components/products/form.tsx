@@ -16,13 +16,27 @@ const Form = ({
 }: TProductFormProps) => {
 	return (
 		<form className="w-full flex max-md:flex-col items-center justify-between gap-4">
-			<div className="w-full flex items-center gap-4">
+			<div className="w-full flex items-center gap-4 max-md:flex-col">
 				<Input
+					id="name"
 					placeholder="Product Name"
 					type="text"
 					onChange={setFilter}
 				/>
-				<Input placeholder="Product Price" type="number" />
+				<div className="w-full flex items-center gap-4">
+					<Input
+						placeholder="Min Price"
+						onChange={setFilter}
+						type="number"
+						id="min"
+					/>
+					<Input
+						placeholder="Max Price"
+						onChange={setFilter}
+						type="number"
+						id="max"
+					/>
+				</div>
 			</div>
 			<Select>
 				<SelectTrigger className="w-full max-w-[180px] max-md:max-w-none">

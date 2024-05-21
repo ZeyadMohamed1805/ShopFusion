@@ -33,24 +33,42 @@ const List = ({
 						}}
 					>
 						{isSuccess
-							? data.data.items.map((item) => (
-									<ProductCard
-										key={item.productId}
-										data={item}
-										visible={item.productName
-											.toLowerCase()
-											.includes(filter)}
-									/>
-							  ))
-							: productItems.map((item) => (
-									<ProductCard
-										key={item.productId}
-										data={item}
-										visible={item.productName
-											.toLowerCase()
-											.includes(filter)}
-									/>
-							  ))}
+							? data.data.items
+									.filter(
+										(item) =>
+											item.productName
+												.toLowerCase()
+												.includes(filter.name || "") &&
+											item.productPrice >= filter.min &&
+											item.productPrice <= filter.max
+									)
+									.map((item) => (
+										<ProductCard
+											key={item.productId}
+											data={item}
+											visible={item.productName
+												.toLowerCase()
+												.includes(filter.name || "")}
+										/>
+									))
+							: productItems
+									.filter(
+										(item) =>
+											item.productName
+												.toLowerCase()
+												.includes(filter.name || "") &&
+											item.productPrice >= filter.min &&
+											item.productPrice <= filter.max
+									)
+									.map((item) => (
+										<ProductCard
+											key={item.productId}
+											data={item}
+											visible={item.productName
+												.toLowerCase()
+												.includes(filter.name || "")}
+										/>
+									))}
 					</div>
 					<div>
 						<Pagination>
