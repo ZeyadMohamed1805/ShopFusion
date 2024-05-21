@@ -1,4 +1,3 @@
-import useApi from "@/apis/useApi";
 import ProductCard from "./productCard";
 import {
 	Pagination,
@@ -10,15 +9,12 @@ import {
 	PaginationPrevious,
 } from "@/components/ui/pagination";
 import { productItems } from "@/constants/constants";
-import { TProductListProps, TProductResponse } from "@/types/types";
-import { EApiMethod } from "@/types/enums";
+import { TProductListProps } from "@/types/types";
 
-const List = ({ filter }: TProductListProps) => {
-	const { isLoading, isSuccess, data } = useApi<TProductResponse>(
-		"/products?pageNumber=1&pageSize=6",
-		EApiMethod.GET
-	);
-
+const List = ({
+	filter,
+	products: { isLoading, isSuccess, data },
+}: TProductListProps) => {
 	return (
 		<div className="w-full flex flex-col gap-8">
 			{isLoading ? (

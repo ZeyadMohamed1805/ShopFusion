@@ -19,9 +19,9 @@ const UpdateCategory = ({ category }: { category: TCategoryType }) => {
 	const form = useForm<z.infer<typeof categoryFormSchema>>({
 		resolver: zodResolver(categoryFormSchema),
 		defaultValues: {
-			CategoryId: category.CategoryId,
-			CategoryName: category.CategoryName,
-			CategoryDescription: category.CategoryDescription,
+			categoryId: category.categoryId,
+			categoryName: category.categoryName,
+			categoryDescription: category.categoryDescription,
 		},
 	});
 
@@ -40,13 +40,13 @@ const UpdateCategory = ({ category }: { category: TCategoryType }) => {
 				</h1>
 				<FormField
 					control={form.control}
-					name="CategoryId"
+					name="categoryId"
 					render={({ field }) => (
 						<FormItem className="w-full">
 							<FormLabel>CategoryId</FormLabel>
 							<FormControl>
 								<Input
-									placeholder="CategoryId"
+									placeholder="categoryId"
 									{...field}
 									readOnly
 								/>
@@ -57,12 +57,12 @@ const UpdateCategory = ({ category }: { category: TCategoryType }) => {
 				/>
 				<FormField
 					control={form.control}
-					name="CategoryName"
+					name="categoryName"
 					render={({ field }) => (
 						<FormItem className="w-full">
 							<FormLabel>CategoryName</FormLabel>
 							<FormControl>
-								<Input placeholder="CategoryName" {...field} />
+								<Input placeholder="categoryName" {...field} />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -70,13 +70,13 @@ const UpdateCategory = ({ category }: { category: TCategoryType }) => {
 				/>
 				<FormField
 					control={form.control}
-					name="CategoryDescription"
+					name="categoryDescription"
 					render={({ field }) => (
 						<FormItem className="w-full">
 							<FormLabel>CategoryDescription</FormLabel>
 							<FormControl>
 								<Input
-									placeholder="CategoryDescription"
+									placeholder="categoryDescription"
 									{...field}
 								/>
 							</FormControl>

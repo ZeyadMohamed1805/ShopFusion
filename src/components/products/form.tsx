@@ -10,7 +10,10 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 
-const Form = ({ setFilter }: TProductFormProps) => {
+const Form = ({
+	setFilter,
+	categories: { isLoading, isSuccess, data },
+}: TProductFormProps) => {
 	return (
 		<form className="w-full flex max-md:flex-col items-center justify-between gap-4">
 			<div className="w-full flex items-center gap-4">
@@ -27,10 +30,34 @@ const Form = ({ setFilter }: TProductFormProps) => {
 				</SelectTrigger>
 				<SelectContent>
 					<SelectGroup>
-						<SelectLabel>Categories</SelectLabel>
-						<SelectItem value="Clothes">Clothes</SelectItem>
-						<SelectItem value="Toys">Toys</SelectItem>
-						<SelectItem value="Electronics">Electronics</SelectItem>
+						{isLoading ? (
+							<SelectLabel>Loading...</SelectLabel>
+						) : isSuccess ? (
+							<>
+								<SelectLabel>Categories</SelectLabel>
+								{data.data.map((category) => (
+									<SelectItem
+										key={category.categoryId}
+										value={category.categoryId.toString()}
+									>
+										{category.categoryName}
+									</SelectItem>
+								))}
+							</>
+						) : (
+							<>
+								<SelectLabel>Categories</SelectLabel>
+								<SelectItem value="Category One">
+									Category One
+								</SelectItem>
+								<SelectItem value="Category Two">
+									Category Two
+								</SelectItem>
+								<SelectItem value="Category Three">
+									Category Three
+								</SelectItem>
+							</>
+						)}
 					</SelectGroup>
 				</SelectContent>
 			</Select>

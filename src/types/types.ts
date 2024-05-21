@@ -50,19 +50,19 @@ export type TOrderType = {
 };
 
 export type TCategoryType = {
-	CategoryId: number;
-	CategoryName?: string;
-	CategorySlug?: string;
-	CategoryDescription?: string;
-	Products: [
+	categoryId: number;
+	categoryName?: string;
+	categorySlug?: string;
+	categoryDescription?: string;
+	products: [
 		{
-			ProductId: number;
-			ProductName?: string;
-			ProductSlug?: string;
-			ProductPrice?: number;
-			ProductDescription?: string;
-			ProductImage?: string;
-			ProductQuantityInStock: number;
+			productId: number;
+			productName?: string;
+			productSlug?: string;
+			productPrice?: number;
+			productDescription?: string;
+			productImage?: string;
+			productQuantityInStock: number;
 		}
 	];
 };
@@ -84,10 +84,12 @@ export type TProductCardProps = {
 
 export type TProductFormProps = {
 	setFilter: (event: React.ChangeEvent<HTMLInputElement>) => void;
+	categories: TUseReactQuery<TCategoryResponse>;
 };
 
 export type TProductListProps = {
 	filter: string;
+	products: TUseReactQuery<TProductResponse>;
 };
 
 export type TCartItemType = TProductType & {
@@ -132,4 +134,11 @@ export type TProductResponse = {
 		pageSize: number;
 		items: Array<TProductType>;
 	};
+};
+
+export type TCategoryResponse = {
+	message: string;
+	statusCode: number;
+	success: boolean;
+	data: Array<TCategoryType>;
 };

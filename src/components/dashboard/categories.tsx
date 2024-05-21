@@ -71,7 +71,7 @@ const Categories = () => {
 
 	const columns: ColumnDef<TCategoryType>[] = [
 		{
-			accessorKey: "CategoryName",
+			accessorKey: "categoryName",
 			header: ({ column }) => {
 				return (
 					<Button
@@ -86,24 +86,24 @@ const Categories = () => {
 				);
 			},
 			cell: ({ row }) => (
-				<div className="text-left">{row.getValue("CategoryName")}</div>
+				<div className="text-left">{row.getValue("categoryName")}</div>
 			),
 		},
 		{
-			accessorKey: "CategorySlug",
+			accessorKey: "categorySlug",
 			header: "Slug",
 			cell: ({ row }) => (
 				<div className="capitalize text-left">
-					{row.getValue("CategorySlug")}
+					{row.getValue("categorySlug")}
 				</div>
 			),
 		},
 		{
-			accessorKey: "CategoryDescription",
+			accessorKey: "categoryDescription",
 			header: "Description",
 			cell: ({ row }) => (
 				<div className="capitalize text-left">
-					{row.getValue("CategoryDescription")}
+					{row.getValue("categoryDescription")}
 				</div>
 			),
 		},
@@ -162,7 +162,7 @@ const Categories = () => {
 										<AlertDialogAction
 											onClick={() =>
 												console.log(
-													row.getValue("ProductName")
+													row.getValue("categoryName")
 												)
 											}
 										>
@@ -217,12 +217,12 @@ const Categories = () => {
 						placeholder="Filter Categories..."
 						value={
 							(table
-								.getColumn("CategoryName")
+								.getColumn("categoryName")
 								?.getFilterValue() as string) ?? ""
 						}
 						onChange={(event) =>
 							table
-								.getColumn("CategoryName")
+								.getColumn("categoryName")
 								?.setFilterValue(event.target.value)
 						}
 						className="max-w-none w-full lg:max-w-sm"

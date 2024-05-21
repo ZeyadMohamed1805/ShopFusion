@@ -1,21 +1,21 @@
 import { z } from "zod";
 
 export const categoryFormSchema = z.object({
-	CategoryId: z.coerce.number(),
-	CategoryName: z
+	categoryId: z.coerce.number(),
+	categoryName: z
 		.string()
-		.min(1, { message: "CategoryName is required." })
-		.max(50, { message: "CategoryName must be less than 50 characters" })
+		.min(1, { message: "Category name is required." })
+		.max(50, { message: "Category name must be less than 50 characters" })
 		.regex(new RegExp(/^[a-zA-Z\s]*$/), {
-			message: "CategoryName must contain only letters",
+			message: "Category name must contain only letters",
 		}),
-	CategoryDescription: z
+	categoryDescription: z
 		.string()
-		.min(1, { message: "CategoryDescription is required" })
+		.min(1, { message: "Category description is required" })
 		.max(100, {
-			message: "CategoryDescription must be less than 100 characters",
+			message: "Category description must be less than 100 characters",
 		})
 		.regex(new RegExp(/^[a-zA-Z\s]*$/), {
-			message: "CategoryDescription must contain only letters",
+			message: "Category description must contain only letters",
 		}),
 });
