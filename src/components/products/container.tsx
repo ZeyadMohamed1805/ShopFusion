@@ -18,10 +18,10 @@ const Container = () => {
 		max: Infinity,
 	});
 	const products = useApi<TProductResponse>(
-		"/proucts?pageNumber=1&pageSize=6",
+		"/products?pageNumber=1&pageSize=6",
 		EApiMethod.GET
 	);
-	const categories = useApi<TCategoryResponse>("/caegories", EApiMethod.GET);
+	const categories = useApi<TCategoryResponse>("/categories", EApiMethod.GET);
 
 	const handleFilterChange = (type: string, value: string) => {
 		console.log(value);

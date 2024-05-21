@@ -10,15 +10,22 @@ import {
 } from "@/components/ui/pagination";
 import { productItems } from "@/constants/constants";
 import { TProductListProps } from "@/types/types";
+import LoadingCard from "./loadingCard";
 
 const List = ({ filter, products, categories }: TProductListProps) => {
 	return (
 		<div className="w-full flex flex-col gap-8">
 			{products.isLoading && categories.isLoading ? (
-				<div className="w-full h-screen grid place-items-center">
-					<h1 className="text-center text-4xl font-bold">
-						Loading...
-					</h1>
+				<div
+					className="w-full grid gap-4 items-start transition-all"
+					style={{
+						gridTemplateColumns:
+							"repeat(auto-fit, minmax(340px, 1fr))",
+					}}
+				>
+					{Array.from({ length: 6 }).map((_, index) => (
+						<LoadingCard key={index} />
+					))}
 				</div>
 			) : (
 				<>
@@ -29,8 +36,19 @@ const List = ({ filter, products, categories }: TProductListProps) => {
 								"repeat(auto-fit, minmax(340px, 1fr))",
 						}}
 					>
-						{products.isSuccess && categories.isSuccess
-							? products.data.data.items
+						{products.isSuccess && categories.isSuccess ? (
+							products.data.data.items.filter(
+								(item) =>
+									item.productName
+										.toLowerCase()
+										.includes(filter.name || "") &&
+									item.productPrice >= filter.min &&
+									item.productPrice <= filter.max &&
+									(filter.category
+										? item.categoryId === filter.category
+										: true)
+							).length ? (
+								products.data.data.items
 									.filter(
 										(item) =>
 											item.productName
@@ -68,28 +86,53 @@ const List = ({ filter, products, categories }: TProductListProps) => {
 												.includes(filter.name || "")}
 										/>
 									))
-							: productItems
-									.filter(
-										(item) =>
-											item.productName
-												.toLowerCase()
-												.includes(filter.name || "") &&
-											item.productPrice >= filter.min &&
-											item.productPrice <= filter.max &&
-											(filter.category
-												? item.categoryId ===
-												  filter.category
-												: true)
-									)
-									.map((item) => (
-										<ProductCard
-											key={item.productId}
-											data={item}
-											visible={item.productName
-												.toLowerCase()
-												.includes(filter.name || "")}
-										/>
-									))}
+							) : (
+								<div className="w-full min-h-[calc(100vh-200.2px)] grid place-items-center">
+									<h1 className="text-3xl font-bold text-center">
+										No Products Found...
+									</h1>
+								</div>
+							)
+						) : productItems.filter(
+								(item) =>
+									item.productName
+										.toLowerCase()
+										.includes(filter.name || "") &&
+									item.productPrice >= filter.min &&
+									item.productPrice <= filter.max &&
+									(filter.category
+										? item.categoryId === filter.category
+										: true)
+						  ).length ? (
+							productItems
+								.filter(
+									(item) =>
+										item.productName
+											.toLowerCase()
+											.includes(filter.name || "") &&
+										item.productPrice >= filter.min &&
+										item.productPrice <= filter.max &&
+										(filter.category
+											? item.categoryId ===
+											  filter.category
+											: true)
+								)
+								.map((item) => (
+									<ProductCard
+										key={item.productId}
+										data={item}
+										visible={item.productName
+											.toLowerCase()
+											.includes(filter.name || "")}
+									/>
+								))
+						) : (
+							<div className="w-full min-h-[calc(100vh-200.2px)] grid place-items-center">
+								<h1 className="text-3xl font-bold text-center">
+									No Products Found...
+								</h1>
+							</div>
+						)}
 					</div>
 					<div>
 						<Pagination>
