@@ -125,7 +125,7 @@ const List = () => {
 								</TableRow>
 							) : (
 								cartItems.map((item) => (
-									<TableRow key={item.ProductId}>
+									<TableRow key={item.productId}>
 										<TableCell className="text-right w-8">
 											<AlertDialog>
 												<AlertDialogTrigger asChild>
@@ -155,7 +155,7 @@ const List = () => {
 														<AlertDialogAction
 															onClick={() =>
 																onDeleteCartItem(
-																	item.ProductId
+																	item.productId
 																)
 															}
 														>
@@ -166,16 +166,16 @@ const List = () => {
 											</AlertDialog>
 										</TableCell>
 										<TableCell className="font-medium whitespace-nowrap">
-											{item.ProductName}
+											{item.productName}
 										</TableCell>
 										<TableCell>
-											${item.ProductPrice}
+											${item.productPrice}
 										</TableCell>
 										<TableCell>
 											<Select
 												onValueChange={(value) =>
 													onSelectAmount(
-														item.ProductId,
+														item.productId,
 														parseInt(value)
 													)
 												}
@@ -183,13 +183,13 @@ const List = () => {
 												<SelectTrigger>
 													<SelectValue
 														placeholder={
-															item.ProductAmount
+															item.productAmount
 														}
 													/>
 												</SelectTrigger>
 												<SelectContent>
 													{Array.from({
-														length: item.ProductQuantityInStock,
+														length: item.productQuantityInStock,
 													}).map((_, index) => (
 														<SelectItem
 															key={index}
@@ -205,8 +205,8 @@ const List = () => {
 										</TableCell>
 										<TableCell className="text-right">
 											{(
-												item.ProductPrice *
-												item.ProductAmount
+												item.productPrice *
+												item.productAmount
 											).toFixed(2)}
 										</TableCell>
 									</TableRow>
@@ -223,8 +223,8 @@ const List = () => {
 										: cartItems
 												.map(
 													(item) =>
-														item.ProductPrice *
-														item.ProductAmount
+														item.productPrice *
+														item.productAmount
 												)
 												.reduce((one, two) => one + two)
 												.toFixed(2)}

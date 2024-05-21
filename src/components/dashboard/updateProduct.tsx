@@ -19,14 +19,14 @@ const UpdateProduct = ({ product }: { product: TProductType }) => {
 	const form = useForm<z.infer<typeof productFormSchema>>({
 		resolver: zodResolver(productFormSchema),
 		defaultValues: {
-			ProductId: product.ProductId,
-			ProductName: product.ProductName,
-			ProductPrice: product.ProductPrice,
-			ProductDescription: product.ProductDescription,
-			ProductSlug: product.ProductSlug,
-			ProductImage: product.ProductImage,
-			ProductQuantityInStock: product.ProductQuantityInStock,
-			CategoryId: product.CategoryId,
+			productId: product.productId,
+			productName: product.productName,
+			productPrice: product.productPrice,
+			productDescription: product.productDescription,
+			productSlug: product.productSlug,
+			productImage: product.productImage,
+			productQuantityInStock: product.productQuantityInStock,
+			categoryId: product.categoryId,
 		},
 	});
 
@@ -45,13 +45,13 @@ const UpdateProduct = ({ product }: { product: TProductType }) => {
 				</h1>
 				<FormField
 					control={form.control}
-					name="ProductId"
+					name="productId"
 					render={({ field }) => (
 						<FormItem className="w-full">
 							<FormLabel>ProductId</FormLabel>
 							<FormControl>
 								<Input
-									placeholder="ProductId"
+									placeholder="productId"
 									{...field}
 									readOnly
 								/>
@@ -62,12 +62,12 @@ const UpdateProduct = ({ product }: { product: TProductType }) => {
 				/>
 				<FormField
 					control={form.control}
-					name="ProductName"
+					name="productName"
 					render={({ field }) => (
 						<FormItem className="w-full">
 							<FormLabel>ProductName</FormLabel>
 							<FormControl>
-								<Input placeholder="ProductName" {...field} />
+								<Input placeholder="productName" {...field} />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -75,12 +75,12 @@ const UpdateProduct = ({ product }: { product: TProductType }) => {
 				/>
 				<FormField
 					control={form.control}
-					name="ProductPrice"
+					name="productPrice"
 					render={({ field }) => (
 						<FormItem className="w-full">
 							<FormLabel>ProductPrice</FormLabel>
 							<FormControl>
-								<Input placeholder="ProductPrice" {...field} />
+								<Input placeholder="productPrice" {...field} />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -88,13 +88,13 @@ const UpdateProduct = ({ product }: { product: TProductType }) => {
 				/>
 				<FormField
 					control={form.control}
-					name="ProductDescription"
+					name="productDescription"
 					render={({ field }) => (
 						<FormItem className="w-full">
 							<FormLabel>ProductDescription</FormLabel>
 							<FormControl>
 								<Input
-									placeholder="ProductDescription"
+									placeholder="productDescription"
 									{...field}
 								/>
 							</FormControl>
@@ -104,12 +104,12 @@ const UpdateProduct = ({ product }: { product: TProductType }) => {
 				/>
 				<FormField
 					control={form.control}
-					name="ProductSlug"
+					name="productSlug"
 					render={({ field }) => (
 						<FormItem className="w-full hidden">
 							<FormLabel>ProductSlug</FormLabel>
 							<FormControl>
-								<Input placeholder="ProductSlug" {...field} />
+								<Input placeholder="productSlug" {...field} />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -117,12 +117,12 @@ const UpdateProduct = ({ product }: { product: TProductType }) => {
 				/>
 				<FormField
 					control={form.control}
-					name="ProductImage"
+					name="productImage"
 					render={({ field }) => (
 						<FormItem className="w-full hidden">
 							<FormLabel>ProductImage</FormLabel>
 							<FormControl>
-								<Input placeholder="ProductImage" {...field} />
+								<Input placeholder="productImage" {...field} />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -130,13 +130,13 @@ const UpdateProduct = ({ product }: { product: TProductType }) => {
 				/>
 				<FormField
 					control={form.control}
-					name="CategoryId"
+					name="categoryId"
 					render={({ field }) => (
 						<FormItem className="w-full hidden">
 							<FormLabel>CategoryId</FormLabel>
 							<FormControl>
 								<Input
-									placeholder="CategoryId"
+									placeholder="categoryId"
 									type="number"
 									{...field}
 								/>
@@ -147,13 +147,13 @@ const UpdateProduct = ({ product }: { product: TProductType }) => {
 				/>
 				<FormField
 					control={form.control}
-					name="ProductQuantityInStock"
+					name="productQuantityInStock"
 					render={({ field }) => (
 						<FormItem className="w-full">
 							<FormLabel>ProductQuantityInStock</FormLabel>
 							<FormControl>
 								<Input
-									placeholder="ProductQuantityInStock"
+									placeholder="productQuantityInStock"
 									{...field}
 								/>
 							</FormControl>

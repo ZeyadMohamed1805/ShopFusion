@@ -7,19 +7,19 @@ export type ChildrenType = {
 };
 
 export type TProductType = {
-	ProductId: number;
-	ProductImage: string;
-	ProductName: string;
-	ProductPrice: number;
-	ProductSlug: string;
-	ProductDescription: string;
-	ProductQuantityInStock: number;
-	CategoryId: number;
+	productId: number;
+	productImage: string;
+	productName: string;
+	productPrice: number;
+	productSlug: string;
+	productDescription: string;
+	productQuantityInStock: number;
+	categoryId: number;
 	Category?: {
 		CategoryId: number;
 		CategoryName: string;
 	};
-	CreatedAt: Date;
+	CreatedAt?: Date;
 };
 
 export type TOrderType = {
@@ -91,7 +91,7 @@ export type TProductListProps = {
 };
 
 export type TCartItemType = TProductType & {
-	ProductAmount: number;
+	productAmount: number;
 };
 
 export type TSideNavProps = {
@@ -120,3 +120,16 @@ export type TUseAPI = <T>(
 	method: EApiMethod,
 	body?: T
 ) => TUseReactQuery<T>;
+
+export type TProductResponse = {
+	message: string;
+	statusCode: number;
+	success: boolean;
+	data: {
+		totalPages: number;
+		totalCount: number;
+		pageNumber: number;
+		pageSize: number;
+		items: Array<TProductType>;
+	};
+};

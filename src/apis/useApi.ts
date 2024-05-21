@@ -12,12 +12,32 @@ export const useApi: TUseAPI = <T>(
 		endpoint,
 		() =>
 			method === EApiMethod.GET
-				? axios.get(endpoint).then((response) => response.data)
+				? axios
+						.get(endpoint)
+						.then((response) => response.data)
+						.catch((error) => {
+							throw new Error(error);
+						})
 				: method === EApiMethod.POST
-				? axios.post(endpoint, body).then((response) => response.data)
+				? axios
+						.post(endpoint, body)
+						.then((response) => response.data)
+						.catch((error) => {
+							throw new Error(error);
+						})
 				: method === EApiMethod.PUT
-				? axios.put(endpoint, body).then((response) => response.data)
-				: axios.delete(endpoint).then((response) => response.data)
+				? axios
+						.put(endpoint, body)
+						.then((response) => response.data)
+						.catch((error) => {
+							throw new Error(error);
+						})
+				: axios
+						.delete(endpoint)
+						.then((response) => response.data)
+						.catch((error) => {
+							throw new Error(error);
+						})
 	);
 
 	return { isLoading, isError, isSuccess, status, error, data };

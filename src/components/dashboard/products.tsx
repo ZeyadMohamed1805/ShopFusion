@@ -60,7 +60,7 @@ const Products = () => {
 
 	const columns: ColumnDef<TProductType>[] = [
 		{
-			accessorKey: "ProductName",
+			accessorKey: "productName",
 			header: ({ column }) => {
 				return (
 					<Button
@@ -75,56 +75,56 @@ const Products = () => {
 				);
 			},
 			cell: ({ row }) => (
-				<div className="text-left">{row.getValue("ProductName")}</div>
+				<div className="text-left">{row.getValue("productName")}</div>
 			),
 		},
 		{
-			accessorKey: "ProductDescription",
+			accessorKey: "productDescription",
 			header: "Description",
 			cell: ({ row }) => (
 				<div className="capitalize text-left">
-					{row.getValue("ProductDescription")}
+					{row.getValue("productDescription")}
 				</div>
 			),
 		},
 		{
-			accessorKey: "ProductImage",
+			accessorKey: "productImage",
 			header: "Image",
 			cell: ({ row }) => (
 				<div className="capitalize text-left">
-					{row.getValue("ProductImage")}
+					{row.getValue("productImage")}
 				</div>
 			),
 		},
 		{
-			accessorKey: "ProductSlug",
+			accessorKey: "productSlug",
 			header: "Slug",
 			cell: ({ row }) => (
 				<div className="capitalize text-left">
-					{row.getValue("ProductSlug")}
+					{row.getValue("productSlug")}
 				</div>
 			),
 		},
 		{
-			accessorKey: "ProductQuantityInStock",
+			accessorKey: "productQuantityInStock",
 			header: "Quantity",
 			cell: ({ row }) => (
 				<div className="capitalize text-left">
-					{row.getValue("ProductQuantityInStock")}
+					{row.getValue("productQuantityInStock")}
 				</div>
 			),
 		},
 		{
-			accessorKey: "ProductPrice",
+			accessorKey: "productPrice",
 			header: () => <div className="text-left">Price</div>,
 			cell: ({ row }) => {
-				const ProductPrice = parseFloat(row.getValue("ProductPrice"));
+				const productPrice = parseFloat(row.getValue("productPrice"));
 
-				// Format the ProductPrice as a dollar ProductPrice
+				// Format the productPrice as a dollar productPrice
 				const formatted = new Intl.NumberFormat("en-US", {
 					style: "currency",
 					currency: "USD",
-				}).format(ProductPrice);
+				}).format(productPrice);
 
 				return <div className="text-left font-medium">{formatted}</div>;
 			},
@@ -156,7 +156,7 @@ const Products = () => {
 										<DropdownMenuSeparator />
 										<SheetTrigger asChild>
 											<DropdownMenuItem>
-												Update Product
+												Update product
 											</DropdownMenuItem>
 										</SheetTrigger>
 										<AlertDialogTrigger asChild>
@@ -184,7 +184,7 @@ const Products = () => {
 										<AlertDialogAction
 											onClick={() =>
 												console.log(
-													row.getValue("ProductName")
+													row.getValue("productName")
 												)
 											}
 										>
@@ -234,12 +234,12 @@ const Products = () => {
 						placeholder="Filter Products..."
 						value={
 							(table
-								.getColumn("ProductName")
+								.getColumn("productName")
 								?.getFilterValue() as string) ?? ""
 						}
 						onChange={(event) =>
 							table
-								.getColumn("ProductName")
+								.getColumn("productName")
 								?.setFilterValue(event.target.value)
 						}
 						className="max-w-none w-full lg:max-w-sm"

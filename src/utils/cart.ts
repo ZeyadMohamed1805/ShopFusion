@@ -7,7 +7,7 @@ export const addCartItem = (cartItem: TCartItemType): boolean => {
 
 	if (cartItems) {
 		const productIndex = cartItems.findIndex(
-			(item) => item.ProductId === cartItem.ProductId
+			(item) => item.productId === cartItem.productId
 		);
 
 		if (productIndex === -1) {
@@ -35,8 +35,8 @@ export const updateCartItemAmount = (
 
 	if (cartItems) {
 		const newCartItems: TCartItemType[] = cartItems.map((item) => {
-			if (item.ProductId === productId) {
-				item.ProductAmount = amount;
+			if (item.productId === productId) {
+				item.productAmount = amount;
 				return item;
 			}
 			return item;
@@ -54,7 +54,7 @@ export const removeCartItem = (productId: number): boolean => {
 
 	if (cartItems) {
 		const productIndex: number = cartItems.findIndex(
-			(item) => item.ProductId === productId
+			(item) => item.productId === productId
 		);
 		cartItems.splice(productIndex, 1);
 		setLocalStorageItem<TCartItemType[]>("shop-fusion-cart", cartItems);

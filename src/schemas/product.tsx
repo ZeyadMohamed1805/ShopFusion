@@ -1,23 +1,23 @@
 import { z } from "zod";
 
 export const productFormSchema = z.object({
-	ProductId: z.coerce.number(),
-	ProductName: z.string().min(1, { message: "ProductName is required." }),
-	ProductSlug: z.string().regex(new RegExp(/^[a-z0-9-]+$/), {
+	productId: z.coerce.number(),
+	productName: z.string().min(1, { message: "Product name is required." }),
+	productSlug: z.string().regex(new RegExp(/^[a-z0-9-]+$/), {
 		message:
 			"Product slug can only contain lowercase letters, numbers, and hyphens.",
 	}),
-	ProductDescription: z
+	productDescription: z
 		.string()
-		.min(1, { message: "ProductDescription is required." }),
-	ProductPrice: z.coerce
+		.min(1, { message: "Product description is required." }),
+	productPrice: z.coerce
 		.number()
 		.min(0.01, { message: "Product price must be greater than 0" }),
-	ProductImage: z.string().url("Invalid URL format"),
-	ProductQuantityInStock: z.coerce
+	productImage: z.string().url("Invalid URL format"),
+	productQuantityInStock: z.coerce
 		.number()
 		.min(1, { message: "Product quantity must be a positive number" }),
-	CategoryId: z.coerce
+	categoryId: z.coerce
 		.number()
-		.min(1, { message: "CategoryId is required." }),
+		.min(1, { message: "Category id is required." }),
 });

@@ -35,16 +35,16 @@ const ProductCard = ({ data, visible }: TProductCardProps) => {
 	};
 
 	const onCartClick = () => {
-		const isItemAdded = addCartItem({ ...data, ProductAmount: 1 });
+		const isItemAdded = addCartItem({ ...data, productAmount: 1 });
 		isItemAdded
 			? showToast(
-					`${data.ProductName} Added!`,
-					`${data.ProductName} Added To Cart Successfully!`,
+					`${data.productName} Added!`,
+					`${data.productName} Added To Cart Successfully!`,
 					"Awesome!"
 			  )
 			: showToast(
-					`${data.ProductName} Exists`,
-					`${data.ProductName} is already in your cart!`,
+					`${data.productName} Exists`,
+					`${data.productName} is already in your cart!`,
 					"Got it!",
 					true
 			  );
@@ -52,7 +52,7 @@ const ProductCard = ({ data, visible }: TProductCardProps) => {
 
 	return (
 		<Card
-			key={data.ProductId}
+			key={data.productId}
 			className={`transition transform duration-300 max-w-[688px] ${
 				visible
 					? "opacity-100 scale-100 block"
@@ -63,14 +63,14 @@ const ProductCard = ({ data, visible }: TProductCardProps) => {
 				ratio={16 / 9}
 				className="flex items-center justify-center text-center"
 			>
-				<h3 className="text-3xl fw-bolder">{data.ProductImage}</h3>
+				<h3 className="text-3xl fw-bolder">{data.productImage}</h3>
 			</AspectRatio>
 			<CardHeader>
 				<div className="flex justify-between gap-4">
 					<div className="flex flex-col gap-2">
-						<CardTitle>{data.ProductName}</CardTitle>
+						<CardTitle>{data.productName}</CardTitle>
 						<CardDescription>
-							{data.ProductDescription}
+							{data.productDescription}
 						</CardDescription>
 					</div>
 					<Button
@@ -89,7 +89,7 @@ const ProductCard = ({ data, visible }: TProductCardProps) => {
 					<Badge variant="secondary" className="text-md fw-bolder">
 						{data.Category?.CategoryName || "Category"}
 					</Badge>
-					<p className="text-lg fw-bolder">{`$${data.ProductPrice}`}</p>
+					<p className="text-lg fw-bolder">{`$${data.productPrice}`}</p>
 				</div>
 			</CardContent>
 			<CardFooter className="flex justify-between">
