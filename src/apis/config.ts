@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const client = axios.create({
+const config = axios.create({
 	baseURL: process.env.NEXT_PUBLIC_BASE_URL,
 });
 
-export default client;
+export default config;
