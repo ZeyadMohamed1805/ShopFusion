@@ -7,8 +7,58 @@ import { navLinks, navButtons } from "@/constants/constants";
 import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 import { Separator } from "@/components/ui/separator";
 import Register from "@/components/auth/register";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useToast } from "@/components/ui/use-toast";
+import { ToastAction } from "@/components/ui/toast";
+import UseMutation from "@/apis/useMutation";
 
 const Footer = () => {
+	const [isAuthorized, setIsAuthorized] = useState({
+		loading: true,
+		authorized: false,
+	});
+	const { toast } = useToast();
+
+	const showToast = (
+		title: string,
+		description: string,
+		action: string,
+		destructive: boolean = false
+	) => {
+		toast({
+			title: title,
+			description: description,
+			variant: destructive ? "destructive" : "default",
+			action: <ToastAction altText="Can't wait!">{action}</ToastAction>,
+		});
+	};
+	const { isLoading, mutate } = UseMutation(
+		"/users/logout",
+		() => location.reload(),
+		() =>
+			showToast(
+				"Logout Failed",
+				"Logout was unsuccessful. Please try again later.",
+				"Got it!",
+				true
+			)
+	);
+
+	useEffect(() => {
+		axios
+			.get("/api/validate")
+			.then((response) => {
+				if (response.status === 401) {
+					setIsAuthorized({ loading: false, authorized: false });
+				} else if (response.status === 200) {
+					setIsAuthorized({ loading: false, authorized: true });
+				}
+				console.log(response.data, response.status);
+			})
+			.catch((error) => {});
+	}, []);
+
 	return (
 		<footer className="w-full flex flex-col items-center gap-4 p-4 shadow border-t-2">
 			<div className="max-w-[1400px] w-full flex items-center justify-between flex-col md:flex-row gap-4">
@@ -30,37 +80,47 @@ const Footer = () => {
 					))}
 				</ul>
 				<ul className="flex items-center gap-2">
-					{navButtons.map((button, index) => (
-						<Dialog key={index}>
-							<DialogTrigger asChild>
-								<li>
-									<Button
-										variant={
-											button === "Login"
-												? "outline"
-												: "default"
-										}
-										className={
-											button === "Login"
-												? navigationMenuTriggerStyle()
-												: ""
-										}
-									>
-										{button}
-									</Button>
-								</li>
-							</DialogTrigger>
-							<DialogContent
-								className={
-									button === "Login"
-										? "sm:max-w-[425px]"
-										: "sm:max-w-[425px] md:max-w-[800px]"
-								}
-							>
-								{button === "Login" ? <Login /> : <Register />}
-							</DialogContent>
-						</Dialog>
-					))}
+					{isAuthorized.authorized && !isAuthorized.loading ? (
+						<Button disabled={isLoading} onClick={() => mutate("")}>
+							{isLoading ? "Loading..." : "Logout"}
+						</Button>
+					) : (
+						navButtons.map((button, index) => (
+							<Dialog key={index}>
+								<DialogTrigger asChild>
+									<li>
+										<Button
+											variant={
+												button === "Login"
+													? "outline"
+													: "default"
+											}
+											className={
+												button === "Login"
+													? navigationMenuTriggerStyle()
+													: ""
+											}
+										>
+											{button}
+										</Button>
+									</li>
+								</DialogTrigger>
+								<DialogContent
+									className={
+										button === "Login"
+											? "sm:max-w-[425px]"
+											: "sm:max-w-[425px] md:max-w-[800px]"
+									}
+								>
+									{button === "Login" ? (
+										<Login />
+									) : (
+										<Register />
+									)}
+								</DialogContent>
+							</Dialog>
+						))
+					)}
 				</ul>
 			</div>
 			<Separator />

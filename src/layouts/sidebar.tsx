@@ -15,9 +15,59 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 import { navLinks, navButtons } from "@/constants/constants";
 import { ChildrenType } from "@/types/types";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import Register from "@/components/auth/register";
+import { useToast } from "@/components/ui/use-toast";
+import { ToastAction } from "@/components/ui/toast";
+import UseMutation from "@/apis/useMutation";
 
 const Sidebar = ({ children }: ChildrenType) => {
+	const [isAuthorized, setIsAuthorized] = useState({
+		loading: true,
+		authorized: false,
+	});
+	const { toast } = useToast();
+
+	const showToast = (
+		title: string,
+		description: string,
+		action: string,
+		destructive: boolean = false
+	) => {
+		toast({
+			title: title,
+			description: description,
+			variant: destructive ? "destructive" : "default",
+			action: <ToastAction altText="Can't wait!">{action}</ToastAction>,
+		});
+	};
+	const { isLoading, mutate } = UseMutation(
+		"/users/logout",
+		() => location.reload(),
+		() =>
+			showToast(
+				"Logout Failed",
+				"Logout was unsuccessful. Please try again later.",
+				"Got it!",
+				true
+			)
+	);
+
+	useEffect(() => {
+		axios
+			.get("/api/validate")
+			.then((response) => {
+				if (response.status === 401) {
+					setIsAuthorized({ loading: false, authorized: false });
+				} else if (response.status === 200) {
+					setIsAuthorized({ loading: false, authorized: true });
+				}
+				console.log(response.data, response.status);
+			})
+			.catch((error) => {});
+	}, []);
+
 	return (
 		<Sheet>
 			<SheetTrigger asChild>{children}</SheetTrigger>
@@ -52,41 +102,59 @@ const Sidebar = ({ children }: ChildrenType) => {
 				</ul>
 				<Separator />
 				<ul className="w-100 flex flex-col gap-4">
-					{navButtons.map((button, index) => (
-						<Dialog key={index}>
-							<DialogTrigger asChild>
-								<li
-									key={index}
-									className={"min-w-full text-left"}
-								>
-									<Button
-										variant={
-											button === "Login"
-												? "outline"
-												: "default"
-										}
-										className={
-											button === "Login"
-												? navigationMenuTriggerStyle() +
-												  " min-w-full text-left"
-												: "min-w-full text-left"
-										}
-									>
-										{button}
-									</Button>
-								</li>
-							</DialogTrigger>
-							<DialogContent
-								className={
-									button === "Login"
-										? "sm:max-w-[425px]"
-										: "sm:max-w-[425px] md:max-w-[800px]"
-								}
+					{isAuthorized.authorized && !isAuthorized.loading ? (
+						<li
+							className="min-w-full text-left"
+							onClick={() => mutate("")}
+						>
+							<Button
+								className="min-w-full text-left"
+								disabled={isLoading}
 							>
-								{button === "Login" ? <Login /> : <Register />}
-							</DialogContent>
-						</Dialog>
-					))}
+								{isLoading ? "Loading..." : "Logout"}
+							</Button>
+						</li>
+					) : (
+						navButtons.map((button, index) => (
+							<Dialog key={index}>
+								<DialogTrigger asChild>
+									<li
+										key={index}
+										className={"min-w-full text-left"}
+									>
+										<Button
+											variant={
+												button === "Login"
+													? "outline"
+													: "default"
+											}
+											className={
+												button === "Login"
+													? navigationMenuTriggerStyle() +
+													  " min-w-full text-left"
+													: "min-w-full text-left"
+											}
+										>
+											{button}
+										</Button>
+									</li>
+								</DialogTrigger>
+								<DialogContent
+									className={
+										button === "Login"
+											? "sm:max-w-[425px]"
+											: "sm:max-w-[425px] md:max-w-[800px]"
+									}
+								>
+									{button === "Login" ? (
+										<Login />
+									) : (
+										<Register />
+									)}
+								</DialogContent>
+							</Dialog>
+						))
+					)}
 				</ul>
 				<SheetFooter>
 					<SheetClose asChild>Save changes</SheetClose>

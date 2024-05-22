@@ -22,7 +22,7 @@ import UseMutation from "@/apis/useMutation";
 import axios from "axios";
 
 const Login = () => {
-	const { push } = useRouter();
+	const { push, refresh } = useRouter();
 	const { toast } = useToast();
 
 	const showToast = (
@@ -44,7 +44,7 @@ const Login = () => {
 			const {
 				data: { is_admin },
 			} = await axios.get("/api/validate");
-			is_admin ? push("/dashboard") : push("/");
+			is_admin ? push("/dashboard") : location.reload();
 		},
 		() =>
 			showToast(
