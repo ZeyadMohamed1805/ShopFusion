@@ -46,120 +46,10 @@ import { dashboardUsers as data } from "@/constants/constants";
 import { TUserType } from "@/types/types";
 import useApi from "@/apis/useApi";
 import { EApiMethod } from "@/types/enums";
-
-export const columns: ColumnDef<TUserType>[] = [
-	{
-		accessorKey: "email",
-		header: ({ column }) => {
-			return (
-				<Button
-					variant="ghost"
-					onClick={() =>
-						column.toggleSorting(column.getIsSorted() === "asc")
-					}
-				>
-					Email
-					<ArrowUpDown className="ml-2 h-4 w-4" />
-				</Button>
-			);
-		},
-		cell: ({ row }) => (
-			<div className="text-left">{row.getValue("email")}</div>
-		),
-	},
-	{
-		accessorKey: "firstName",
-		header: "First Name",
-		cell: ({ row }) => (
-			<div className="capitalize text-left">
-				{row.getValue("firstName")}
-			</div>
-		),
-	},
-	{
-		accessorKey: "lastName",
-		header: "Last Name",
-		cell: ({ row }) => (
-			<div className="capitalize text-left">
-				{row.getValue("lastName")}
-			</div>
-		),
-	},
-	{
-		accessorKey: "mobile",
-		header: "Mobile",
-		cell: ({ row }) => (
-			<div className="capitalize text-left">{row.getValue("mobile")}</div>
-		),
-	},
-	{
-		accessorKey: "isAdmin",
-		header: "Admin",
-		cell: ({ row }) => (
-			<div className="capitalize text-left">
-				{row.getValue("isAdmin")?.toString() || "False"}
-			</div>
-		),
-	},
-	{
-		accessorKey: "isBanned",
-		header: "Banned",
-		cell: ({ row }) => (
-			<div className="capitalize text-left">
-				{row.getValue("isBanned")?.toString() || "False"}
-			</div>
-		),
-	},
-	{
-		id: "actions",
-		enableHiding: false,
-		cell: ({ row }) => {
-			return (
-				<>
-					<AlertDialog>
-						<DropdownMenu>
-							<DropdownMenuTrigger asChild>
-								<Button variant="ghost" className="h-8 w-8 p-0">
-									<span className="sr-only">Open menu</span>
-									<MoreHorizontal className="h-4 w-4" />
-								</Button>
-							</DropdownMenuTrigger>
-							<DropdownMenuContent align="end">
-								<DropdownMenuLabel>Actions</DropdownMenuLabel>
-								<DropdownMenuSeparator />
-								<AlertDialogTrigger asChild>
-									<DropdownMenuItem>
-										Block User
-									</DropdownMenuItem>
-								</AlertDialogTrigger>
-								<AlertDialogTrigger asChild>
-									<DropdownMenuItem>
-										Delete User
-									</DropdownMenuItem>
-								</AlertDialogTrigger>
-							</DropdownMenuContent>
-						</DropdownMenu>
-						<AlertDialogContent>
-							<AlertDialogHeader>
-								<AlertDialogTitle>
-									Are you sure?
-								</AlertDialogTitle>
-								<AlertDialogDescription>
-									This action will affect the roles of a
-									client who uses this application.
-								</AlertDialogDescription>
-							</AlertDialogHeader>
-							<AlertDialogFooter>
-								<AlertDialogCancel>Cancel</AlertDialogCancel>
-								<AlertDialogAction>Confirm</AlertDialogAction>
-							</AlertDialogFooter>
-						</AlertDialogContent>
-					</AlertDialog>
-				</>
-			);
-		},
-	},
-];
+import { useToast } from "../ui/use-toast";
+import { ToastAction } from "../ui/toast";
+import { useMutation } from "react-query";
+import axios from "@/apis/config";
 
 const Users = () => {
 	const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -168,7 +58,231 @@ const Users = () => {
 	const [columnVisibility, setColumnVisibility] =
 		React.useState<VisibilityState>({});
 	const [rowSelection, setRowSelection] = React.useState({});
+	const [dialog, setDialog] = React.useState(false);
+	const [user, setUser] = React.useState<number>();
 	const users: any = useApi<any>("/users", EApiMethod.GET);
+	const { toast } = useToast();
+
+	const showToast = (
+		title: string,
+		description: string,
+		action: string,
+		destructive: boolean = false
+	) => {
+		toast({
+			title: title,
+			description: description,
+			variant: destructive ? "destructive" : "default",
+			action: <ToastAction altText="Can't wait!">{action}</ToastAction>,
+		});
+	};
+
+	const { mutate: deleteMutate } = useMutation("delete_user", {
+		mutationFn: async (endpoint: string) => {
+			const response = await axios.delete(endpoint);
+			return response;
+		},
+		onSuccess: () => {
+			showToast(
+				"Deletion Successful",
+				"User was deleted successfully!",
+				"Awesome!"
+			);
+		},
+		onError: () => {
+			showToast(
+				"Deletion Failed",
+				"Something went wrong. The user was not deleted",
+				"Got it!",
+				true
+			);
+		},
+	});
+
+	const { mutate: blockMutate } = useMutation("block_user", {
+		mutationFn: async (endpoint: string) => {
+			const response = await axios.put(endpoint, {
+				...users.data.data.find((user: any) => user.userId === user),
+				isBanned: true,
+			});
+			return response;
+		},
+		onSuccess: () => {
+			showToast(
+				"Deletion Successful",
+				"User was deleted successfully!",
+				"Awesome!"
+			);
+		},
+		onError: () => {
+			showToast(
+				"Deletion Failed",
+				"Something went wrong. The user was not deleted",
+				"Got it!",
+				true
+			);
+		},
+	});
+
+	const columns: ColumnDef<TUserType>[] = [
+		{
+			accessorKey: "email",
+			header: ({ column }) => {
+				return (
+					<Button
+						variant="ghost"
+						onClick={() =>
+							column.toggleSorting(column.getIsSorted() === "asc")
+						}
+					>
+						Email
+						<ArrowUpDown className="ml-2 h-4 w-4" />
+					</Button>
+				);
+			},
+			cell: ({ row }) => (
+				<div className="text-left">{row.getValue("email")}</div>
+			),
+		},
+		{
+			accessorKey: "firstName",
+			header: "First Name",
+			cell: ({ row }) => (
+				<div className="capitalize text-left">
+					{row.getValue("firstName")}
+				</div>
+			),
+		},
+		{
+			accessorKey: "lastName",
+			header: "Last Name",
+			cell: ({ row }) => (
+				<div className="capitalize text-left">
+					{row.getValue("lastName")}
+				</div>
+			),
+		},
+		{
+			accessorKey: "mobile",
+			header: "Mobile",
+			cell: ({ row }) => (
+				<div className="capitalize text-left">
+					{row.getValue("mobile")}
+				</div>
+			),
+		},
+		{
+			accessorKey: "isAdmin",
+			header: "Admin",
+			cell: ({ row }) => (
+				<div className="capitalize text-left">
+					{row.getValue("isAdmin")?.toString() || "False"}
+				</div>
+			),
+		},
+		{
+			accessorKey: "isBanned",
+			header: "Banned",
+			cell: ({ row }) => (
+				<div className="capitalize text-left">
+					{row.getValue("isBanned")?.toString() || "False"}
+				</div>
+			),
+		},
+		{
+			id: "actions",
+			enableHiding: false,
+			cell: ({ row }) => {
+				return (
+					<>
+						<AlertDialog>
+							<DropdownMenu>
+								<DropdownMenuTrigger asChild>
+									<Button
+										variant="ghost"
+										className="h-8 w-8 p-0"
+									>
+										<span className="sr-only">
+											Open menu
+										</span>
+										<MoreHorizontal className="h-4 w-4" />
+									</Button>
+								</DropdownMenuTrigger>
+								<DropdownMenuContent align="end">
+									<DropdownMenuLabel>
+										Actions
+									</DropdownMenuLabel>
+									<DropdownMenuSeparator />
+									<AlertDialogTrigger asChild>
+										<DropdownMenuItem
+											onClick={() => {
+												setDialog(false);
+												setUser(
+													users.data.data[
+														parseInt(row.id)
+													].userId
+												);
+											}}
+										>
+											Block User
+										</DropdownMenuItem>
+									</AlertDialogTrigger>
+									<AlertDialogTrigger
+										asChild
+										onClick={() => setDialog(true)}
+									>
+										<DropdownMenuItem>
+											Delete User
+										</DropdownMenuItem>
+									</AlertDialogTrigger>
+								</DropdownMenuContent>
+							</DropdownMenu>
+							<AlertDialogContent>
+								<AlertDialogHeader>
+									<AlertDialogTitle>
+										Are you sure?
+									</AlertDialogTitle>
+									<AlertDialogDescription>
+										This action will affect the roles of a
+										client who uses this application.
+									</AlertDialogDescription>
+								</AlertDialogHeader>
+								<AlertDialogFooter>
+									<AlertDialogCancel>
+										Cancel
+									</AlertDialogCancel>
+									<AlertDialogAction
+										onClick={() => {
+											dialog
+												? deleteMutate(
+														`/users/${
+															users.data.data[
+																parseInt(row.id)
+															].userId
+														}`
+												  )
+												: blockMutate(
+														`/users/${
+															users.data.data[
+																parseInt(row.id)
+															].userId
+														}`,
+														users.data.data[
+															parseInt(row.id)
+														]
+												  );
+										}}
+									>
+										Confirm
+									</AlertDialogAction>
+								</AlertDialogFooter>
+							</AlertDialogContent>
+						</AlertDialog>
+					</>
+				);
+			},
+		},
+	];
 
 	const table = useReactTable({
 		data: !users.isLoading && users.isSuccess ? users.data.data : data,
