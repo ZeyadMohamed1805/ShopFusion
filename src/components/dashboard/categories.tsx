@@ -66,6 +66,10 @@ import {
 import UpdateCategory from "./updateCategory";
 import { EApiMethod } from "@/types/enums";
 import useApi from "@/apis/useApi";
+import { useToast } from "../ui/use-toast";
+import { ToastAction } from "../ui/toast";
+import { useMutation } from "react-query";
+import axios from "@/apis/config";
 
 const Categories = () => {
 	const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -76,6 +80,44 @@ const Categories = () => {
 	const [rowSelection, setRowSelection] = React.useState({});
 	const categories: TUseReactQuery<TCategoryResponse> =
 		useApi<TCategoryResponse>("/categories", EApiMethod.GET);
+
+	const { toast } = useToast();
+
+	const showToast = (
+		title: string,
+		description: string,
+		action: string,
+		destructive: boolean = false
+	) => {
+		toast({
+			title: title,
+			description: description,
+			variant: destructive ? "destructive" : "default",
+			action: <ToastAction altText="Can't wait!">{action}</ToastAction>,
+		});
+	};
+
+	const { mutate } = useMutation("delete_category", {
+		mutationFn: async (endpoint: string) => {
+			const response = await axios.delete(endpoint);
+			return response;
+		},
+		onSuccess: () => {
+			showToast(
+				"Deletion Successful",
+				"User was deleted successfully!",
+				"Awesome!"
+			);
+		},
+		onError: () => {
+			showToast(
+				"Deletion Failed",
+				"Something went wrong. The user was not deleted",
+				"Got it!",
+				true
+			);
+		},
+	});
 
 	const columns: ColumnDef<TCategoryType>[] = [
 		{
@@ -167,7 +209,17 @@ const Categories = () => {
 										<AlertDialogCancel>
 											Cancel
 										</AlertDialogCancel>
-										<AlertDialogAction>
+										<AlertDialogAction
+											onClick={() =>
+												mutate(
+													`/categories/${
+														categories.data.data[
+															parseInt(row.id)
+														].categoryId
+													}`
+												)
+											}
+										>
 											Confirm
 										</AlertDialogAction>
 									</AlertDialogFooter>

@@ -14,6 +14,10 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@radix-ui/react-separator";
 import { TCategoryType } from "@/types/types";
 import { categoryFormSchema } from "@/schemas/category";
+import { useToast } from "../ui/use-toast";
+import { ToastAction } from "../ui/toast";
+import { useMutation } from "react-query";
+import axios from "@/apis/config";
 
 const UpdateCategory = ({ category }: { category: TCategoryType }) => {
 	const form = useForm<z.infer<typeof categoryFormSchema>>({
@@ -25,8 +29,49 @@ const UpdateCategory = ({ category }: { category: TCategoryType }) => {
 		},
 	});
 
+	const { toast } = useToast();
+
+	const showToast = (
+		title: string,
+		description: string,
+		action: string,
+		destructive: boolean = false
+	) => {
+		toast({
+			title: title,
+			description: description,
+			variant: destructive ? "destructive" : "default",
+			action: <ToastAction altText="Can't wait!">{action}</ToastAction>,
+		});
+	};
+
+	const { mutate } = useMutation("update_category", {
+		mutationFn: async (body: any) => {
+			const response = await axios.put(
+				`/categories/${body.categoryId}`,
+				body
+			);
+			return response;
+		},
+		onSuccess: () => {
+			showToast(
+				"Deletion Successful",
+				"User was deleted successfully!",
+				"Awesome!"
+			);
+		},
+		onError: () => {
+			showToast(
+				"Deletion Failed",
+				"Something went wrong. The user was not deleted",
+				"Got it!",
+				true
+			);
+		},
+	});
+
 	const onSubmit = (values: any) => {
-		console.log(values);
+		mutate(values);
 	};
 
 	return (
