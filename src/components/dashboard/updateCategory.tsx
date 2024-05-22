@@ -25,7 +25,9 @@ const UpdateCategory = ({ category }: { category: TCategoryType }) => {
 		},
 	});
 
-	const onSubmit = (values: any) => {};
+	const onSubmit = (values: any) => {
+		console.log(values);
+	};
 
 	return (
 		<Form {...form}>

@@ -14,6 +14,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Separator } from "@radix-ui/react-separator";
 import { TProductType } from "@/types/types";
+import { useMutation } from "react-query";
+import axios from "@/apis/config";
+import { useToast } from "../ui/use-toast";
+import { ToastAction } from "../ui/toast";
 
 const UpdateProduct = ({ product }: { product: TProductType }) => {
 	const form = useForm<z.infer<typeof productFormSchema>>({
@@ -30,7 +34,50 @@ const UpdateProduct = ({ product }: { product: TProductType }) => {
 		},
 	});
 
-	const onSubmit = (values: any) => {};
+	const { toast } = useToast();
+
+	const showToast = (
+		title: string,
+		description: string,
+		action: string,
+		destructive: boolean = false
+	) => {
+		toast({
+			title: title,
+			description: description,
+			variant: destructive ? "destructive" : "default",
+			action: <ToastAction altText="Can't wait!">{action}</ToastAction>,
+		});
+	};
+
+	const { mutate } = useMutation("update_product", {
+		mutationFn: async (body: any) => {
+			const response = await axios.put(
+				`/products/${body.productId}`,
+				body
+			);
+			return response;
+		},
+		onSuccess: () => {
+			showToast(
+				"Deletion Successful",
+				"User was deleted successfully!",
+				"Awesome!"
+			);
+		},
+		onError: () => {
+			showToast(
+				"Deletion Failed",
+				"Something went wrong. The user was not deleted",
+				"Got it!",
+				true
+			);
+		},
+	});
+
+	const onSubmit = (values: any) => {
+		mutate(values);
+	};
 
 	return (
 		<Form {...form}>

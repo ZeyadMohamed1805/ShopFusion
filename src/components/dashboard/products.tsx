@@ -51,6 +51,10 @@ import { TProductResponse, TProductType, TUseReactQuery } from "@/types/types";
 import UpdateProduct from "./updateProduct";
 import useApi from "@/apis/useApi";
 import { EApiMethod } from "@/types/enums";
+import { useMutation } from "react-query";
+import axios from "@/apis/config";
+import { useToast } from "../ui/use-toast";
+import { ToastAction } from "../ui/toast";
 
 const Products = () => {
 	const products: TUseReactQuery<TProductResponse> = useApi<TProductResponse>(
@@ -63,6 +67,43 @@ const Products = () => {
 	const [columnVisibility, setColumnVisibility] =
 		React.useState<VisibilityState>({});
 	const [rowSelection, setRowSelection] = React.useState({});
+	const { toast } = useToast();
+
+	const showToast = (
+		title: string,
+		description: string,
+		action: string,
+		destructive: boolean = false
+	) => {
+		toast({
+			title: title,
+			description: description,
+			variant: destructive ? "destructive" : "default",
+			action: <ToastAction altText="Can't wait!">{action}</ToastAction>,
+		});
+	};
+
+	const { mutate } = useMutation("delete_product", {
+		mutationFn: async (endpoint: string) => {
+			const response = await axios.delete(endpoint);
+			return response;
+		},
+		onSuccess: () => {
+			showToast(
+				"Deletion Successful",
+				"User was deleted successfully!",
+				"Awesome!"
+			);
+		},
+		onError: () => {
+			showToast(
+				"Deletion Failed",
+				"Something went wrong. The user was not deleted",
+				"Got it!",
+				true
+			);
+		},
+	});
 
 	const columns: ColumnDef<unknown, any>[] = [
 		{
@@ -186,7 +227,18 @@ const Products = () => {
 										<AlertDialogCancel>
 											Cancel
 										</AlertDialogCancel>
-										<AlertDialogAction>
+										<AlertDialogAction
+											onClick={() =>
+												mutate(
+													`/products/${
+														products.data.data
+															.items[
+															parseInt(row.id)
+														].productId
+													}`
+												)
+											}
+										>
 											Confirm
 										</AlertDialogAction>
 									</AlertDialogFooter>
