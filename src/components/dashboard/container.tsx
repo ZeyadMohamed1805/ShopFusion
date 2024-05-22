@@ -21,7 +21,7 @@ const Container = () => {
 				className="w-full"
 			>
 				<CarouselContent
-					className={`max-h-screen duration-500`}
+					className={`max-h-screen duration-500 py-20`}
 					style={{
 						transform: `translate3d(0px, -${translate}vh, 0px)`,
 					}}
@@ -29,9 +29,9 @@ const Container = () => {
 					{dashboardSections.map((Section, index) => (
 						<CarouselItem
 							key={index}
-							className={`p-4 md:basis-1/2 min-h-screen grid place-items-center`}
+							className={`px-4 md:basis-1/2 min-h-screen grid place-items-center`}
 						>
-							<div className="w-full h-full py-16 px-4 overflow-x-scroll">
+							<div className="w-full h-full overflow-x-scroll">
 								<Section />
 							</div>
 						</CarouselItem>

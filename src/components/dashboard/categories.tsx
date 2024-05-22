@@ -251,7 +251,7 @@ const Categories = () => {
 						</DropdownMenuContent>
 					</DropdownMenu>
 				</div>
-				<div className="rounded-md border">
+				<div className="rounded-md border max-h-[calc(100vh-320px)] overflow-y-scroll">
 					<Table>
 						<TableHeader>
 							{table.getHeaderGroups().map((headerGroup) => (

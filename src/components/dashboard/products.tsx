@@ -120,7 +120,6 @@ const Products = () => {
 			cell: ({ row }) => {
 				const productPrice = parseFloat(row.getValue("productPrice"));
 
-				// Format the productPrice as a dollar productPrice
 				const formatted = new Intl.NumberFormat("en-US", {
 					style: "currency",
 					currency: "USD",
@@ -268,7 +267,7 @@ const Products = () => {
 						</DropdownMenuContent>
 					</DropdownMenu>
 				</div>
-				<div className="rounded-md border">
+				<div className="rounded-md border max-h-[calc(100vh-320px)] overflow-y-scroll">
 					<Table>
 						<TableHeader>
 							{table.getHeaderGroups().map((headerGroup) => (
