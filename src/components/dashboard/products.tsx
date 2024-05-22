@@ -55,6 +55,9 @@ import { useMutation } from "react-query";
 import axios from "@/apis/config";
 import { useToast } from "../ui/use-toast";
 import { ToastAction } from "../ui/toast";
+import AddProduct from "./addProduct";
+import { Dialog } from "@radix-ui/react-dialog";
+import { DialogContent, DialogTrigger } from "../ui/dialog";
 
 const Products = () => {
 	const products: TUseReactQuery<TProductResponse> = useApi<TProductResponse>(
@@ -334,6 +337,16 @@ const Products = () => {
 								})}
 						</DropdownMenuContent>
 					</DropdownMenu>
+					<Dialog>
+						<DialogTrigger asChild>
+							<Button className="w-full lg:w-fit">Add</Button>
+						</DialogTrigger>
+						<DialogContent
+							className={"sm:max-w-[425px] md:max-w-[800px]"}
+						>
+								<AddProduct />
+						</DialogContent>
+					</Dialog>
 				</div>
 				<div className="rounded-md border max-h-[calc(100vh-320px)] overflow-y-scroll">
 					<Table>

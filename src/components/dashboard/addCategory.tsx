@@ -19,14 +19,14 @@ import { ToastAction } from "../ui/toast";
 import { useMutation } from "react-query";
 import axios from "@/apis/config";
 
-const UpdateCategory = ({ category }: { category: TCategoryType }) => {
+const AddCategory = () => {
 	const form = useForm<z.infer<typeof categoryFormSchema>>({
 		resolver: zodResolver(categoryFormSchema),
 		defaultValues: {
-			categoryId: category.categoryId,
-			categoryName: category.categoryName,
-			categorySlug: category.categorySlug,
-			categoryDescription: category.categoryDescription,
+			categoryId: 0,
+			categoryName: "",
+			categorySlug: "",
+			categoryDescription: "",
 		},
 	});
 
@@ -46,25 +46,22 @@ const UpdateCategory = ({ category }: { category: TCategoryType }) => {
 		});
 	};
 
-	const { mutate } = useMutation("update_category", {
+	const { mutate } = useMutation("add_category", {
 		mutationFn: async (body: any) => {
-			const response = await axios.put(
-				`/categories/${body.categoryId}`,
-				body
-			);
+			const response = await axios.post(`/categories`, body);
 			return response;
 		},
 		onSuccess: () => {
 			showToast(
-				"Deletion Successful",
-				"User was deleted successfully!",
+				"Category Added",
+				"Category was added successfully!",
 				"Awesome!"
 			);
 		},
 		onError: () => {
 			showToast(
-				"Deletion Failed",
-				"Something went wrong. The user was not deleted",
+				"Category Not Added",
+				"Something went wrong. The category was not added",
 				"Got it!",
 				true
 			);
@@ -81,14 +78,12 @@ const UpdateCategory = ({ category }: { category: TCategoryType }) => {
 				onSubmit={form.handleSubmit(onSubmit)}
 				className="space-y-4 flex flex-col items-center"
 			>
-				<h1 className="text-3xl text-center fw-bolder">
-					Update Category
-				</h1>
+				<h1 className="text-3xl text-center fw-bolder">Add Category</h1>
 				<FormField
 					control={form.control}
 					name="categoryId"
 					render={({ field }) => (
-						<FormItem className="w-full">
+						<FormItem className="w-full hidden">
 							<FormLabel>CategoryId</FormLabel>
 							<FormControl>
 								<Input
@@ -118,7 +113,7 @@ const UpdateCategory = ({ category }: { category: TCategoryType }) => {
 					control={form.control}
 					name="categorySlug"
 					render={({ field }) => (
-						<FormItem className="w-full hidden">
+						<FormItem className="w-full">
 							<FormLabel>CategorySlug</FormLabel>
 							<FormControl>
 								<Input placeholder="categorySlug" {...field} />
@@ -152,4 +147,4 @@ const UpdateCategory = ({ category }: { category: TCategoryType }) => {
 	);
 };
 
-export default UpdateCategory;
+export default AddCategory;

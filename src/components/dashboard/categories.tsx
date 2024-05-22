@@ -70,6 +70,8 @@ import { useToast } from "../ui/use-toast";
 import { ToastAction } from "../ui/toast";
 import { useMutation } from "react-query";
 import axios from "@/apis/config";
+import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
+import AddCategory from "./addCategory";
 
 const Categories = () => {
 	const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -318,6 +320,16 @@ const Categories = () => {
 								})}
 						</DropdownMenuContent>
 					</DropdownMenu>
+					<Dialog>
+						<DialogTrigger asChild>
+							<Button className="w-full lg:w-fit">Add</Button>
+						</DialogTrigger>
+						<DialogContent
+							className={"sm:max-w-[425px] md:max-w-[800px]"}
+						>
+							<AddCategory />
+						</DialogContent>
+					</Dialog>
 				</div>
 				<div className="rounded-md border max-h-[calc(100vh-320px)] overflow-y-scroll">
 					<Table>

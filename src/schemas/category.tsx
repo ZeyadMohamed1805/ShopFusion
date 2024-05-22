@@ -9,6 +9,13 @@ export const categoryFormSchema = z.object({
 		.regex(new RegExp(/^[a-zA-Z\s]*$/), {
 			message: "Category name must contain only letters",
 		}),
+	categorySlug: z
+		.string()
+		.min(1, { message: "Category slug is required." })
+		.regex(new RegExp(/^[a-z0-9-]+$/), {
+			message:
+				"Category slug can only contain lowercase letters, numbers, and hyphens.",
+		}),
 	categoryDescription: z
 		.string()
 		.min(1, { message: "Category description is required" })
