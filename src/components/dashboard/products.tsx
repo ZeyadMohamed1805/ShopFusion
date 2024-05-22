@@ -47,10 +47,16 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { productItems as data, productItems } from "@/constants/constants";
-import { TProductType } from "@/types/types";
+import { TProductResponse, TProductType, TUseReactQuery } from "@/types/types";
 import UpdateProduct from "./updateProduct";
+import useApi from "@/apis/useApi";
+import { EApiMethod } from "@/types/enums";
 
 const Products = () => {
+	const products: TUseReactQuery<TProductResponse> = useApi<TProductResponse>(
+		"/products?pageNumber=1&pageSize=6",
+		EApiMethod.GET
+	);
 	const [sorting, setSorting] = React.useState<SortingState>([]);
 	const [columnFilters, setColumnFilters] =
 		React.useState<ColumnFiltersState>([]);
@@ -58,7 +64,7 @@ const Products = () => {
 		React.useState<VisibilityState>({});
 	const [rowSelection, setRowSelection] = React.useState({});
 
-	const columns: ColumnDef<TProductType>[] = [
+	const columns: ColumnDef<unknown, any>[] = [
 		{
 			accessorKey: "productName",
 			header: ({ column }) => {
@@ -187,7 +193,14 @@ const Products = () => {
 								</AlertDialogContent>
 								<SheetContent side={"bottom"}>
 									<UpdateProduct
-										product={productItems[parseInt(row.id)]}
+										product={
+											!products.isLoading &&
+											products.isSuccess
+												? products.data.data.items[
+														parseInt(row.id)
+												  ]
+												: productItems[parseInt(row.id)]
+										}
 									/>
 								</SheetContent>
 							</Sheet>
@@ -198,8 +211,11 @@ const Products = () => {
 		},
 	];
 
-	const table = useReactTable({
-		data,
+	const table = useReactTable<any>({
+		data:
+			!products.isLoading && products.isSuccess
+				? products.data.data.items
+				: data,
 		columns,
 		onSortingChange: setSorting,
 		onColumnFiltersChange: setColumnFilters,
@@ -291,33 +307,26 @@ const Products = () => {
 						</TableHeader>
 						<TableBody>
 							{table.getRowModel().rows?.length ? (
-								table
-									.getRowModel()
-									.rows.slice(0, 5)
-									.map((row) => (
-										<TableRow
-											key={row.id}
-											data-state={
-												row.getIsSelected() &&
-												"selected"
-											}
-										>
-											{row
-												.getVisibleCells()
-												.map((cell) => (
-													<TableCell
-														key={cell.id}
-														className="whitespace-nowrap"
-													>
-														{flexRender(
-															cell.column
-																.columnDef.cell,
-															cell.getContext()
-														)}
-													</TableCell>
-												))}
-										</TableRow>
-									))
+								table.getRowModel().rows.map((row) => (
+									<TableRow
+										key={row.id}
+										data-state={
+											row.getIsSelected() && "selected"
+										}
+									>
+										{row.getVisibleCells().map((cell) => (
+											<TableCell
+												key={cell.id}
+												className="whitespace-nowrap"
+											>
+												{flexRender(
+													cell.column.columnDef.cell,
+													cell.getContext()
+												)}
+											</TableCell>
+										))}
+									</TableRow>
+								))
 							) : (
 								<TableRow>
 									<TableCell

@@ -34,59 +34,54 @@ import {
 } from "@/components/ui/table";
 import { dashboardOrders as data } from "@/constants/constants";
 import { TOrderType } from "@/types/types";
+import { EApiMethod } from "@/types/enums";
+import useApi from "@/apis/useApi";
 
 export const columns: ColumnDef<TOrderType>[] = [
 	{
-		accessorKey: "OrderId",
-		header: "Id",
+		accessorKey: "orderDate",
+		header: ({ column }) => {
+			return (
+				<Button
+					variant="ghost"
+					onClick={() =>
+						column.toggleSorting(column.getIsSorted() === "asc")
+					}
+				>
+					Date
+					<ArrowUpDown className="ml-2 h-4 w-4" />
+				</Button>
+			);
+		},
 		cell: ({ row }) => (
-			<div className="text-left">{row.getValue("OrderId")}</div>
+			<div className="lowercase text-left">
+				{row.getValue("orderDate")}
+			</div>
 		),
 	},
-	// {
-	// 	accessorKey: "OrderDate",
-	// 	header: ({ column }) => {
-	// 		return (
-	// 			<Button
-	// 				variant="ghost"
-	// 				onClick={() =>
-	// 					column.toggleSorting(column.getIsSorted() === "asc")
-	// 				}
-	// 			>
-	// 				Date
-	// 				<ArrowUpDown className="ml-2 h-4 w-4" />
-	// 			</Button>
-	// 		);
-	// 	},
-	// 	cell: ({ row }) => (
-	// 		<div className="lowercase text-left">
-	// 			{row.getValue("OrderDate")}
-	// 		</div>
-	// 	),
-	// },
 	{
-		accessorKey: "OrderStatus",
+		accessorKey: "orderStatus",
 		header: "Status",
 		cell: ({ row }) => (
 			<div className="capitalize text-left">
-				{row.getValue("OrderStatus")}
+				{row.getValue("orderStatus")}
 			</div>
 		),
 	},
 	{
-		accessorKey: "Payment",
+		accessorKey: "payment",
 		header: "Payment",
 		cell: ({ row }) => (
 			<div className="capitalize text-left">
-				{row.getValue("Payment")}
+				{row.getValue("payment")}
 			</div>
 		),
 	},
 	{
-		accessorKey: "UserId",
+		accessorKey: "userId",
 		header: "User Id",
 		cell: ({ row }) => (
-			<div className="capitalize text-left">{row.getValue("UserId")}</div>
+			<div className="capitalize text-left">{row.getValue("userId")}</div>
 		),
 	},
 ];
@@ -98,9 +93,10 @@ const Orders = () => {
 	const [columnVisibility, setColumnVisibility] =
 		React.useState<VisibilityState>({});
 	const [rowSelection, setRowSelection] = React.useState({});
+	const orders: any = useApi<any>("/orders", EApiMethod.GET);
 
 	const table = useReactTable({
-		data,
+		data: !orders.isLoading && orders.isSuccess ? orders.data.data : data,
 		columns,
 		onSortingChange: setSorting,
 		onColumnFiltersChange: setColumnFilters,
@@ -129,12 +125,12 @@ const Orders = () => {
 						placeholder="Filter Orders..."
 						value={
 							(table
-								.getColumn("OrderId")
+								.getColumn("orderDate")
 								?.getFilterValue() as string) ?? ""
 						}
 						onChange={(event) =>
 							table
-								.getColumn("OrderId")
+								.getColumn("orderDate")
 								?.setFilterValue(event.target.value)
 						}
 						className="max-w-none w-full lg:max-w-sm"
@@ -193,33 +189,26 @@ const Orders = () => {
 						</TableHeader>
 						<TableBody>
 							{table.getRowModel().rows?.length ? (
-								table
-									.getRowModel()
-									.rows.slice(0, 5)
-									.map((row) => (
-										<TableRow
-											key={row.id}
-											data-state={
-												row.getIsSelected() &&
-												"selected"
-											}
-										>
-											{row
-												.getVisibleCells()
-												.map((cell) => (
-													<TableCell
-														key={cell.id}
-														className="whitespace-nowrap"
-													>
-														{flexRender(
-															cell.column
-																.columnDef.cell,
-															cell.getContext()
-														)}
-													</TableCell>
-												))}
-										</TableRow>
-									))
+								table.getRowModel().rows.map((row) => (
+									<TableRow
+										key={row.id}
+										data-state={
+											row.getIsSelected() && "selected"
+										}
+									>
+										{row.getVisibleCells().map((cell) => (
+											<TableCell
+												key={cell.id}
+												className="whitespace-nowrap"
+											>
+												{flexRender(
+													cell.column.columnDef.cell,
+													cell.getContext()
+												)}
+											</TableCell>
+										))}
+									</TableRow>
+								))
 							) : (
 								<TableRow>
 									<TableCell

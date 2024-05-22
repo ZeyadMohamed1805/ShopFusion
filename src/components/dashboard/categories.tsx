@@ -58,8 +58,14 @@ import {
 	dashboardCategories,
 	dashboardCategories as data,
 } from "@/constants/constants";
-import { TCategoryType } from "@/types/types";
+import {
+	TCategoryResponse,
+	TCategoryType,
+	TUseReactQuery,
+} from "@/types/types";
 import UpdateCategory from "./updateCategory";
+import { EApiMethod } from "@/types/enums";
+import useApi from "@/apis/useApi";
 
 const Categories = () => {
 	const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -68,6 +74,8 @@ const Categories = () => {
 	const [columnVisibility, setColumnVisibility] =
 		React.useState<VisibilityState>({});
 	const [rowSelection, setRowSelection] = React.useState({});
+	const categories: TUseReactQuery<TCategoryResponse> =
+		useApi<TCategoryResponse>("/categories", EApiMethod.GET);
 
 	const columns: ColumnDef<TCategoryType>[] = [
 		{
@@ -167,9 +175,14 @@ const Categories = () => {
 								<SheetContent side={"bottom"}>
 									<UpdateCategory
 										category={
-											dashboardCategories[
-												parseInt(row.id)
-											]
+											!categories.isLoading &&
+											categories.isSuccess
+												? categories.data.data[
+														parseInt(row.id)
+												  ]
+												: dashboardCategories[
+														parseInt(row.id)
+												  ]
 										}
 									/>
 								</SheetContent>
@@ -182,7 +195,10 @@ const Categories = () => {
 	];
 
 	const table = useReactTable({
-		data,
+		data:
+			!categories.isLoading && categories.isSuccess
+				? categories.data.data
+				: data,
 		columns,
 		onSortingChange: setSorting,
 		onColumnFiltersChange: setColumnFilters,
@@ -275,33 +291,26 @@ const Categories = () => {
 						</TableHeader>
 						<TableBody>
 							{table.getRowModel().rows?.length ? (
-								table
-									.getRowModel()
-									.rows.slice(0, 5)
-									.map((row) => (
-										<TableRow
-											key={row.id}
-											data-state={
-												row.getIsSelected() &&
-												"selected"
-											}
-										>
-											{row
-												.getVisibleCells()
-												.map((cell) => (
-													<TableCell
-														key={cell.id}
-														className="whitespace-nowrap"
-													>
-														{flexRender(
-															cell.column
-																.columnDef.cell,
-															cell.getContext()
-														)}
-													</TableCell>
-												))}
-										</TableRow>
-									))
+								table.getRowModel().rows.map((row) => (
+									<TableRow
+										key={row.id}
+										data-state={
+											row.getIsSelected() && "selected"
+										}
+									>
+										{row.getVisibleCells().map((cell) => (
+											<TableCell
+												key={cell.id}
+												className="whitespace-nowrap"
+											>
+												{flexRender(
+													cell.column.columnDef.cell,
+													cell.getContext()
+												)}
+											</TableCell>
+										))}
+									</TableRow>
+								))
 							) : (
 								<TableRow>
 									<TableCell

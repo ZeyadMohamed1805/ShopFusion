@@ -44,10 +44,12 @@ import {
 } from "@/components/ui/table";
 import { dashboardUsers as data } from "@/constants/constants";
 import { TUserType } from "@/types/types";
+import useApi from "@/apis/useApi";
+import { EApiMethod } from "@/types/enums";
 
 export const columns: ColumnDef<TUserType>[] = [
 	{
-		accessorKey: "Email",
+		accessorKey: "email",
 		header: ({ column }) => {
 			return (
 				<Button
@@ -62,49 +64,49 @@ export const columns: ColumnDef<TUserType>[] = [
 			);
 		},
 		cell: ({ row }) => (
-			<div className="text-left">{row.getValue("Email")}</div>
+			<div className="text-left">{row.getValue("email")}</div>
 		),
 	},
 	{
-		accessorKey: "FirstName",
+		accessorKey: "firstName",
 		header: "First Name",
 		cell: ({ row }) => (
 			<div className="capitalize text-left">
-				{row.getValue("FirstName")}
+				{row.getValue("firstName")}
 			</div>
 		),
 	},
 	{
-		accessorKey: "LastName",
+		accessorKey: "lastName",
 		header: "Last Name",
 		cell: ({ row }) => (
 			<div className="capitalize text-left">
-				{row.getValue("LastName")}
+				{row.getValue("lastName")}
 			</div>
 		),
 	},
 	{
-		accessorKey: "Mobile",
+		accessorKey: "mobile",
 		header: "Mobile",
 		cell: ({ row }) => (
-			<div className="capitalize text-left">{row.getValue("Mobile")}</div>
+			<div className="capitalize text-left">{row.getValue("mobile")}</div>
 		),
 	},
 	{
-		accessorKey: "IsAdmin",
+		accessorKey: "isAdmin",
 		header: "Admin",
 		cell: ({ row }) => (
 			<div className="capitalize text-left">
-				{row.getValue("IsAdmin")?.toString() || "False"}
+				{row.getValue("isAdmin")?.toString() || "False"}
 			</div>
 		),
 	},
 	{
-		accessorKey: "IsBanned",
+		accessorKey: "isBanned",
 		header: "Banned",
 		cell: ({ row }) => (
 			<div className="capitalize text-left">
-				{row.getValue("IsBanned")?.toString() || "False"}
+				{row.getValue("isBanned")?.toString() || "False"}
 			</div>
 		),
 	},
@@ -166,9 +168,10 @@ const Users = () => {
 	const [columnVisibility, setColumnVisibility] =
 		React.useState<VisibilityState>({});
 	const [rowSelection, setRowSelection] = React.useState({});
+	const users: any = useApi<any>("/users", EApiMethod.GET);
 
 	const table = useReactTable({
-		data,
+		data: !users.isLoading && users.isSuccess ? users.data.data : data,
 		columns,
 		onSortingChange: setSorting,
 		onColumnFiltersChange: setColumnFilters,
@@ -197,12 +200,12 @@ const Users = () => {
 						placeholder="Filter Users..."
 						value={
 							(table
-								.getColumn("Email")
+								.getColumn("email")
 								?.getFilterValue() as string) ?? ""
 						}
 						onChange={(event) =>
 							table
-								.getColumn("Email")
+								.getColumn("email")
 								?.setFilterValue(event.target.value)
 						}
 						className="max-w-none w-full lg:max-w-sm"
@@ -261,33 +264,26 @@ const Users = () => {
 						</TableHeader>
 						<TableBody>
 							{table.getRowModel().rows?.length ? (
-								table
-									.getRowModel()
-									.rows.slice(0, 5)
-									.map((row) => (
-										<TableRow
-											key={row.id}
-											data-state={
-												row.getIsSelected() &&
-												"selected"
-											}
-										>
-											{row
-												.getVisibleCells()
-												.map((cell) => (
-													<TableCell
-														key={cell.id}
-														className="whitespace-nowrap"
-													>
-														{flexRender(
-															cell.column
-																.columnDef.cell,
-															cell.getContext()
-														)}
-													</TableCell>
-												))}
-										</TableRow>
-									))
+								table.getRowModel().rows.map((row) => (
+									<TableRow
+										key={row.id}
+										data-state={
+											row.getIsSelected() && "selected"
+										}
+									>
+										{row.getVisibleCells().map((cell) => (
+											<TableCell
+												key={cell.id}
+												className="whitespace-nowrap"
+											>
+												{flexRender(
+													cell.column.columnDef.cell,
+													cell.getContext()
+												)}
+											</TableCell>
+										))}
+									</TableRow>
+								))
 							) : (
 								<TableRow>
 									<TableCell
