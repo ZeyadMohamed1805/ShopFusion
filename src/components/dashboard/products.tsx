@@ -181,13 +181,7 @@ const Products = () => {
 										<AlertDialogCancel>
 											Cancel
 										</AlertDialogCancel>
-										<AlertDialogAction
-											onClick={() =>
-												console.log(
-													row.getValue("productName")
-												)
-											}
-										>
+										<AlertDialogAction>
 											Confirm
 										</AlertDialogAction>
 									</AlertDialogFooter>

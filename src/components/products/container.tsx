@@ -24,8 +24,6 @@ const Container = () => {
 	const categories = useApi<TCategoryResponse>("/categories", EApiMethod.GET);
 
 	const handleFilterChange = (type: string, value: string) => {
-		console.log(value);
-
 		setFilter((previous) => ({
 			name: type === "name" ? value.toLowerCase() || "" : previous.name,
 			min: type === "min" ? parseFloat(value) || 1 : previous.min,

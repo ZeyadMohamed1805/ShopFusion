@@ -159,13 +159,7 @@ const Categories = () => {
 										<AlertDialogCancel>
 											Cancel
 										</AlertDialogCancel>
-										<AlertDialogAction
-											onClick={() =>
-												console.log(
-													row.getValue("categoryName")
-												)
-											}
-										>
+										<AlertDialogAction>
 											Confirm
 										</AlertDialogAction>
 									</AlertDialogFooter>

@@ -149,13 +149,7 @@ export const columns: ColumnDef<TUserType>[] = [
 							</AlertDialogHeader>
 							<AlertDialogFooter>
 								<AlertDialogCancel>Cancel</AlertDialogCancel>
-								<AlertDialogAction
-									onClick={() =>
-										console.log(row.getValue("ProductName"))
-									}
-								>
-									Confirm
-								</AlertDialogAction>
+								<AlertDialogAction>Confirm</AlertDialogAction>
 							</AlertDialogFooter>
 						</AlertDialogContent>
 					</AlertDialog>

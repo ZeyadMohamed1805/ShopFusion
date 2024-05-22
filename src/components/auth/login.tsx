@@ -19,6 +19,7 @@ import { useRouter } from "next/navigation";
 import { useToast } from "../ui/use-toast";
 import { ToastAction } from "../ui/toast";
 import UseMutation from "@/apis/useMutation";
+import axios from "axios";
 
 const Login = () => {
 	const { push } = useRouter();
@@ -39,7 +40,12 @@ const Login = () => {
 	};
 	const { mutate, isLoading } = UseMutation(
 		"/users/login",
-		() => push("/dashboard"),
+		async () => {
+			const {
+				data: { is_admin },
+			} = await axios.get("/api/validate");
+			is_admin ? push("/dashboard") : push("/");
+		},
 		() =>
 			showToast(
 				"Login Failed",
@@ -58,7 +64,6 @@ const Login = () => {
 	});
 
 	const onSubmit = (values: z.infer<typeof loginFormSchema>) => {
-		console.log(values);
 		mutate(values);
 	};
 

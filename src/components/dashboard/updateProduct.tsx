@@ -30,9 +30,7 @@ const UpdateProduct = ({ product }: { product: TProductType }) => {
 		},
 	});
 
-	const onSubmit = (values: any) => {
-		console.log(values);
-	};
+	const onSubmit = (values: any) => {};
 
 	return (
 		<Form {...form}>
