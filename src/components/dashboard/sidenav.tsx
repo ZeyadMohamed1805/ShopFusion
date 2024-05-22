@@ -5,9 +5,38 @@ import { LogOut } from "lucide-react";
 import { sideNavItems } from "@/constants/constants";
 import { TSideNavProps } from "@/types/types";
 import { useRouter } from "next/navigation";
+import { useToast } from "../ui/use-toast";
+import { ToastAction } from "../ui/toast";
+import UseMutation from "@/apis/useMutation";
 
 const Sidenav = ({ setTranslate }: TSideNavProps) => {
 	const { push } = useRouter();
+	const { toast } = useToast();
+
+	const showToast = (
+		title: string,
+		description: string,
+		action: string,
+		destructive: boolean = false
+	) => {
+		toast({
+			title: title,
+			description: description,
+			variant: destructive ? "destructive" : "default",
+			action: <ToastAction altText="Can't wait!">{action}</ToastAction>,
+		});
+	};
+	const { isLoading, mutate } = UseMutation(
+		"/users/logout",
+		() => push("/"),
+		() =>
+			showToast(
+				"Logout Failed",
+				"Logout was unsuccessful. Please try again later.",
+				"Got it!",
+				true
+			)
+	);
 
 	return (
 		<div className="w-full h-screen justify-between max-w-[80px] md:max-w-[240px] flex flex-col px-4 py-16 items-center border-r-2 gap-8">
@@ -45,12 +74,13 @@ const Sidenav = ({ setTranslate }: TSideNavProps) => {
 				))}
 			</ul>
 			<Button
-				onClick={() => push("/home")}
+				disabled={isLoading}
+				onClick={() => mutate("")}
 				className="w-full text-lg flex items-center gap-8 text-center cursor-pointer"
 			>
 				<LogOut className="w-6 h-6 max-w-6 max-h-6 md:w-8 md:h-8 md:max-w-8 md:max-h-8" />
 				<span className="w-full text-left text-lg hidden md:inline-block">
-					Logout
+					{isLoading ? "Loading..." : "Logout"}
 				</span>
 			</Button>
 		</div>
