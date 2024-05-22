@@ -31,17 +31,40 @@ import { Separator } from "../ui/separator";
 import { Button } from "../ui/button";
 import { useEffect, useState } from "react";
 import { getLocalStorageItem } from "@/utils/storage";
-import { removeCartItem, updateCartItemAmount } from "@/utils/cart";
+import { clearCart, removeCartItem, updateCartItemAmount } from "@/utils/cart";
 import { Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
 import { TCartItemType } from "@/types/types";
+import axios from "axios";
+import UseMutation from "@/apis/useMutation";
 
 const List = () => {
 	const [cartItems, setCartItem] = useState<TCartItemType[]>([]);
 	const { push } = useRouter();
 	const { toast } = useToast();
+	const { mutate, isLoading, data } = UseMutation(
+		"/orders",
+		() => {
+			clearCart();
+			setCartItem([]);
+			showToast(
+				"Checkout completed",
+				"Your order is on the way",
+				"Hooray!"
+			);
+			console.log(data);
+		},
+		() => {
+			showToast(
+				"Checkout failed",
+				"Something went wrong. Please try again later.",
+				"Got it!",
+				true
+			);
+		}
+	);
 
 	const showToast = (
 		title: string,
@@ -79,6 +102,34 @@ const List = () => {
 		const cartLocalStorageItems: TCartItemType[] | null =
 			getLocalStorageItem("shop-fusion-cart");
 		setCartItem(cartLocalStorageItems || []);
+	};
+
+	const onCheckout = () => {
+		axios
+			.get("/api/validate")
+			.then((response) => {
+				if (response.status === 200) {
+					mutate({
+						newOrder: {
+							orderStatus: "Processing",
+							payment: "Cash On Delivery",
+							userId: parseInt(response.data.user_id),
+						},
+						products: cartItems.map((item) => ({
+							productId: item.productId,
+							quantity: item.productAmount,
+						})),
+					});
+				}
+			})
+			.catch((error) => {
+				showToast(
+					"Login required",
+					"You must login to checkout you products...",
+					"Got it!",
+					true
+				);
+			});
 	};
 
 	return (
@@ -235,16 +286,10 @@ const List = () => {
 					<Separator />
 					<Button
 						className="w-full"
-						onClick={() =>
-							showToast(
-								"Login required",
-								"You must login to checkout you products...",
-								"Got it!",
-								true
-							)
-						}
+						disabled={isLoading}
+						onClick={onCheckout}
 					>
-						Checkout
+						{isLoading ? "Loading..." : "Checkout"}
 					</Button>
 				</>
 			)}

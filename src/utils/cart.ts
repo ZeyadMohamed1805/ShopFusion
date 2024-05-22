@@ -63,3 +63,7 @@ export const removeCartItem = (productId: number): boolean => {
 
 	return false;
 };
+
+export const clearCart = (): void => {
+	setLocalStorageItem<TCartItemType[]>("shop-fusion-cart", []);
+};
