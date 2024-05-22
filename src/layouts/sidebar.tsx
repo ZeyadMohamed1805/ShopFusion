@@ -18,8 +18,6 @@ import { ChildrenType } from "@/types/types";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Register from "@/components/auth/register";
-import { useToast } from "@/components/ui/use-toast";
-import { ToastAction } from "@/components/ui/toast";
 import UseMutation from "@/apis/useMutation";
 
 const Sidebar = ({ children }: ChildrenType) => {
@@ -27,31 +25,17 @@ const Sidebar = ({ children }: ChildrenType) => {
 		loading: true,
 		authorized: false,
 	});
-	const { toast } = useToast();
 
-	const showToast = (
-		title: string,
-		description: string,
-		action: string,
-		destructive: boolean = false
-	) => {
-		toast({
-			title: title,
-			description: description,
-			variant: destructive ? "destructive" : "default",
-			action: <ToastAction altText="Can't wait!">{action}</ToastAction>,
-		});
-	};
 	const { isLoading, mutate } = UseMutation(
 		"/users/logout",
-		() => location.reload(),
-		() =>
-			showToast(
-				"Logout Failed",
-				"Logout was unsuccessful. Please try again later.",
-				"Got it!",
-				true
-			)
+		async () => {
+			await axios.get("/api/logout");
+			location.reload();
+		},
+		async () => {
+			await axios.get("/api/logout");
+			location.reload();
+		}
 	);
 
 	useEffect(() => {

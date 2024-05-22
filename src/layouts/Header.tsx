@@ -19,8 +19,6 @@ import { navLinks, navButtons } from "@/constants/constants";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import UseMutation from "@/apis/useMutation";
-import { useToast } from "@/components/ui/use-toast";
-import { ToastAction } from "@radix-ui/react-toast";
 
 const Header = () => {
 	const [isAuthorized, setIsAuthorized] = useState({
@@ -28,31 +26,17 @@ const Header = () => {
 		authorized: false,
 	});
 	const { setTheme, theme } = useTheme();
-	const { toast } = useToast();
 
-	const showToast = (
-		title: string,
-		description: string,
-		action: string,
-		destructive: boolean = false
-	) => {
-		toast({
-			title: title,
-			description: description,
-			variant: destructive ? "destructive" : "default",
-			action: <ToastAction altText="Can't wait!">{action}</ToastAction>,
-		});
-	};
 	const { isLoading, mutate } = UseMutation(
 		"/users/logout",
-		() => location.reload(),
-		() =>
-			showToast(
-				"Logout Failed",
-				"Logout was unsuccessful. Please try again later.",
-				"Got it!",
-				true
-			)
+		async () => {
+			await axios.get("/api/logout");
+			location.reload();
+		},
+		async () => {
+			await axios.get("/api/logout");
+			location.reload();
+		}
 	);
 
 	const toggleMode = (): void => {

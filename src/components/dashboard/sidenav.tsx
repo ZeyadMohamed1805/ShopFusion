@@ -4,38 +4,22 @@ import { Button } from "../ui/button";
 import { LogOut } from "lucide-react";
 import { sideNavItems } from "@/constants/constants";
 import { TSideNavProps } from "@/types/types";
-import { useRouter } from "next/navigation";
-import { useToast } from "../ui/use-toast";
-import { ToastAction } from "../ui/toast";
 import UseMutation from "@/apis/useMutation";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const Sidenav = ({ setTranslate }: TSideNavProps) => {
 	const { push } = useRouter();
-	const { toast } = useToast();
-
-	const showToast = (
-		title: string,
-		description: string,
-		action: string,
-		destructive: boolean = false
-	) => {
-		toast({
-			title: title,
-			description: description,
-			variant: destructive ? "destructive" : "default",
-			action: <ToastAction altText="Can't wait!">{action}</ToastAction>,
-		});
-	};
 	const { isLoading, mutate } = UseMutation(
 		"/users/logout",
-		() => push("/"),
-		() =>
-			showToast(
-				"Logout Failed",
-				"Logout was unsuccessful. Please try again later.",
-				"Got it!",
-				true
-			)
+		async () => {
+			await axios.get("/api/logout");
+			push("/");
+		},
+		async () => {
+			await axios.get("/api/logout");
+			push("/");
+		}
 	);
 
 	return (

@@ -7,7 +7,7 @@ export async function GET() {
 
 	const token = cookieStore.get("jwt");
 
-	if (!token) {
+	if (!token || !token.value) {
 		return NextResponse.json(
 			{
 				message: "Unauthorized User",
