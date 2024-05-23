@@ -68,14 +68,26 @@ const UpdateProduct = ({
 			return response;
 		},
 		onSuccess: () => {
-			// location.reload();
 			config
 				.get("/products?pageNumber=1&pageSize=100")
 				.then((response) => {
 					setTemp(response.data);
 					setOpen(false);
+					showToast(
+						"Product Updated",
+						"Product was updated successfully",
+						"Got it!"
+					);
 				})
 				.catch((error) => {});
+		},
+		onError: () => {
+			showToast(
+				"Product Not Updated",
+				"Something went wrong. Product was not updated.",
+				"Got it!",
+				true
+			);
 		},
 	});
 

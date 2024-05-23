@@ -13,14 +13,25 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@radix-ui/react-separator";
-import { TProductResponse, TProductType } from "@/types/types";
-import { useMutation, useQueryClient } from "react-query";
+import {
+	TCategoryResponse,
+	TProductResponse,
+	TUseReactQuery,
+} from "@/types/types";
+import { useMutation } from "react-query";
 import axios from "@/apis/config";
 import { useToast } from "../ui/use-toast";
 import { ToastAction } from "../ui/toast";
-import { useRouter } from "next/navigation";
 import config from "@/apis/config";
-
+import { EApiMethod } from "@/types/enums";
+import useApi from "@/apis/useApi";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
 const AddProduct = ({
 	setTemp,
 	setOpen,
@@ -28,6 +39,8 @@ const AddProduct = ({
 	setTemp: React.Dispatch<React.SetStateAction<TProductResponse | undefined>>;
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
+	const categories: TUseReactQuery<TCategoryResponse> =
+		useApi<TCategoryResponse>("/categories", EApiMethod.GET);
 	const form = useForm<z.infer<typeof productFormSchema>>({
 		resolver: zodResolver(productFormSchema),
 		defaultValues: {
@@ -63,14 +76,26 @@ const AddProduct = ({
 			const response = await axios.post(`/products`, body);
 			return response;
 		},
-		onSuccess: (newData) => {
-			// location.reload();
+		onSuccess: () => {
 			config
 				.get("/products?pageNumber=1&pageSize=100")
 				.then((response) => {
 					setTemp(response.data);
 					setOpen(false);
+					showToast(
+						"Product Added",
+						"Product added successfully.",
+						"Got it!"
+					);
 				});
+		},
+		onError: () => {
+			showToast(
+				"Product Not Added",
+				"Something went wrong.",
+				"Got it!",
+				true
+			);
 		},
 	});
 
@@ -183,15 +208,34 @@ const AddProduct = ({
 						control={form.control}
 						name="categoryId"
 						render={({ field }) => (
-							<FormItem className="w-full">
-								<FormLabel>CategoryId</FormLabel>
-								<FormControl>
-									<Input
-										placeholder="categoryId"
-										type="number"
-										{...field}
-									/>
-								</FormControl>
+							<FormItem>
+								<FormLabel>Category</FormLabel>
+								<Select
+									onValueChange={field.onChange}
+									defaultValue={field.value.toString()}
+								>
+									<FormControl>
+										<SelectTrigger>
+											<SelectValue placeholder="Categories" />
+										</SelectTrigger>
+									</FormControl>
+									<SelectContent>
+										{!categories.isLoading &&
+											categories.isSuccess &&
+											categories.data.data.map(
+												(category) => (
+													<SelectItem
+														key={
+															category.categoryId
+														}
+														value={category.categoryId.toString()}
+													>
+														{category.categoryName}
+													</SelectItem>
+												)
+											)}
+									</SelectContent>
+								</Select>
 								<FormMessage />
 							</FormItem>
 						)}

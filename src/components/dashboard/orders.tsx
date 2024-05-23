@@ -1,4 +1,3 @@
-import * as React from "react";
 import {
 	ColumnDef,
 	ColumnFiltersState,
@@ -12,7 +11,6 @@ import {
 	useReactTable,
 } from "@tanstack/react-table";
 import { ArrowUpDown, ChevronDown } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
 import {
 	DropdownMenu,
@@ -31,6 +29,7 @@ import {
 } from "@/components/ui/table";
 import { TOrderType } from "@/types/types";
 import { EApiMethod } from "@/types/enums";
+import { useState } from "react";
 import useApi from "@/apis/useApi";
 
 export const columns: ColumnDef<TOrderType>[] = [
@@ -83,12 +82,12 @@ export const columns: ColumnDef<TOrderType>[] = [
 ];
 
 const Orders = () => {
-	const [sorting, setSorting] = React.useState<SortingState>([]);
-	const [columnFilters, setColumnFilters] =
-		React.useState<ColumnFiltersState>([]);
-	const [columnVisibility, setColumnVisibility] =
-		React.useState<VisibilityState>({});
-	const [rowSelection, setRowSelection] = React.useState({});
+	const [sorting, setSorting] = useState<SortingState>([]);
+	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+	const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
+		{}
+	);
+	const [rowSelection, setRowSelection] = useState({});
 	const orders: any = useApi<any>("/orders", EApiMethod.GET);
 
 	const table = useReactTable({

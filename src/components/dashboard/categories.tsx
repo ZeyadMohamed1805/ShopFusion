@@ -1,4 +1,3 @@
-import * as React from "react";
 import {
 	ColumnDef,
 	ColumnFiltersState,
@@ -25,7 +24,6 @@ import {
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Input } from "@/components/ui/input";
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
 import {
 	DropdownMenu,
@@ -58,22 +56,23 @@ import { useMutation } from "react-query";
 import axios from "@/apis/config";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 import AddCategory from "./addCategory";
+import { useState, useEffect } from "react";
 import config from "@/apis/config";
 
 const Categories = () => {
-	const [sorting, setSorting] = React.useState<SortingState>([]);
-	const [columnFilters, setColumnFilters] =
-		React.useState<ColumnFiltersState>([]);
-	const [columnVisibility, setColumnVisibility] =
-		React.useState<VisibilityState>({});
-	const [rowSelection, setRowSelection] = React.useState({});
-	const [open, setOpen] = React.useState(false);
-	const [sheetOpen, setSheetOpen] = React.useState(false);
-	const [temp, setTemp] = React.useState<any>();
+	const [sorting, setSorting] = useState<SortingState>([]);
+	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+	const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
+		{}
+	);
+	const [rowSelection, setRowSelection] = useState({});
+	const [open, setOpen] = useState(false);
+	const [sheetOpen, setSheetOpen] = useState(false);
+	const [temp, setTemp] = useState<any>();
 	const categories: TUseReactQuery<TCategoryResponse> =
 		useApi<TCategoryResponse>("/categories", EApiMethod.GET);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		config.get("/categories").then((response) => {
 			setTemp(response.data);
 		});
@@ -103,6 +102,11 @@ const Categories = () => {
 		onSuccess: () => {
 			config.get("/categories").then((response) => {
 				setTemp(response.data);
+				showToast(
+					"Category Deleted",
+					"Category was deleted successfully!",
+					"Awesome!"
+				);
 			});
 		},
 		onError: () => {

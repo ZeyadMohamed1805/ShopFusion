@@ -59,11 +59,23 @@ const AddCategory = ({
 			return response;
 		},
 		onSuccess: () => {
-			// location.reload();
 			config.get("/categories").then((response) => {
 				setTemp(response.data);
 				setOpen(false);
+				showToast(
+					"Category Added",
+					"Category added successfully!",
+					"Awesome!"
+				);
 			});
+		},
+		onError: () => {
+			showToast(
+				"Category Not Added",
+				"Something went wrong.",
+				"Got it!",
+				true
+			);
 		},
 	});
 

@@ -7,8 +7,15 @@ import {
 	CarouselItem,
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
+import Image from "next/image";
+import { AspectRatio } from "../ui/aspect-ratio";
 
 const carousel = () => {
+	const images = [
+		"https://res.cloudinary.com/dwunqhvhr/image/upload/v1714782777/uacebaf5tpvevlh792vu.svg",
+		"https://res.cloudinary.com/dwunqhvhr/image/upload/v1714782070/cnedkivwiq2xidf9doxb.svg",
+		"https://res.cloudinary.com/dwunqhvhr/image/upload/v1714778211/ylu0jlxtjptdhd0pyypr.svg",
+	];
 	return (
 		<Carousel
 			className="w-full min-[1120px]:max-w-xl"
@@ -19,17 +26,14 @@ const carousel = () => {
 			]}
 		>
 			<CarouselContent>
-				{Array.from({ length: 5 }).map((_, index) => (
-					<CarouselItem key={index}>
-						<div className="p-1">
-							<Card>
-								<CardContent className="flex aspect-video min-[1120px]:aspect-square items-center justify-center p-6">
-									<span className="text-4xl font-semibold">
-										{index + 1}
-									</span>
-								</CardContent>
-							</Card>
-						</div>
+				{images.map((image, index) => (
+					<CarouselItem
+						key={index}
+						className="rounded overflow-hidden"
+					>
+						<AspectRatio ratio={3 / 2}>
+							<Image src={image} fill alt={index.toString()} />
+						</AspectRatio>
 					</CarouselItem>
 				))}
 			</CarouselContent>

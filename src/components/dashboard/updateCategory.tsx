@@ -67,7 +67,20 @@ const UpdateCategory = ({
 			config.get("/categories").then((response) => {
 				setTemp(response.data);
 				setOpen(false);
+				showToast(
+					"Category Updated",
+					"Category updated successfully.",
+					"Awesome!"
+				);
 			});
+		},
+		onError: () => {
+			showToast(
+				"Category Not Updated",
+				"Something went wrong. Category was not updated.",
+				"Got it!",
+				true
+			);
 		},
 	});
 

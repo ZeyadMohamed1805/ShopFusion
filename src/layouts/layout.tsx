@@ -11,7 +11,10 @@ const Layout = ({ children }: ChildrenType) => {
 	return (
 		<>
 			{pathname.includes("dashboard") ? (
-				<>{children}</>
+				<>
+					{children}
+					<Toaster />
+				</>
 			) : (
 				<>
 					<Header />

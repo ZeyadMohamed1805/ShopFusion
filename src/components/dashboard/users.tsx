@@ -1,4 +1,3 @@
-import * as React from "react";
 import {
 	ColumnDef,
 	ColumnFiltersState,
@@ -11,6 +10,7 @@ import {
 	getSortedRowModel,
 	useReactTable,
 } from "@tanstack/react-table";
+import { useState, useEffect } from "react";
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -41,17 +41,17 @@ import axios from "@/apis/config";
 import config from "@/apis/config";
 
 const Users = () => {
-	const [sorting, setSorting] = React.useState<SortingState>([]);
-	const [columnFilters, setColumnFilters] =
-		React.useState<ColumnFiltersState>([]);
-	const [columnVisibility, setColumnVisibility] =
-		React.useState<VisibilityState>({});
-	const [rowSelection, setRowSelection] = React.useState({});
-	const [temp, setTemp] = React.useState<any>();
+	const [sorting, setSorting] = useState<SortingState>([]);
+	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+	const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
+		{}
+	);
+	const [rowSelection, setRowSelection] = useState({});
+	const [temp, setTemp] = useState<any>();
 	const users: any = useApi<any>("/users", EApiMethod.GET);
 	const { toast } = useToast();
 
-	React.useEffect(() => {
+	useEffect(() => {
 		config.get("/users").then((response) => {
 			setTemp(response.data);
 		});
@@ -76,9 +76,14 @@ const Users = () => {
 			const response = await axios.delete(endpoint);
 			return response;
 		},
-		onSuccess: (newData) => {
+		onSuccess: () => {
 			config.get("/users").then((response) => {
 				setTemp(response.data);
+				showToast(
+					"User Deleted",
+					"User was deleted successfully.",
+					"Awesome!"
+				);
 			});
 		},
 		onError: () => {
@@ -94,20 +99,28 @@ const Users = () => {
 	const { mutate: blockMutate } = useMutation("block_user", {
 		mutationFn: async (endpoint: string) => {
 			const response = await axios.put(endpoint, {
-				...users.data.data.find((user: any) => user.userId === user),
+				...users.data.data.find(
+					(user: any) =>
+						user.userId === parseInt(endpoint.split("/")[1])
+				),
 				isBanned: true,
 			});
 			return response;
 		},
-		onSuccess: (newData) => {
+		onSuccess: () => {
 			config.get("/users").then((response) => {
 				setTemp(response.data);
+				showToast(
+					"User Blocked",
+					"The user was blocked successfully.",
+					"Awesome!"
+				);
 			});
 		},
 		onError: () => {
 			showToast(
-				"Deletion Failed",
-				"Something went wrong. The user was not deleted",
+				"Block Failed",
+				"Something went wrong. The user was not blocked",
 				"Got it!",
 				true
 			);
@@ -198,7 +211,7 @@ const Users = () => {
 								<DropdownMenuItem
 									onClick={() =>
 										blockMutate(
-											`/users/${
+											`users/${
 												temp?.data[parseInt(row.id)]
 													.userId ||
 												users.data.data[
