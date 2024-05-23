@@ -92,7 +92,7 @@ const ProductCard = ({ data, visible }: TProductCardProps) => {
 					<p className="text-lg fw-bolder">{`$${data.productPrice}`}</p>
 				</div>
 			</CardContent>
-			<CardFooter className="flex justify-between">
+			{/* <CardFooter className="flex justify-between">
 				<Button
 					className="w-full"
 					onClick={() =>
@@ -105,7 +105,7 @@ const ProductCard = ({ data, visible }: TProductCardProps) => {
 				>
 					View Details
 				</Button>
-			</CardFooter>
+			</CardFooter> */}
 		</Card>
 	);
 };

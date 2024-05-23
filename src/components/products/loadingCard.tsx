@@ -52,9 +52,9 @@ const LoadingCard = () => {
 						<p className="text-lg fw-bolder bg-slate-200 w-24 h-8 rounded">{``}</p>
 					</div>
 				</CardContent>
-				<CardFooter className="flex justify-between">
+				{/* <CardFooter className="flex justify-between">
 					<Button className="w-full bg-slate-200">{""}</Button>
-				</CardFooter>
+				</CardFooter> */}
 			</Card>
 		</>
 	);
