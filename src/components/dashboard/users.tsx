@@ -48,7 +48,7 @@ import useApi from "@/apis/useApi";
 import { EApiMethod } from "@/types/enums";
 import { useToast } from "../ui/use-toast";
 import { ToastAction } from "../ui/toast";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import axios from "@/apis/config";
 
 const Users = () => {
@@ -61,6 +61,7 @@ const Users = () => {
 	const [dialog, setDialog] = React.useState(false);
 	const [user, setUser] = React.useState<number>();
 	const users: any = useApi<any>("/users", EApiMethod.GET);
+	const queryClient = useQueryClient();
 	const { toast } = useToast();
 
 	const showToast = (
@@ -82,12 +83,8 @@ const Users = () => {
 			const response = await axios.delete(endpoint);
 			return response;
 		},
-		onSuccess: () => {
-			showToast(
-				"Deletion Successful",
-				"User was deleted successfully!",
-				"Awesome!"
-			);
+		onSuccess: (newData) => {
+			location.reload();
 		},
 		onError: () => {
 			showToast(
@@ -107,12 +104,8 @@ const Users = () => {
 			});
 			return response;
 		},
-		onSuccess: () => {
-			showToast(
-				"Deletion Successful",
-				"User was deleted successfully!",
-				"Awesome!"
-			);
+		onSuccess: (newData) => {
+			location.reload();
 		},
 		onError: () => {
 			showToast(
@@ -195,49 +188,54 @@ const Users = () => {
 			cell: ({ row }) => {
 				return (
 					<>
-						<AlertDialog>
-							<DropdownMenu>
-								<DropdownMenuTrigger asChild>
-									<Button
-										variant="ghost"
-										className="h-8 w-8 p-0"
-									>
-										<span className="sr-only">
-											Open menu
-										</span>
-										<MoreHorizontal className="h-4 w-4" />
-									</Button>
-								</DropdownMenuTrigger>
-								<DropdownMenuContent align="end">
-									<DropdownMenuLabel>
-										Actions
-									</DropdownMenuLabel>
-									<DropdownMenuSeparator />
-									<AlertDialogTrigger asChild>
-										<DropdownMenuItem
-											onClick={() => {
-												setDialog(false);
-												setUser(
-													users.data.data[
-														parseInt(row.id)
-													].userId
-												);
-											}}
-										>
-											Block User
-										</DropdownMenuItem>
-									</AlertDialogTrigger>
+						{/* <AlertDialog> */}
+						<DropdownMenu>
+							<DropdownMenuTrigger asChild>
+								<Button variant="ghost" className="h-8 w-8 p-0">
+									<span className="sr-only">Open menu</span>
+									<MoreHorizontal className="h-4 w-4" />
+								</Button>
+							</DropdownMenuTrigger>
+							<DropdownMenuContent align="end">
+								<DropdownMenuLabel>Actions</DropdownMenuLabel>
+								<DropdownMenuSeparator />
+								{/* <AlertDialogTrigger asChild> */}
+								<DropdownMenuItem
+									onClick={() =>
+										blockMutate(
+											`/users/${
+												users.data.data[
+													parseInt(row.id)
+												].userId
+											}`,
+											users.data.data[parseInt(row.id)]
+										)
+									}
+								>
+									Block User
+								</DropdownMenuItem>
+								{/* </AlertDialogTrigger>
 									<AlertDialogTrigger
 										asChild
 										onClick={() => setDialog(true)}
-									>
-										<DropdownMenuItem>
-											Delete User
-										</DropdownMenuItem>
-									</AlertDialogTrigger>
-								</DropdownMenuContent>
-							</DropdownMenu>
-							<AlertDialogContent>
+									> */}
+								<DropdownMenuItem
+									onClick={() =>
+										deleteMutate(
+											`/users/${
+												users.data.data[
+													parseInt(row.id)
+												].userId
+											}`
+										)
+									}
+								>
+									Delete User
+								</DropdownMenuItem>
+								{/* </AlertDialogTrigger> */}
+							</DropdownMenuContent>
+						</DropdownMenu>
+						{/* <AlertDialogContent>
 								<AlertDialogHeader>
 									<AlertDialogTitle>
 										Are you sure?
@@ -277,7 +275,7 @@ const Users = () => {
 									</AlertDialogAction>
 								</AlertDialogFooter>
 							</AlertDialogContent>
-						</AlertDialog>
+						</AlertDialog> */}
 					</>
 				);
 			},
@@ -304,7 +302,7 @@ const Users = () => {
 	});
 
 	return (
-		<div className="w-full flex flex-col gap-8">
+		<div id="users" className="w-full flex flex-col gap-8">
 			<h1 className="text-3xl font-bold text-left border-b-2 pb-4">
 				Users
 			</h1>

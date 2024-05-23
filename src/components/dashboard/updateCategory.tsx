@@ -55,11 +55,7 @@ const UpdateCategory = ({ category }: { category: TCategoryType }) => {
 			return response;
 		},
 		onSuccess: () => {
-			showToast(
-				"Deletion Successful",
-				"User was deleted successfully!",
-				"Awesome!"
-			);
+			location.reload();
 		},
 		onError: () => {
 			showToast(

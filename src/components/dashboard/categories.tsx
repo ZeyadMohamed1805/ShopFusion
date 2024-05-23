@@ -105,11 +105,7 @@ const Categories = () => {
 			return response;
 		},
 		onSuccess: () => {
-			showToast(
-				"Deletion Successful",
-				"User was deleted successfully!",
-				"Awesome!"
-			);
+			location.reload();
 		},
 		onError: () => {
 			showToast(
@@ -271,7 +267,7 @@ const Categories = () => {
 	});
 
 	return (
-		<div className="w-full flex flex-col gap-8">
+		<div id="categories" className="w-full flex flex-col gap-8">
 			<h1 className="text-3xl font-bold text-left border-b-2 pb-4">
 				Categories
 			</h1>

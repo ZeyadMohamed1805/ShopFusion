@@ -115,7 +115,7 @@ const Orders = () => {
 	});
 
 	return (
-		<div className="w-full flex flex-col gap-8">
+		<div id="orders" className="w-full flex flex-col gap-8">
 			<h1 className="text-3xl font-bold text-left border-b-2 pb-4">
 				Orders
 			</h1>

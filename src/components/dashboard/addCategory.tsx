@@ -52,11 +52,7 @@ const AddCategory = () => {
 			return response;
 		},
 		onSuccess: () => {
-			showToast(
-				"Category Added",
-				"Category was added successfully!",
-				"Awesome!"
-			);
+			location.reload();
 		},
 		onError: () => {
 			showToast(

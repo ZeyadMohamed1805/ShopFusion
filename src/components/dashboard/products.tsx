@@ -51,7 +51,7 @@ import { TProductResponse, TProductType, TUseReactQuery } from "@/types/types";
 import UpdateProduct from "./updateProduct";
 import useApi from "@/apis/useApi";
 import { EApiMethod } from "@/types/enums";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import axios from "@/apis/config";
 import { useToast } from "../ui/use-toast";
 import { ToastAction } from "../ui/toast";
@@ -71,6 +71,7 @@ const Products = () => {
 		React.useState<VisibilityState>({});
 	const [rowSelection, setRowSelection] = React.useState({});
 	const { toast } = useToast();
+	const queryClient = useQueryClient();
 
 	const showToast = (
 		title: string,
@@ -91,12 +92,8 @@ const Products = () => {
 			const response = await axios.delete(endpoint);
 			return response;
 		},
-		onSuccess: () => {
-			showToast(
-				"Deletion Successful",
-				"User was deleted successfully!",
-				"Awesome!"
-			);
+		onSuccess: (newData) => {
+			location.reload();
 		},
 		onError: () => {
 			showToast(
@@ -288,7 +285,7 @@ const Products = () => {
 		},
 	});
 	return (
-		<div className="w-full flex flex-col gap-4">
+		<div id="products" className="w-full flex flex-col gap-4">
 			<h1 className="text-3xl font-bold text-left border-b-2 pb-4">
 				Products
 			</h1>
@@ -344,7 +341,7 @@ const Products = () => {
 						<DialogContent
 							className={"sm:max-w-[425px] md:max-w-[800px]"}
 						>
-								<AddProduct />
+							<AddProduct />
 						</DialogContent>
 					</Dialog>
 				</div>

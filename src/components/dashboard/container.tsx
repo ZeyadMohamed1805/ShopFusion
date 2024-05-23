@@ -28,6 +28,7 @@ const Container = () => {
 				>
 					{dashboardSections.map((Section, index) => (
 						<CarouselItem
+							id={index.toString()}
 							key={index}
 							className={`px-4 md:basis-1/2 min-h-screen grid place-items-center`}
 						>

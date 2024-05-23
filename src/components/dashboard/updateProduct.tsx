@@ -14,7 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Separator } from "@radix-ui/react-separator";
 import { TProductType } from "@/types/types";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import axios from "@/apis/config";
 import { useToast } from "../ui/use-toast";
 import { ToastAction } from "../ui/toast";
@@ -35,6 +35,7 @@ const UpdateProduct = ({ product }: { product: TProductType }) => {
 	});
 
 	const { toast } = useToast();
+	const queryClient = useQueryClient();
 
 	const showToast = (
 		title: string,
@@ -58,12 +59,8 @@ const UpdateProduct = ({ product }: { product: TProductType }) => {
 			);
 			return response;
 		},
-		onSuccess: () => {
-			showToast(
-				"Deletion Successful",
-				"User was deleted successfully!",
-				"Awesome!"
-			);
+		onSuccess: (newData) => {
+			location.reload();
 		},
 		onError: () => {
 			showToast(
