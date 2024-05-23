@@ -32,7 +32,12 @@ const carousel = () => {
 						className="rounded overflow-hidden"
 					>
 						<AspectRatio ratio={3 / 2}>
-							<Image src={image} fill alt={index.toString()} />
+							<Image
+								src={image}
+								fill
+								alt={index.toString()}
+								priority
+							/>
 						</AspectRatio>
 					</CarouselItem>
 				))}
