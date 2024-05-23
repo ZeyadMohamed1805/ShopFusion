@@ -11,17 +11,6 @@ import {
 	getSortedRowModel,
 	useReactTable,
 } from "@tanstack/react-table";
-import {
-	AlertDialog,
-	AlertDialogAction,
-	AlertDialogCancel,
-	AlertDialogContent,
-	AlertDialogDescription,
-	AlertDialogFooter,
-	AlertDialogHeader,
-	AlertDialogTitle,
-	AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -42,14 +31,14 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { dashboardUsers as data } from "@/constants/constants";
 import { TUserType } from "@/types/types";
 import useApi from "@/apis/useApi";
 import { EApiMethod } from "@/types/enums";
 import { useToast } from "../ui/use-toast";
 import { ToastAction } from "../ui/toast";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation } from "react-query";
 import axios from "@/apis/config";
+import config from "@/apis/config";
 
 const Users = () => {
 	const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -58,11 +47,15 @@ const Users = () => {
 	const [columnVisibility, setColumnVisibility] =
 		React.useState<VisibilityState>({});
 	const [rowSelection, setRowSelection] = React.useState({});
-	const [dialog, setDialog] = React.useState(false);
-	const [user, setUser] = React.useState<number>();
+	const [temp, setTemp] = React.useState<any>();
 	const users: any = useApi<any>("/users", EApiMethod.GET);
-	const queryClient = useQueryClient();
 	const { toast } = useToast();
+
+	React.useEffect(() => {
+		config.get("/users").then((response) => {
+			setTemp(response.data);
+		});
+	}, []);
 
 	const showToast = (
 		title: string,
@@ -84,7 +77,9 @@ const Users = () => {
 			return response;
 		},
 		onSuccess: (newData) => {
-			location.reload();
+			config.get("/users").then((response) => {
+				setTemp(response.data);
+			});
 		},
 		onError: () => {
 			showToast(
@@ -105,7 +100,9 @@ const Users = () => {
 			return response;
 		},
 		onSuccess: (newData) => {
-			location.reload();
+			config.get("/users").then((response) => {
+				setTemp(response.data);
+			});
 		},
 		onError: () => {
 			showToast(
@@ -188,7 +185,6 @@ const Users = () => {
 			cell: ({ row }) => {
 				return (
 					<>
-						{/* <AlertDialog> */}
 						<DropdownMenu>
 							<DropdownMenuTrigger asChild>
 								<Button variant="ghost" className="h-8 w-8 p-0">
@@ -199,83 +195,48 @@ const Users = () => {
 							<DropdownMenuContent align="end">
 								<DropdownMenuLabel>Actions</DropdownMenuLabel>
 								<DropdownMenuSeparator />
-								{/* <AlertDialogTrigger asChild> */}
 								<DropdownMenuItem
 									onClick={() =>
 										blockMutate(
 											`/users/${
+												temp?.data[parseInt(row.id)]
+													.userId ||
 												users.data.data[
 													parseInt(row.id)
 												].userId
 											}`,
-											users.data.data[parseInt(row.id)]
+											temp?.data[parseInt(row.id)]
+												.userId ||
+												users.data.data[
+													parseInt(row.id)
+												]
 										)
 									}
 								>
 									Block User
 								</DropdownMenuItem>
-								{/* </AlertDialogTrigger>
-									<AlertDialogTrigger
-										asChild
-										onClick={() => setDialog(true)}
-									> */}
 								<DropdownMenuItem
 									onClick={() =>
 										deleteMutate(
 											`/users/${
+												temp.data[parseInt(row.id)]
+													.userId ||
 												users.data.data[
 													parseInt(row.id)
 												].userId
-											}`
+											}`,
+											temp.data[parseInt(row.id)]
+												.userId ||
+												users.data.data[
+													parseInt(row.id)
+												]
 										)
 									}
 								>
 									Delete User
 								</DropdownMenuItem>
-								{/* </AlertDialogTrigger> */}
 							</DropdownMenuContent>
 						</DropdownMenu>
-						{/* <AlertDialogContent>
-								<AlertDialogHeader>
-									<AlertDialogTitle>
-										Are you sure?
-									</AlertDialogTitle>
-									<AlertDialogDescription>
-										This action will affect the roles of a
-										client who uses this application.
-									</AlertDialogDescription>
-								</AlertDialogHeader>
-								<AlertDialogFooter>
-									<AlertDialogCancel>
-										Cancel
-									</AlertDialogCancel>
-									<AlertDialogAction
-										onClick={() => {
-											dialog
-												? deleteMutate(
-														`/users/${
-															users.data.data[
-																parseInt(row.id)
-															].userId
-														}`
-												  )
-												: blockMutate(
-														`/users/${
-															users.data.data[
-																parseInt(row.id)
-															].userId
-														}`,
-														users.data.data[
-															parseInt(row.id)
-														]
-												  );
-										}}
-									>
-										Confirm
-									</AlertDialogAction>
-								</AlertDialogFooter>
-							</AlertDialogContent>
-						</AlertDialog> */}
 					</>
 				);
 			},
@@ -283,7 +244,10 @@ const Users = () => {
 	];
 
 	const table = useReactTable({
-		data: !users.isLoading && users.isSuccess ? users.data.data : data,
+		data:
+			!users.isLoading && users.isSuccess
+				? temp?.data || users.data.data
+				: [],
 		columns,
 		onSortingChange: setSorting,
 		onColumnFiltersChange: setColumnFilters,
@@ -302,7 +266,7 @@ const Users = () => {
 	});
 
 	return (
-		<div id="users" className="w-full flex flex-col gap-8">
+		<div id="users" className="w-full flex flex-col gap-4">
 			<h1 className="text-3xl font-bold text-left border-b-2 pb-4">
 				Users
 			</h1>

@@ -13,13 +13,22 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@radix-ui/react-separator";
-import { TProductType } from "@/types/types";
-import { useMutation, useQueryClient } from "react-query";
+import { TProductResponse, TProductType } from "@/types/types";
+import { useMutation } from "react-query";
 import axios from "@/apis/config";
 import { useToast } from "../ui/use-toast";
 import { ToastAction } from "../ui/toast";
+import config from "@/apis/config";
 
-const UpdateProduct = ({ product }: { product: TProductType }) => {
+const UpdateProduct = ({
+	product,
+	setTemp,
+	setOpen,
+}: {
+	product: TProductType;
+	setTemp: React.Dispatch<React.SetStateAction<TProductResponse | undefined>>;
+	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
 	const form = useForm<z.infer<typeof productFormSchema>>({
 		resolver: zodResolver(productFormSchema),
 		defaultValues: {
@@ -35,7 +44,6 @@ const UpdateProduct = ({ product }: { product: TProductType }) => {
 	});
 
 	const { toast } = useToast();
-	const queryClient = useQueryClient();
 
 	const showToast = (
 		title: string,
@@ -59,16 +67,15 @@ const UpdateProduct = ({ product }: { product: TProductType }) => {
 			);
 			return response;
 		},
-		onSuccess: (newData) => {
-			location.reload();
-		},
-		onError: () => {
-			showToast(
-				"Deletion Failed",
-				"Something went wrong. The user was not deleted",
-				"Got it!",
-				true
-			);
+		onSuccess: () => {
+			// location.reload();
+			config
+				.get("/products?pageNumber=1&pageSize=100")
+				.then((response) => {
+					setTemp(response.data);
+					setOpen(false);
+				})
+				.catch((error) => {});
 		},
 	});
 

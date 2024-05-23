@@ -1,16 +1,16 @@
 import ProductCard from "./productCard";
-import {
-	Pagination,
-	PaginationContent,
-	PaginationEllipsis,
-	PaginationItem,
-	PaginationLink,
-	PaginationNext,
-	PaginationPrevious,
-} from "@/components/ui/pagination";
 import { productItems } from "@/constants/constants";
 import { TProductListProps } from "@/types/types";
 import LoadingCard from "./loadingCard";
+// import {
+// 	Pagination,
+// 	PaginationContent,
+// 	PaginationEllipsis,
+// 	PaginationItem,
+// 	PaginationLink,
+// 	PaginationNext,
+// 	PaginationPrevious,
+// } from "@/components/ui/pagination";
 
 const List = ({ filter, products, categories }: TProductListProps) => {
 	return (
@@ -81,9 +81,6 @@ const List = ({ filter, products, categories }: TProductListProps) => {
 														)!.categoryName!,
 												},
 											}}
-											visible={item.productName
-												.toLowerCase()
-												.includes(filter.name || "")}
 										/>
 									))
 							) : (
@@ -121,9 +118,6 @@ const List = ({ filter, products, categories }: TProductListProps) => {
 									<ProductCard
 										key={item.productId}
 										data={item}
-										visible={item.productName
-											.toLowerCase()
-											.includes(filter.name || "")}
 									/>
 								))
 						) : (
@@ -134,7 +128,7 @@ const List = ({ filter, products, categories }: TProductListProps) => {
 							</div>
 						)}
 					</div>
-					<div>
+					{/* <div>
 						<Pagination>
 							<PaginationContent>
 								<PaginationItem className="cursor-pointer">
@@ -157,7 +151,7 @@ const List = ({ filter, products, categories }: TProductListProps) => {
 								</PaginationItem>
 							</PaginationContent>
 						</Pagination>
-					</div>
+					</div> */}
 				</>
 			)}
 		</div>

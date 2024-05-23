@@ -13,14 +13,21 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@radix-ui/react-separator";
-import { TProductType } from "@/types/types";
+import { TProductResponse, TProductType } from "@/types/types";
 import { useMutation, useQueryClient } from "react-query";
 import axios from "@/apis/config";
 import { useToast } from "../ui/use-toast";
 import { ToastAction } from "../ui/toast";
 import { useRouter } from "next/navigation";
+import config from "@/apis/config";
 
-const AddProduct = () => {
+const AddProduct = ({
+	setTemp,
+	setOpen,
+}: {
+	setTemp: React.Dispatch<React.SetStateAction<TProductResponse | undefined>>;
+	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
 	const form = useForm<z.infer<typeof productFormSchema>>({
 		resolver: zodResolver(productFormSchema),
 		defaultValues: {
@@ -36,8 +43,6 @@ const AddProduct = () => {
 	});
 
 	const { toast } = useToast();
-	const { refresh } = useRouter();
-	const queryClient = useQueryClient();
 
 	const showToast = (
 		title: string,
@@ -59,15 +64,13 @@ const AddProduct = () => {
 			return response;
 		},
 		onSuccess: (newData) => {
-			location.reload();
-		},
-		onError: () => {
-			showToast(
-				"Product Not Added",
-				"Something went wrong. The product was not added",
-				"Got it!",
-				true
-			);
+			// location.reload();
+			config
+				.get("/products?pageNumber=1&pageSize=100")
+				.then((response) => {
+					setTemp(response.data);
+					setOpen(false);
+				});
 		},
 	});
 

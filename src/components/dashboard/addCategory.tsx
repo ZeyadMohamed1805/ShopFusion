@@ -18,8 +18,15 @@ import { useToast } from "../ui/use-toast";
 import { ToastAction } from "../ui/toast";
 import { useMutation } from "react-query";
 import axios from "@/apis/config";
+import config from "@/apis/config";
 
-const AddCategory = () => {
+const AddCategory = ({
+	setTemp,
+	setOpen,
+}: {
+	setTemp: React.Dispatch<any>;
+	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
 	const form = useForm<z.infer<typeof categoryFormSchema>>({
 		resolver: zodResolver(categoryFormSchema),
 		defaultValues: {
@@ -52,15 +59,11 @@ const AddCategory = () => {
 			return response;
 		},
 		onSuccess: () => {
-			location.reload();
-		},
-		onError: () => {
-			showToast(
-				"Category Not Added",
-				"Something went wrong. The category was not added",
-				"Got it!",
-				true
-			);
+			// location.reload();
+			config.get("/categories").then((response) => {
+				setTemp(response.data);
+				setOpen(false);
+			});
 		},
 	});
 

@@ -1,10 +1,11 @@
 "use client";
 
+import Image from "next/image";
 import {
 	Card,
 	CardContent,
 	CardDescription,
-	CardFooter,
+	// CardFooter,
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
@@ -17,7 +18,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { addCartItem } from "@/utils/cart";
 import { TProductCardProps } from "@/types/types";
 
-const ProductCard = ({ data, visible }: TProductCardProps) => {
+const ProductCard = ({ data }: TProductCardProps) => {
 	const { toast } = useToast();
 
 	const showToast = (
@@ -53,17 +54,18 @@ const ProductCard = ({ data, visible }: TProductCardProps) => {
 	return (
 		<Card
 			key={data.productId}
-			className={`transition transform duration-300 max-w-[688px] ${
-				visible
-					? "opacity-100 scale-100 block"
-					: "opacity-0 scale-90 pointer-events-none hidden"
-			}`}
+			className={`transition transform duration-300 max-w-[688px]`}
 		>
 			<AspectRatio
 				ratio={16 / 9}
-				className="flex items-center justify-center text-center"
+				className="w-full flex items-center justify-center text-center"
 			>
-				<h3 className="text-3xl fw-bolder">{data.productImage}</h3>
+				<Image
+					src={data.productImage}
+					fill
+					layout="fill"
+					alt={data.productName}
+				/>
 			</AspectRatio>
 			<CardHeader>
 				<div className="flex justify-between gap-4">

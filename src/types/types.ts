@@ -88,7 +88,6 @@ export type TFilterType = {
 
 export type TProductCardProps = {
 	data: TProductType;
-	visible: boolean;
 };
 
 export type TProductFormProps = {

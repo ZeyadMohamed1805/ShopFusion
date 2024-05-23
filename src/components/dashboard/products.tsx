@@ -46,8 +46,7 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { productItems as data, productItems } from "@/constants/constants";
-import { TProductResponse, TProductType, TUseReactQuery } from "@/types/types";
+import { TProductResponse, TUseReactQuery } from "@/types/types";
 import UpdateProduct from "./updateProduct";
 import useApi from "@/apis/useApi";
 import { EApiMethod } from "@/types/enums";
@@ -58,12 +57,16 @@ import { ToastAction } from "../ui/toast";
 import AddProduct from "./addProduct";
 import { Dialog } from "@radix-ui/react-dialog";
 import { DialogContent, DialogTrigger } from "../ui/dialog";
+import config from "@/apis/config";
 
 const Products = () => {
 	const products: TUseReactQuery<TProductResponse> = useApi<TProductResponse>(
 		"/products?pageNumber=1&pageSize=6",
 		EApiMethod.GET
 	);
+	const [open, setOpen] = React.useState(false);
+	const [sheetOpen, setSheetOpen] = React.useState(false);
+	const [temp, setTemp] = React.useState<TProductResponse>();
 	const [sorting, setSorting] = React.useState<SortingState>([]);
 	const [columnFilters, setColumnFilters] =
 		React.useState<ColumnFiltersState>([]);
@@ -73,6 +76,11 @@ const Products = () => {
 	const { toast } = useToast();
 	const queryClient = useQueryClient();
 
+	React.useEffect(() => {
+		config.get("/products?pageNumber=1&pageSize=100").then((response) => {
+			setTemp(response.data);
+		});
+	}, []);
 	const showToast = (
 		title: string,
 		description: string,
@@ -93,7 +101,11 @@ const Products = () => {
 			return response;
 		},
 		onSuccess: (newData) => {
-			location.reload();
+			config
+				.get("/products?pageNumber=1&pageSize=100")
+				.then((response) => {
+					setTemp(response.data);
+				});
 		},
 		onError: () => {
 			showToast(
@@ -182,7 +194,7 @@ const Products = () => {
 				return (
 					<>
 						<AlertDialog>
-							<Sheet>
+							<Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
 								<DropdownMenu>
 									<DropdownMenuTrigger asChild>
 										<Button
@@ -231,6 +243,9 @@ const Products = () => {
 											onClick={() =>
 												mutate(
 													`/products/${
+														temp?.data.items[
+															parseInt(row.id)
+														].productId ||
 														products.data.data
 															.items[
 															parseInt(row.id)
@@ -244,16 +259,21 @@ const Products = () => {
 									</AlertDialogFooter>
 								</AlertDialogContent>
 								<SheetContent side={"bottom"}>
-									<UpdateProduct
-										product={
-											!products.isLoading &&
-											products.isSuccess
-												? products.data.data.items[
+									{!products.isLoading &&
+										products.isSuccess && (
+											<UpdateProduct
+												setTemp={setTemp}
+												setOpen={setSheetOpen}
+												product={
+													temp?.data.items[
 														parseInt(row.id)
-												  ]
-												: productItems[parseInt(row.id)]
-										}
-									/>
+													] ||
+													products.data.data.items[
+														parseInt(row.id)
+													]
+												}
+											/>
+										)}
 								</SheetContent>
 							</Sheet>
 						</AlertDialog>
@@ -266,8 +286,8 @@ const Products = () => {
 	const table = useReactTable<any>({
 		data:
 			!products.isLoading && products.isSuccess
-				? products.data.data.items
-				: data,
+				? temp?.data.items || products.data.data.items
+				: [],
 		columns,
 		onSortingChange: setSorting,
 		onColumnFiltersChange: setColumnFilters,
@@ -334,14 +354,14 @@ const Products = () => {
 								})}
 						</DropdownMenuContent>
 					</DropdownMenu>
-					<Dialog>
+					<Dialog open={open} onOpenChange={setOpen}>
 						<DialogTrigger asChild>
 							<Button className="w-full lg:w-fit">Add</Button>
 						</DialogTrigger>
 						<DialogContent
 							className={"sm:max-w-[425px] md:max-w-[800px]"}
 						>
-							<AddProduct />
+							<AddProduct setTemp={setTemp} setOpen={setOpen} />
 						</DialogContent>
 					</Dialog>
 				</div>

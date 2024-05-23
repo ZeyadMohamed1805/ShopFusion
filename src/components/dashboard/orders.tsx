@@ -11,16 +11,13 @@ import {
 	getSortedRowModel,
 	useReactTable,
 } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, ChevronDown } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
 	DropdownMenu,
 	DropdownMenuCheckboxItem,
 	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuLabel,
-	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
@@ -32,7 +29,6 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { dashboardOrders as data } from "@/constants/constants";
 import { TOrderType } from "@/types/types";
 import { EApiMethod } from "@/types/enums";
 import useApi from "@/apis/useApi";
@@ -96,7 +92,7 @@ const Orders = () => {
 	const orders: any = useApi<any>("/orders", EApiMethod.GET);
 
 	const table = useReactTable({
-		data: !orders.isLoading && orders.isSuccess ? orders.data.data : data,
+		data: !orders.isLoading && orders.isSuccess ? orders.data.data : [],
 		columns,
 		onSortingChange: setSorting,
 		onColumnFiltersChange: setColumnFilters,
@@ -115,7 +111,7 @@ const Orders = () => {
 	});
 
 	return (
-		<div id="orders" className="w-full flex flex-col gap-8">
+		<div id="orders" className="w-full flex flex-col gap-4">
 			<h1 className="text-3xl font-bold text-left border-b-2 pb-4">
 				Orders
 			</h1>

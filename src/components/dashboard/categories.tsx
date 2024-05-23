@@ -22,17 +22,7 @@ import {
 	AlertDialogTitle,
 	AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import {
-	Sheet,
-	SheetClose,
-	SheetContent,
-	SheetDescription,
-	SheetFooter,
-	SheetHeader,
-	SheetTitle,
-	SheetTrigger,
-} from "@/components/ui/sheet";
-import { Label } from "../ui/label";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Input } from "@/components/ui/input";
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
 
@@ -55,10 +45,6 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import {
-	dashboardCategories,
-	dashboardCategories as data,
-} from "@/constants/constants";
-import {
 	TCategoryResponse,
 	TCategoryType,
 	TUseReactQuery,
@@ -72,6 +58,7 @@ import { useMutation } from "react-query";
 import axios from "@/apis/config";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 import AddCategory from "./addCategory";
+import config from "@/apis/config";
 
 const Categories = () => {
 	const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -80,8 +67,17 @@ const Categories = () => {
 	const [columnVisibility, setColumnVisibility] =
 		React.useState<VisibilityState>({});
 	const [rowSelection, setRowSelection] = React.useState({});
+	const [open, setOpen] = React.useState(false);
+	const [sheetOpen, setSheetOpen] = React.useState(false);
+	const [temp, setTemp] = React.useState<any>();
 	const categories: TUseReactQuery<TCategoryResponse> =
 		useApi<TCategoryResponse>("/categories", EApiMethod.GET);
+
+	React.useEffect(() => {
+		config.get("/categories").then((response) => {
+			setTemp(response.data);
+		});
+	}, []);
 
 	const { toast } = useToast();
 
@@ -105,7 +101,9 @@ const Categories = () => {
 			return response;
 		},
 		onSuccess: () => {
-			location.reload();
+			config.get("/categories").then((response) => {
+				setTemp(response.data);
+			});
 		},
 		onError: () => {
 			showToast(
@@ -162,7 +160,7 @@ const Categories = () => {
 				return (
 					<>
 						<AlertDialog>
-							<Sheet>
+							<Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
 								<DropdownMenu>
 									<DropdownMenuTrigger asChild>
 										<Button
@@ -211,6 +209,9 @@ const Categories = () => {
 											onClick={() =>
 												mutate(
 													`/categories/${
+														temp.data[
+															parseInt(row.id)
+														].categoryId ||
 														categories.data.data[
 															parseInt(row.id)
 														].categoryId
@@ -223,18 +224,21 @@ const Categories = () => {
 									</AlertDialogFooter>
 								</AlertDialogContent>
 								<SheetContent side={"bottom"}>
-									<UpdateCategory
-										category={
-											!categories.isLoading &&
-											categories.isSuccess
-												? categories.data.data[
+									{!categories.isLoading &&
+										categories.isSuccess && (
+											<UpdateCategory
+												setTemp={setTemp}
+												setOpen={setSheetOpen}
+												category={
+													temp?.data[
 														parseInt(row.id)
-												  ]
-												: dashboardCategories[
+													] ||
+													categories.data.data[
 														parseInt(row.id)
-												  ]
-										}
-									/>
+													]
+												}
+											/>
+										)}
 								</SheetContent>
 							</Sheet>
 						</AlertDialog>
@@ -247,8 +251,8 @@ const Categories = () => {
 	const table = useReactTable({
 		data:
 			!categories.isLoading && categories.isSuccess
-				? categories.data.data
-				: data,
+				? temp?.data || categories.data.data
+				: [],
 		columns,
 		onSortingChange: setSorting,
 		onColumnFiltersChange: setColumnFilters,
@@ -267,7 +271,7 @@ const Categories = () => {
 	});
 
 	return (
-		<div id="categories" className="w-full flex flex-col gap-8">
+		<div id="categories" className="w-full flex flex-col gap-4">
 			<h1 className="text-3xl font-bold text-left border-b-2 pb-4">
 				Categories
 			</h1>
@@ -316,14 +320,14 @@ const Categories = () => {
 								})}
 						</DropdownMenuContent>
 					</DropdownMenu>
-					<Dialog>
+					<Dialog open={open} onOpenChange={setOpen}>
 						<DialogTrigger asChild>
 							<Button className="w-full lg:w-fit">Add</Button>
 						</DialogTrigger>
 						<DialogContent
 							className={"sm:max-w-[425px] md:max-w-[800px]"}
 						>
-							<AddCategory />
+							<AddCategory setTemp={setTemp} setOpen={setOpen} />
 						</DialogContent>
 					</Dialog>
 				</div>

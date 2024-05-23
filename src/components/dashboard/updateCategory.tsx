@@ -18,8 +18,17 @@ import { useToast } from "../ui/use-toast";
 import { ToastAction } from "../ui/toast";
 import { useMutation } from "react-query";
 import axios from "@/apis/config";
+import config from "@/apis/config";
 
-const UpdateCategory = ({ category }: { category: TCategoryType }) => {
+const UpdateCategory = ({
+	category,
+	setTemp,
+	setOpen,
+}: {
+	category: TCategoryType;
+	setTemp: React.Dispatch<any>;
+	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
 	const form = useForm<z.infer<typeof categoryFormSchema>>({
 		resolver: zodResolver(categoryFormSchema),
 		defaultValues: {
@@ -55,15 +64,10 @@ const UpdateCategory = ({ category }: { category: TCategoryType }) => {
 			return response;
 		},
 		onSuccess: () => {
-			location.reload();
-		},
-		onError: () => {
-			showToast(
-				"Deletion Failed",
-				"Something went wrong. The user was not deleted",
-				"Got it!",
-				true
-			);
+			config.get("/categories").then((response) => {
+				setTemp(response.data);
+				setOpen(false);
+			});
 		},
 	});
 
