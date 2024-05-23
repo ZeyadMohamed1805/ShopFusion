@@ -1,12 +1,29 @@
 "use client";
 
 import { Carousel, CarouselContent, CarouselItem } from "../ui/carousel";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Sidenav from "./sidenav";
 import { dashboardSections } from "@/constants/constants";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const Container = () => {
 	const [translate, setTranslate] = useState<number>(0);
+	const { push } = useRouter();
+	useEffect(() => {
+		axios
+			.get("/api/validate")
+			.then((response) => {
+				if (response.status === 200) {
+					if (!response.data.is_admin) {
+						push("/");
+					}
+				}
+			})
+			.catch((error) => {
+				push("/");
+			});
+	}, [push]);
 
 	return (
 		<div className="w-full min-h-screen flex overflow-x-hidden">
