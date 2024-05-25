@@ -2,17 +2,28 @@ import ProductCard from "./productCard";
 import { productItems } from "@/constants/constants";
 import { TProductListProps } from "@/types/types";
 import LoadingCard from "./loadingCard";
-// import {
-// 	Pagination,
-// 	PaginationContent,
-// 	PaginationEllipsis,
-// 	PaginationItem,
-// 	PaginationLink,
-// 	PaginationNext,
-// 	PaginationPrevious,
-// } from "@/components/ui/pagination";
+import {
+	Pagination,
+	PaginationContent,
+	PaginationEllipsis,
+	PaginationItem,
+	PaginationLink,
+	PaginationNext,
+	PaginationPrevious,
+} from "@/components/ui/pagination";
+import { useEffect, useState } from "react";
+import config from "@/apis/config";
 
 const List = ({ filter, products, categories }: TProductListProps) => {
+	const [data, setData] = useState<typeof products.data.data>();
+
+	useEffect(() => {
+		config
+			.get("/products?pageNumber=1&pageSize=2")
+			.then((response: any) => {
+				setData(response.data.data);
+			});
+	}, []);
 	return (
 		<div className="w-full flex flex-col gap-8">
 			{products.isLoading && categories.isLoading ? (
@@ -37,7 +48,7 @@ const List = ({ filter, products, categories }: TProductListProps) => {
 						}}
 					>
 						{products.isSuccess && categories.isSuccess ? (
-							products.data.data.items.filter(
+							(data?.items || products.data.data.items).filter(
 								(item) =>
 									item.productName
 										.toLowerCase()
@@ -48,7 +59,7 @@ const List = ({ filter, products, categories }: TProductListProps) => {
 										? item.categoryId === filter.category
 										: true)
 							).length ? (
-								products.data.data.items
+								(data?.items || products.data.data.items)
 									.filter(
 										(item) =>
 											item.productName
@@ -128,30 +139,130 @@ const List = ({ filter, products, categories }: TProductListProps) => {
 							</div>
 						)}
 					</div>
-					{/* <div>
+					<div>
 						<Pagination>
 							<PaginationContent>
-								<PaginationItem className="cursor-pointer">
-									<PaginationPrevious />
-								</PaginationItem>
-								<PaginationItem className="cursor-pointer">
-									<PaginationLink>1</PaginationLink>
-								</PaginationItem>
-								<PaginationItem className="cursor-pointer">
-									<PaginationLink isActive>2</PaginationLink>
-								</PaginationItem>
-								<PaginationItem className="cursor-pointer">
-									<PaginationLink>3</PaginationLink>
-								</PaginationItem>
 								<PaginationItem>
-									<PaginationEllipsis />
+									<PaginationPrevious
+										aria-disabled={
+											(data?.pageNumber ||
+												products.data.data
+													.pageNumber) === 1
+										}
+										tabIndex={
+											(data?.pageNumber ||
+												products.data.data
+													.pageNumber) === 1
+												? -1
+												: undefined
+										}
+										className={
+											(data?.pageNumber ||
+												products.data.data
+													.pageNumber) === 1
+												? "pointer-events-none cursor-default opacity-50"
+												: "cursor-pointer"
+										}
+										onClick={() => {
+											config
+												.get(
+													`/products?pageNumber=${
+														data?.pageNumber
+															? data.pageNumber -
+															  1
+															: products.data.data
+																	.pageNumber -
+															  1
+													}&pageSize=2`
+												)
+												.then((response: any) => {
+													setData(response.data.data);
+												});
+										}}
+									/>
 								</PaginationItem>
-								<PaginationItem className="cursor-pointer">
-									<PaginationNext />
+								{Array.from({
+									length:
+										data?.totalPages ||
+										products.data.data.totalPages,
+								}).map((_, index) => (
+									<PaginationItem
+										key={index}
+										className="cursor-pointer"
+									>
+										<PaginationLink
+											isActive={
+												index + 1 ===
+												(data?.pageNumber ||
+													products.data.data
+														.pageNumber)
+											}
+											onClick={() => {
+												config
+													.get(
+														`/products?pageNumber=${
+															index + 1
+														}&pageSize=2`
+													)
+													.then((response: any) => {
+														setData(
+															response.data.data
+														);
+													});
+											}}
+										>
+											{index + 1}
+										</PaginationLink>
+									</PaginationItem>
+								))}
+								<PaginationItem>
+									<PaginationNext
+										aria-disabled={
+											(data?.pageNumber ||
+												products.data.data
+													.pageNumber) ===
+											(data?.totalPages ||
+												products.data.data.totalPages)
+										}
+										tabIndex={
+											(data?.pageNumber ||
+												products.data.data
+													.pageNumber) ===
+											(data?.totalPages ||
+												products.data.data.totalPages)
+												? -1
+												: undefined
+										}
+										className={
+											(data?.pageNumber ||
+												products.data.data
+													.pageNumber) ===
+											(data?.totalPages ||
+												products.data.data.totalPages)
+												? "pointer-events-none cursor-default opacity-50"
+												: "cursor-pointer"
+										}
+										onClick={() => {
+											config
+												.get(
+													`/products?pageNumber=${
+														data?.pageNumber
+															? data.pageNumber +
+															  1
+															: products.data.data
+																	.pageNumber +
+															  1
+													}&pageSize=2`
+												)
+												.then((response: any) => {
+													setData(response.data.data);
+												});
+										}}
+									/>
 								</PaginationItem>
 							</PaginationContent>
 						</Pagination>
-					</div> */}
+					</div>
 				</>
 			)}
 		</div>

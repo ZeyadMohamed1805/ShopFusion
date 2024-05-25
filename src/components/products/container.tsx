@@ -18,7 +18,7 @@ const Container = () => {
 		max: Infinity,
 	});
 	const products = useApi<TProductResponse>(
-		"/products?pageNumber=1&pageSize=100",
+		"/products?pageNumber=1&pageSize=2",
 		EApiMethod.GET
 	);
 	const categories = useApi<TCategoryResponse>("/categories", EApiMethod.GET);

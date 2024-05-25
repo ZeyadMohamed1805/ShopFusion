@@ -61,7 +61,7 @@ import config from "@/apis/config";
 
 const Products = () => {
 	const products: TUseReactQuery<TProductResponse> = useApi<TProductResponse>(
-		"/products?pageNumber=1&pageSize=6",
+		"/products?pageNumber=1&pageSize=100",
 		EApiMethod.GET
 	);
 	const [open, setOpen] = useState(false);
