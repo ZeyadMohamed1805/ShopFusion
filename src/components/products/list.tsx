@@ -22,7 +22,8 @@ const List = ({ filter, products, categories }: TProductListProps) => {
 			.get("/products?pageNumber=1&pageSize=12")
 			.then((response: any) => {
 				setData(response.data.data);
-			});
+			})
+			.catch(() => {});
 	}, []);
 	return (
 		<div className="w-full flex flex-col gap-8">
