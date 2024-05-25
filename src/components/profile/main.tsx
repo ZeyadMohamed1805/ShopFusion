@@ -10,16 +10,18 @@ import { Separator } from "@/components/ui/separator";
 import {
 	Table,
 	TableBody,
-	TableCaption,
 	TableCell,
 	TableHead,
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import UpdateProfile from "./updateProfile";
 
 const Main = () => {
 	const { push } = useRouter();
 	const [user, setUser] = useState<any>();
+	const [open, setOpen] = useState(false);
 
 	useEffect(() => {
 		axios
@@ -49,16 +51,29 @@ const Main = () => {
 	return (
 		<main className="w-full min-h-[calc(100vh-200.2px)] px-4 py-8 flex justify-center">
 			<div className="w-full max-w-[1400px] flex flex-col items-center gap-8">
-				<div className="w-full flex items-end gap-4 flex-wrap md:flex-nowrap">
-					<Avatar className="w-[180px] h-[180px]">
+				<div className="w-full flex items-end gap-2 flex-wrap">
+					<Avatar className="w-[80px] h-[80px]">
 						<AvatarImage src="/profile.png" />
 						<AvatarFallback>U</AvatarFallback>
 					</Avatar>
 					<div className="w-full flex items-end justify-between gap-4 capitalize">
-						<h1 className="text-4xl font-bold">
+						<h1 className="text-4xl font-semibold">
 							{`${user?.firstName} ${user?.lastName}`}
 						</h1>
-						<Button>Update</Button>
+						<Dialog open={open} onOpenChange={setOpen}>
+							<DialogTrigger asChild>
+								<Button>Update</Button>
+							</DialogTrigger>
+							<DialogContent
+								className={"sm:max-w-[425px] md:max-w-[800px]"}
+							>
+								<UpdateProfile
+									setOpen={setOpen}
+									setTemp={setUser}
+									user={user}
+								/>
+							</DialogContent>
+						</Dialog>
 					</div>
 				</div>
 				<Separator />
@@ -108,6 +123,14 @@ const Main = () => {
 							</TableCell>
 							<TableCell className="text-right capitalize">
 								{user?.isAdmin.toString()}
+							</TableCell>
+						</TableRow>
+						<TableRow>
+							<TableCell className="font-medium whitespace-nowrap">
+								Banned
+							</TableCell>
+							<TableCell className="text-right capitalize">
+								{user?.isBanned.toString()}
 							</TableCell>
 						</TableRow>
 					</TableBody>
