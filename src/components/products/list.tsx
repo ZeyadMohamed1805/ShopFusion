@@ -19,7 +19,7 @@ const List = ({ filter, products, categories }: TProductListProps) => {
 
 	useEffect(() => {
 		config
-			.get("/products?pageNumber=1&pageSize=2")
+			.get("/products?pageNumber=1&pageSize=12")
 			.then((response: any) => {
 				setData(response.data.data);
 			});
@@ -173,7 +173,7 @@ const List = ({ filter, products, categories }: TProductListProps) => {
 															: products.data.data
 																	.pageNumber -
 															  1
-													}&pageSize=2`
+													}&pageSize=12`
 												)
 												.then((response: any) => {
 													setData(response.data.data);
@@ -202,7 +202,7 @@ const List = ({ filter, products, categories }: TProductListProps) => {
 													.get(
 														`/products?pageNumber=${
 															index + 1
-														}&pageSize=2`
+														}&pageSize=12`
 													)
 													.then((response: any) => {
 														setData(
@@ -252,7 +252,7 @@ const List = ({ filter, products, categories }: TProductListProps) => {
 															: products.data.data
 																	.pageNumber +
 															  1
-													}&pageSize=2`
+													}&pageSize=12`
 												)
 												.then((response: any) => {
 													setData(response.data.data);
