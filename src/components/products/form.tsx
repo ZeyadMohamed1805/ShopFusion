@@ -50,7 +50,7 @@ const Form = ({
 					<SelectGroup>
 						{isLoading ? (
 							<SelectLabel>Loading...</SelectLabel>
-						) : isSuccess ? (
+						) : isSuccess && data && data.data ? (
 							<>
 								<SelectLabel>Categories</SelectLabel>
 								<SelectItem value={"All"}>All</SelectItem>
