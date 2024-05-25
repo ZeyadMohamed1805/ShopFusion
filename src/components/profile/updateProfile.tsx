@@ -33,11 +33,6 @@ const UpdateProfile = ({
 		defaultValues: {
 			firstName: user.firstName,
 			lastName: user.lastName,
-			email: user.email,
-			password: user.password,
-			mobile: user.mobile,
-			isAdmin: user.isAdmin,
-			isBanned: user.isBanned,
 		},
 	});
 

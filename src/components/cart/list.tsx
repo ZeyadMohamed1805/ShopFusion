@@ -54,7 +54,6 @@ const List = () => {
 				"Your order is on the way",
 				"Hooray!"
 			);
-			console.log(data);
 		},
 		() => {
 			showToast(

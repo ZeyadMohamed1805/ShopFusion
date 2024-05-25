@@ -34,7 +34,6 @@ const Main = () => {
 						configAxios
 							.get(`/users/${response.data.user_id}`)
 							.then((response) => {
-								console.log(response.data.data);
 								setUser(response.data.data);
 							})
 							.catch(() => {

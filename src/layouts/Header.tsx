@@ -52,7 +52,6 @@ const Header = () => {
 				} else if (response.status === 200) {
 					setIsAuthorized({ loading: false, authorized: true });
 				}
-				console.log(response.data, response.status);
 			})
 			.catch((error) => {});
 	}, []);
@@ -87,14 +86,25 @@ const Header = () => {
 						</NavigationMenuItem>
 					))}
 					{isAuthorized.authorized && !isAuthorized.loading ? (
-						<NavigationMenuItem
-							onClick={() => mutate("")}
-							className="hidden md:flex ml-4"
-						>
-							<Button disabled={isLoading}>
-								{isLoading ? "Loading..." : "Logout"}
-							</Button>
-						</NavigationMenuItem>
+						<>
+							<NavigationMenuItem className="hidden md:flex">
+								<Link href={`/profile`} legacyBehavior passHref>
+									<NavigationMenuLink
+										className={navigationMenuTriggerStyle()}
+									>
+										Profile
+									</NavigationMenuLink>
+								</Link>
+							</NavigationMenuItem>
+							<NavigationMenuItem
+								onClick={() => mutate("")}
+								className="hidden md:flex ml-4"
+							>
+								<Button disabled={isLoading}>
+									{isLoading ? "Loading..." : "Logout"}
+								</Button>
+							</NavigationMenuItem>
+						</>
 					) : (
 						navButtons.map((button, index) => (
 							<NavigationMenuItem

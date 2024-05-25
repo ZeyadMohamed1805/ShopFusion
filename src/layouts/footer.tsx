@@ -38,7 +38,6 @@ const Footer = () => {
 				} else if (response.status === 200) {
 					setIsAuthorized({ loading: false, authorized: true });
 				}
-				console.log(response.data, response.status);
 			})
 			.catch((error) => {});
 	}, []);
